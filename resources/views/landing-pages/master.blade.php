@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>BookNow</title>
-    <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 
     <!--         Core CSS          -->
     <link href="{{ asset('bsbmd/css/landing.css') }}" rel="stylesheet">
