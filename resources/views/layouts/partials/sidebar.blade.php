@@ -4,11 +4,11 @@
             <!-- User Info -->
             <div class="user-info">
                 <div class="image">
-                    <img src="bsbmd/images/user.png" width="48" height="48" alt="User" />
+                    <img src="{{auth()->user()->avatar}}" width="48" height="48" alt="User" />
                 </div>
                 <div class="info-container">
-                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">John Doe</div>
-                    <div class="email">john.doe@example.com</div>
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{auth()->user()->name}}</div>
+                    <div class="email">{{auth()->user()->email}}</div>
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
@@ -18,7 +18,7 @@
                             <li><a href="javascript:void(0);"><i class="material-icons">shopping_cart</i>Sales</a></li>
                             <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li>
                             <li role="seperator" class="divider"></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">input</i>Sign Out</a></li>
+                            <li><a href="{{route('logout')}}"><i class="material-icons">input</i>Sign Out</a></li>
                         </ul>
                     </div>
                 </div>
@@ -77,13 +77,13 @@
                         </a>
                         <ul class="ml-menu">
                             <li>
-                                <a href="{{route('login')}}">Sign In</a>
+                                <a href="">Sign In</a>
                             </li>
                             <li>
-                                <a href="{{route('register')}}">Sign Up</a>
+                                <a href="">Sign Up</a>
                             </li>
                             <li>
-                                <a href="{{route('password.request')}}">Forgot Password</a>
+                                <a href="">Forgot Password</a>
                             </li>
                         </ul>
                     </li>
@@ -172,7 +172,7 @@
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active in active" id="skins">
                     <ul class="demo-choose-skin">
-                        <li data-theme="red" class="active">
+                        <li data-theme="red">
                             <div class="red"></div>
                             <span>Red</span>
                         </li>
@@ -208,7 +208,7 @@
                             <div class="teal"></div>
                             <span>Teal</span>
                         </li>
-                        <li data-theme="green">
+                        <li data-theme="green" class="active">
                             <div class="green"></div>
                             <span>Green</span>
                         </li>

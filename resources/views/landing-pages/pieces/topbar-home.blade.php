@@ -13,23 +13,21 @@
 
         <div class="collapse navbar-collapse" id="navigation-example">
             <ul class="nav navbar-nav navbar-right">
+                @guest
                 <li>
-                    <a href="{{ route('register') }}">
-                        <i class="material-icons">person_add</i>
-                        Đăng ký
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('login') }}">
-                        <i class="material-icons">person_outline</i>
+                    <a href="{{ route('provider', 'facebook') }}">
+                        <i class="fa fa-facebook-square"></i>
                         Đăng nhập
                     </a>
                 </li>
+                @else
                 <li>
-                    <a href="https://www.facebook.com/GsDuong-Restaurant-157361414881471" target="_blank" class="btn btn-simple btn-white btn-just-icon" title="Fanpage của BookNow">
+                    <a href="{{ route('logout') }}">
                         <i class="fa fa-facebook-square"></i>
+                        Đăng xuất
                     </a>
                 </li>
+                @endguest
             </ul>
         </div>
     </div>

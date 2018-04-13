@@ -10,16 +10,22 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+/* Home Page */
+Route::get('/',['uses'=>'HomeController@index'])->name('homepage');
 
-Auth::routes();
+/* Social Login */
+Route::get('/login', ['as' => 'login', 'uses' => 'Auth\LoginController@showLoginForm']);
+Route::get('/social-auth/{provider}', 'Auth\SocialController@redirectToProvider')->name('provider');
+Route::get('/social-auth/{provider}/callback', 'Auth\SocialController@handleProviderCallback');
 
-Route::group(['middleware'=>'guest'],function(){
-	Route::get('/',['as'=>'home','uses'=>'HomeController@index']);
-	Route::get('/dashboard',['as'=>'dashboard','uses'=>'DashboardController@index']);
-	Route::get('/typography',['as'=>'typography','uses'=>'TypographyController@index']);
-	Route::get('/helper',['as'=>'helper','uses'=>'HelperController@index']);
-	Route::get('/widget',['as'=>'widget','uses'=>'WidgetController@index']);
-	Route::get('/table',['as'=>'table','uses'=>'TableController@index']);
-	Route::get('/media',['as'=>'media','uses'=>'MediaController@index']);
-	Route::get('/chart',['as'=>'chart','uses'=>'ChartController@index']);
-});
+/* Logout */
+Route::get('logout', 'Auth\LoginController@logout')->name('logout');
+
+/* Auth */
+Route::get('/typography',['as'=>'typography','uses'=>'TypographyController@index']);
+Route::get('/helper',['as'=>'helper','uses'=>'HelperController@index']);
+Route::get('/widget',['as'=>'widget','uses'=>'WidgetController@index']);
+Route::get('/table',['as'=>'table','uses'=>'TableController@index']);
+Route::get('/media',['as'=>'media','uses'=>'MediaController@index']);
+Route::get('/chart',['as'=>'chart','uses'=>'ChartController@index']);
+Route::get('/dashboard',['as'=>'dashboard','uses'=>'DashboardController@index']);
