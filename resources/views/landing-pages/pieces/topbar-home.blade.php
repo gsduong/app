@@ -22,6 +22,12 @@
                 </li>
                 @else
                 <li>
+                    <a href="{{ route('restaurant.index') }}">
+                        <i class="fa fa-arrow-right"></i>
+                        Cửa hàng của tôi
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('logout') }}">
                         <i class="fa fa-facebook-square"></i>
                         Đăng xuất

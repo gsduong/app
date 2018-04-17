@@ -29,3 +29,6 @@ Route::get('/table',['as'=>'table','uses'=>'TableController@index']);
 Route::get('/media',['as'=>'media','uses'=>'MediaController@index']);
 Route::get('/chart',['as'=>'chart','uses'=>'ChartController@index']);
 Route::get('/dashboard',['as'=>'dashboard','uses'=>'DashboardController@index']);
+Route::get('/r', ['as' => 'restaurant.index', 'uses' => 'RestaurantController@index']);
+Route::get('/r/create', ['as' => 'restaurant.add', 'uses' => 'RestaurantController@showCreateForm']);
+Route::post('/r/add', ['as' => 'restaurant.create', 'uses' => 'RestaurantController@create']);

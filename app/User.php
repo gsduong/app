@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    const AUTH_REDIRECT = '/dashboard';
+    const AUTH_REDIRECT = '/r';
     use Notifiable;
 
     /**
@@ -27,4 +27,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * The restaurants that belong to the user.
+     */
+    public function restaurants()
+    {
+        return $this->belongsToMany('App\Restaurant')->withPivot('admin');
+    }
 }
