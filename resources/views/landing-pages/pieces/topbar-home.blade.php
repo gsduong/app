@@ -15,22 +15,22 @@
             <ul class="nav navbar-nav navbar-right">
                 @guest
                 <li>
-                    <a href="{{ route('provider', 'facebook') }}">
+                    <a href="{{ route('facebook.login.show') }}">
                         <i class="fa fa-facebook-square"></i>
-                        Đăng nhập
+                        Sign In
                     </a>
                 </li>
                 @else
                 <li>
                     <a href="{{ route('restaurant.index') }}">
                         <i class="fa fa-arrow-right"></i>
-                        Cửa hàng của tôi
+                        My restaurant
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('logout') }}">
                         <i class="fa fa-facebook-square"></i>
-                        Đăng xuất
+                        Sign Out
                     </a>
                 </li>
                 @endguest

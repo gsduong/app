@@ -14,12 +14,17 @@
 Route::get('/',['uses'=>'HomeController@index'])->name('homepage');
 
 /* Social Login */
-Route::get('/login', ['as' => 'login', 'uses' => 'Auth\LoginController@showLoginForm']);
+// Route::get('/login', ['as' => 'login', 'uses' => 'Auth\LoginController@showLoginForm']);
 Route::get('/social-auth/{provider}', 'Auth\SocialController@redirectToProvider')->name('provider');
 Route::get('/social-auth/{provider}/callback', 'Auth\SocialController@handleProviderCallback');
 
+/* Facebook Login with FacebookSDK*/
+Route::get('/login', 'Auth\FacebookController@showFormLogin')->name('facebook.login.show');
+Route::get('/facebook/callback', 'Auth\FacebookController@handleFacebookCallback');
+Route::get('/test', 'Auth\FacebookController@test');
+Route::get('/logout', 'Auth\FacebookController@logout')->name('logout');
 /* Logout */
-Route::get('logout', 'Auth\LoginController@logout')->name('logout');
+// Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 /* Auth */
 Route::get('/typography',['as'=>'typography','uses'=>'TypographyController@index']);

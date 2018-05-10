@@ -15,6 +15,7 @@
         {{ Html::style('bsbmd/css/style.css') }}
         {{ Html::style('bsbmd/css/themes/all-themes.css') }}
         {{ Html::style('bsbmd/css/materialize-social.css') }}
+        {{ Html::style('css/toastr.min.css')}}
 
          <!-- Google Fonts -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -39,6 +40,8 @@
         {{Html::script('bsbmd/plugins/jquery-validation/jquery.validate.js')}}
         {{Html::script('bsbmd/js/admin.js')}}
         {{Html::script('bsbmd/js/pages/examples/sign-in.js')}}
+        {{Html::script('js/toastr.min.js')}}
+        @include('message.message')
     @show
 
 </body>

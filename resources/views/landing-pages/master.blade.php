@@ -12,7 +12,7 @@
     <!--         Core CSS          -->
     <link href="{{ asset('bsbmd/css/landing.css') }}" rel="stylesheet">
     <link href="{{ asset('bsbmd/css/material-kit.css') }}" rel="stylesheet">
-
+    {{ Html::style('css/toastr.min.css')}}
     <!--     Fonts and icons     -->
     <link href="{{ asset('bsbmd/css/landing-fonts.css') }}" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet' type='text/css'>
@@ -30,5 +30,7 @@
 <script src="{{ asset('bsbmd/js/landing.js') }}"></script>
 <script src="{{ asset('bsbmd/js/material.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('bsbmd/js/material-kit.js') }}" type="text/javascript"></script>
+{{Html::script('js/toastr.min.js')}}
+@include('message.message')
 @stack('scripts')
 </html>
