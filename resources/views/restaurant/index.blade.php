@@ -1,7 +1,7 @@
 @extends('restaurant.master')
 
 @section('title')
-	My restaurants
+	Restaurants Management
 @endsection
 
 @section('extra-css')
@@ -18,7 +18,7 @@
                     <div class="block-header">
                         <ol class="breadcrumb">
                             <li><a href="{{route('homepage')}}">Home</a></li>
-                            <li class="active">My Restaurants</li>
+                            <li class="active">Restaurants</li>
                         </ol>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <a href="{{route('restaurant.select-page')}}" title="Add new restaurant" style="text-decoration: none;">
                             <div class="card transparent_class" style="margin-bottom: 10px; border: 5px #D3D3D3 dashed; border-radius: 5px; text-align: center;">
-                                <p class="vertical-align-custom">Add new restaurant</p>
+                                <p class="vertical-align-custom">Add new restaurant from you facebook pages</p>
                             </div>
                         </a>
                     </div>
@@ -53,16 +53,18 @@
                         <div class="card" style="margin-bottom: 10px;">
                             <div class="header">
                                 <div class="row clearfix">
-                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
-                                        <div class="image">
-                                            <img src="{{$restaurant['avatar']}}" width="36" height="36" alt="{{$restaurant['name']}}" style="border-radius: 50% !important;">
+                                    <a href="{{route('restaurant.show', $restaurant->slug)}}">
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                            <div class="image">
+                                                <img src="{{$restaurant['avatar']}}" width="36" height="36" alt="{{$restaurant['name']}}" style="border-radius: 50% !important;">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
-                                        <h2>
-                                            {{$restaurant['name']}} <small>{{$restaurant['created_at']}}</small>
-                                        </h2>
-                                    </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+                                            <h2>
+                                                {{$restaurant['name']}} <small>{{$restaurant['created_at']}}</small>
+                                            </h2>
+                                        </div>
+                                    </a>
                                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
                                         <a href="{{route('restaurant.delete', $restaurant->id)}}" onclick="return confirm('Are you sure you want to delete this item?');">
                                             <i class="material-icons vertical-align-custom">delete</i>

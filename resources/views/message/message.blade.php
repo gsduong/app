@@ -3,7 +3,7 @@
 	var message = "{{$success}}";
 	toastr.options.timeOut = 3000; // How long the toast will display without user interaction
 	toastr.options.extendedTimeOut = 5000; // How long the toast will display after a user hovers over it
-	toastr.info(message)
+	toastr.success(message)
 </script>
 @endif
 
@@ -21,7 +21,7 @@
 	var message = "{{session('success')}}";
 	toastr.options.timeOut = 3000; // How long the toast will display without user interaction
 	toastr.options.extendedTimeOut = 4000; // How long the toast will display after a user hovers over it
-	toastr.info(message)
+	toastr.success(message)
 </script>
 @endif
 

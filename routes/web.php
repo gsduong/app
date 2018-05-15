@@ -39,4 +39,5 @@ Route::get('/r/select-page', ['as' => 'restaurant.select-page', 'uses' => 'Resta
 Route::get('/r/create', ['as' => 'restaurant.show-form-create', 'uses' => 'RestaurantController@showFormCreate']);
 Route::post('/r/create', ['as' => 'restaurant.show-form-create-with-id', 'uses' => 'RestaurantController@showFormCreateWithId']);
 Route::post('/r/add', ['as' => 'restaurant.create', 'uses' => 'RestaurantController@create']);
-Route::get('/r/delete/{restaurant_id}', ['as' => 'restaurant.delete', 'uses' => 'RestaurantController@delete']);
+Route::get('/r/delete/{restaurant_id}', ['as' => 'restaurant.delete', 'uses' => 'RestaurantController@delete'])->middleware('admin');
+Route::get('r/{slug}.html', ['as' => 'restaurant.show', 'uses' => 'RestaurantController@show'])->middleware('staff');

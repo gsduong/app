@@ -35,7 +35,7 @@
 {{--     @include('restaurant.partials.loader') --}}
     <div class="overlay"></div>
     @include('restaurant.partials.header')
-    {{-- @include('restaurant.partials.sidebar') --}}
+    @include('restaurant.partials.right-sidebar')
 
     <section class="content">
         @yield('content')

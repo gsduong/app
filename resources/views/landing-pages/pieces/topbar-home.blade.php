@@ -24,7 +24,7 @@
                 <li>
                     <a href="{{ route('restaurant.index') }}">
                         <i class="fa fa-arrow-right"></i>
-                        My restaurant
+                        Your Restaurants
                     </a>
                 </li>
                 <li>

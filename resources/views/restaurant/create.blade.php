@@ -18,7 +18,7 @@
                         <div class="block-header">
                             <ol class="breadcrumb">
                                 <li><a href="{{route('homepage')}}">Home</a></li>
-                                <li><a href="{{route('restaurant.index')}}">My Restaurants</a></li>
+                                <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>
                                 <li><a href="{{route('restaurant.select-page')}}">Select facebook page</a></li>
                                 <li class="active">Create</li>
                             </ol>
@@ -49,7 +49,7 @@
                                     <label for="name">Name</label>
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" name="name" class="form-control" required placeholder="Nhập tên nhà hàng của bạn" value="{{isset($page) ? $page['name'] : ''}}">
+                                            <input type="text" name="name" class="form-control" required placeholder="Nhập tên nhà hàng của bạn" value="{{isset($page) ? $page['name'] : ''}}" autofocus>
                                         </div>
                                     </div>
                                 </div>
@@ -66,7 +66,7 @@
                                 </div>
                                 @endif
                             </div>
-                            <button type="submit" class="btn btn-primary m-t-15 waves-effect" style="margin-top: 0;">Create</button>
+                            <button type="submit" class="btn btn-success m-t-15 waves-effect" style="margin-top: 0;" onClick="this.form.submit(); this.disabled=true;">Create</button>
                         </form>
                     </div>
                 </div>

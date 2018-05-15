@@ -18,7 +18,7 @@
                         <div class="block-header">
                             <ol class="breadcrumb">
                                 <li><a href="{{route('homepage')}}">Home</a></li>
-                                <li><a href="{{route('restaurant.index')}}">My Restaurants</a></li>
+                                <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>
                                 <li class="active">Select facebook page</li>
                             </ol>
                         </div>
@@ -55,7 +55,7 @@
                                                 <form action="{{route('restaurant.show-form-create-with-id')}}" method="POST">
                                                     @csrf
                                                     <input type="hidden" name="page_id" required value="{{$page['id']}}">
-                                                    <button type="submit" class="btn btn-success waves-effect">SELECT</button>
+                                                    <button type="submit" class="btn btn-success waves-effect" onClick="this.form.submit(); this.disabled=true;">SELECT</button>
                                                 </form>
                                             </div>
                                         </div>

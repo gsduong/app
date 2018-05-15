@@ -19,3 +19,11 @@
   margin: 10px 0 10px 0 !important;
   color: #D3D3D3;
 }
+
+.toast-top-right {
+  top: 75px !important;
+}
+
+.restaurant-breadcrumb {
+  padding-left: 0 !important;
+} 

@@ -84,4 +84,9 @@ class RestaurantController extends Controller
             return redirect()->route('restaurant.index')->with('success', 'Item deleted!');
         }
     }
+
+    public function show($slug) {
+        $restaurant = $this->user->restaurants->where('slug', $slug)->first();
+        return view('restaurant/restaurant', ['restaurant' => $restaurant]);
+    }
 }

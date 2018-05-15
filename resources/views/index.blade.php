@@ -17,6 +17,8 @@
         {{ Html::style('bsbmd/plugins/morrisjs/morris.css') }}
         {{ Html::style('bsbmd/css/style.css') }}
         {{ Html::style('bsbmd/css/themes/all-themes.css') }}
+        {{ Html::style('css/toastr.min.css')}}
+        {{ Html::style('css/custom.css')}}
 
          <!-- Google Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
@@ -45,6 +47,7 @@
 
     @show    
     @yield('extra-script')
+    @include('message.message')
     @section('script-bottom')
         {{Html::script('bsbmd/js/admin.js')}}
         {{Html::script('bsbmd/js/demo.js')}}
