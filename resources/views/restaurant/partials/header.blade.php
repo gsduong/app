@@ -14,10 +14,7 @@
                                 <img src="{{auth()->user()->avatar}}" width="36" height="36" alt="{{auth()->user()->name}}" style="border-radius: 50% !important;"> Sign Out
                             </div>
                         </a>
-{{--                         <a href="{{ route('logout') }}" style="min-height: 30px; margin-bottom: 5px;">
-                            <i class="fa fa-facebook-square"></i>
-                            Sign Out
-                        </a> --}}
+                    <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="material-icons">more_vert</i></a></li>
                     </li>
                 </ul>
             </div>

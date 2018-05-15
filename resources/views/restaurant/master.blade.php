@@ -32,8 +32,8 @@
 </head>
 
 <body class="theme-green">
-{{--     @include('restaurant.partials.loader')
-    <div class="overlay"></div> --}}
+{{--     @include('restaurant.partials.loader') --}}
+    <div class="overlay"></div>
     @include('restaurant.partials.header')
     {{-- @include('restaurant.partials.sidebar') --}}
 
@@ -45,19 +45,16 @@
         {{Html::script('bsbmd/plugins/jquery/jquery.min.js')}}
         {{Html::script('bsbmd/plugins/bootstrap/js/bootstrap.js')}}
         {{Html::script('bsbmd/plugins/bootstrap-select/js/bootstrap-select.js')}}
-        {{-- {{Html::script('bsbmd/plugins/jquery-slimscroll/jquery.slimscroll.js')}} --}}
+        {{Html::script('bsbmd/plugins/jquery-slimscroll/jquery.slimscroll.js')}}
         {{Html::script('bsbmd/plugins/node-waves/waves.js')}}
         {{Html::script('js/toastr.min.js')}}
     @show    
     @yield('extra-script')
-    <script>
-        $('.dropdown-trigger').dropdown();
-    </script>
     @include('message.message')
-{{--     @section('script-bottom')
+    @section('script-bottom')
         {{Html::script('bsbmd/js/admin.js')}}
         {{Html::script('bsbmd/js/demo.js')}}
-    @show --}}
+    @show
 </body>
 
 </html>
