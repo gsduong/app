@@ -10,19 +10,23 @@
 
 @section('content')
 	<div class="container-fluid">
-{{--         <div class="row clearfix">
-            <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12"></div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                <div class="block-header">
-                    <div class="row clearfix" style="margin-left: 0; margin-right: 0;">
-
-                            <h2 style="margin-left: auto !important; margin-right: auto !important;">Connect to your page from the list below
-                            </h2>
+        <div class="row clearfix">
+            <div class="col-lg-3 col-md-2 col-sm-2 col-xs-12"></div>
+            <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
+                <div class="row clearfix">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                        <div class="block-header">
+                            <ol class="breadcrumb">
+                                <li><a href="{{route('homepage')}}">Home</a></li>
+                                <li><a href="{{route('restaurant.index')}}">My Restaurants</a></li>
+                                <li class="active">Select facebook page</li>
+                            </ol>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12"></div>
-        </div> --}}
+            <div class="col-lg-3 col-md-2 col-sm-2 col-xs-12"></div>
+        </div>
         <div class="row clearfix">
             <div class="col-lg-3 col-md-2 col-sm-2 col-xs-12"></div> 
             <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">

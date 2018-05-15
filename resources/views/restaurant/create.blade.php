@@ -11,12 +11,31 @@
 @section('content')
 	<div class="container-fluid">
         <div class="row clearfix">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-3 col-md-2 col-sm-2 col-xs-12"></div>
+            <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
+                <div class="row clearfix">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                        <div class="block-header">
+                            <ol class="breadcrumb">
+                                <li><a href="{{route('homepage')}}">Home</a></li>
+                                <li><a href="{{route('restaurant.index')}}">My Restaurants</a></li>
+                                <li><a href="{{route('restaurant.select-page')}}">Select facebook page</a></li>
+                                <li class="active">Create</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-2 col-sm-2 col-xs-12"></div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-lg-3 col-md-2 col-sm-2 col-xs-12"></div>
+            <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
                 <div class="card">
                     <div class="header">
                         <h2>
                             @if(isset($page))
-                            Create restaurant for <a href="{{$page['url']}}" target="_blank"><img src="{{$page['page_profile_picture']}}" width="36" height="36" alt="{{$page['name']}}" style="border-radius: 50% !important;"> {{$page['name']}}</a>
+                            Create restaurant for <a href="{{$page['url']}}" target="_blank" style="text-decoration: none;"><img src="{{$page['page_profile_picture']}}" width="36" height="36" alt="{{$page['name']}}" style="border-radius: 50% !important;"> {{$page['name']}}</a>
                             @else
                             Create new restaurant
                             @endif
@@ -46,41 +65,13 @@
                                     </div>
                                 </div>
                                 @endif
-{{--                                 <div class="col-md-2 col-lg-2 col-xs-12 col-sm-12">
-                                    <p>&nbsp;</p>
-                                </div> --}}
                             </div>
-{{--                             <div class="form-group address-form">
-                                <div class="row clearfix">
-                                    <div class="col-md-5 col-lg-5 col-xs-12 col-sm-12">
-                                        <label for="address[]">Địa chỉ</label>
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" name="address[]" class="form-control" required placeholder="Nhập địa chỉ">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-5 col-lg-5 col-xs-12 col-sm-12">
-                                        <label for="phone[]">Điện thoại</label>
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="text" name="phone[]" class="form-control" required placeholder="Nhập số điện thoại">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 col-lg-2 col-xs-12 col-sm-12" style="text-align: center;">
-                                        <label>Actions</label>
-                                        <div><button type="button" id="add_btn" class="btn btn-default btn-circle waves-effect waves-circle waves-float" style="z-index: 1;" title="Add new address and phone number">
-                                            <i class="material-icons">add</i>
-                                        </button></div>
-                                    </div>
-                                </div>
-                            </div> --}}
-                            <button type="submit" class="btn btn-primary m-t-15 waves-effect" style="margin-top: 0;">Tạo</button>
+                            <button type="submit" class="btn btn-primary m-t-15 waves-effect" style="margin-top: 0;">Create</button>
                         </form>
                     </div>
                 </div>
             </div>
+            <div class="col-lg-3 col-md-2 col-sm-2 col-xs-12"></div>
         </div>
     </div>
 @endsection
@@ -97,27 +88,4 @@
         {{Html::script('bsbmd/plugins/flot-charts/jquery.flot.time.js')}}
         {{Html::script('bsbmd/plugins/jquery-sparkline/jquery.sparkline.js')}}
         {{Html::script('bsbmd/js/pages/index.js')}} --}}
-        <script type="text/javascript">
-        $(document).ready(function(){
-            var x = 1; //Initial field counter is 1
-            var maxField = 5; //Input fields increment limitation
-            var addButton = $('#add_btn'); //Add button selector
-            var wrapper = $('.address-form'); //Input field wrapper
-            var fieldHTML = '<div class="row clearfix"><div class="col-md-5 col-lg-5 col-xs-12 col-sm-12"><label for="address[]">Địa chỉ cơ sở khác</label><div class="form-group"><div class="form-line"><input type="text" name="address[]" class="form-control" required placeholder="Nhập địa chỉ" style="z-index: 0;"></div></div></div><div class="col-md-5 col-lg-5 col-xs-12 col-sm-12"><label for="phone[]">Điện thoại</label><div class="form-group"><div class="form-line"><input type="text" name="phone[]" class="form-control" required placeholder="Nhập số điện thoại"></div></div></div><div class="col-md-2 col-lg-2 col-xs-12 col-sm-12" style="text-align:center;"><label>Actions</label><div><button type="button" class="btn btn-default btn-circle waves-effect waves-circle waves-float remove_btn" style="z-index: 1;" title="Remove"><i class="material-icons">remove</i></button></div></div></div>'; //New input field html 
-            $(addButton).click(function(){ //Once add button is clicked
-                if(x < maxField){ //Check maximum number of input fields
-                    x++; //Increment field counter
-                    $(wrapper).append(fieldHTML); // Add field html
-                } else {
-                    alert("Hiện tại hệ thống hỗ trợ tối đa 5 cơ sở cho 1 nhà hàng. Liên hệ webmaster để có thể sở hữu nhiều hơn 5 cơ sở. Xin cảm ơn!");
-                }
-            });
-            $(wrapper).on('click', '.remove_btn', function(e){ //Once remove button is clicked
-                e.preventDefault();
-                $(this).parent('div').parent('div').parent('div').remove(); //Remove field html
-                x--; //Decrement field counter
-            });
-        });
-        </script>
-
 @endsection

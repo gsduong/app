@@ -1,7 +1,7 @@
 @extends('restaurant.master')
 
 @section('title')
-	Cửa hàng của tôi
+	My restaurants
 @endsection
 
 @section('extra-css')
@@ -14,10 +14,12 @@
         <div class="col-lg-3 col-md-2 col-sm-2 col-xs-12"></div>
         <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
             <div class="row clearfix">
-                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12" style="padding-right: 30px; padding-left: 30px; padding-bottom: 5px;">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                     <div class="block-header">
-                        <h2>My Restaurants 
-                        </h2>
+                        <ol class="breadcrumb">
+                            <li><a href="{{route('homepage')}}">Home</a></li>
+                            <li class="active">My Restaurants</li>
+                        </ol>
                     </div>
                 </div>
             </div>
