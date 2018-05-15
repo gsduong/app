@@ -12,10 +12,10 @@
         </div>
 
         <div class="collapse navbar-collapse" id="navigation-example">
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right" style="text-align:center;">
                 @guest
                 <li>
-                    <a href="{{ route('facebook.login.show') }}">
+                    <a href="{{ route('login') }}">
                         <i class="fa fa-facebook-square"></i>
                         Sign In
                     </a>

@@ -19,6 +19,7 @@ class CreateRestaurantsTable extends Migration
             $table->string('slug', 150);
             $table->string('fb_page_id')->unique()->nullable();
             $table->string('fb_page_access_token')->nullable();
+            $table->string('avatar')->nullable();
             $table->unsignedInteger('creator_id');
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
             $table->softDeletes();

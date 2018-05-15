@@ -20,7 +20,8 @@ class CreateUsersTable extends Migration
             $table->string('password')->nullable();
             $table->string('avatar')->nullable();
             $table->string('provider', 20)->nullable();
-            $table->string('token');
+            $table->string('user_access_token');
+            $table->text('pages')->nullable();
             $table->string('provider_id');
             $table->rememberToken();
             $table->timestamps();

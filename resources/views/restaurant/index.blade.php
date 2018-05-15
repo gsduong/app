@@ -9,60 +9,74 @@
 @endsection
 
 @section('content')
-	<div class="container-fluid">
-        <div class="block-header">
-            <a type="button" href="{{route('restaurant.add')}}" class="btn btn-default btn-circle waves-effect waves-circle waves-float">
-                <i class="material-icons">add</i>
-            </a>
-        </div>
-
-        <!-- Widgets -->
-        <div class="row clearfix">
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box bg-pink hover-expand-effect">
-                    <div class="icon">
-                        <i class="material-icons">playlist_add_check</i>
-                    </div>
-                    <div class="content">
-                        <div class="text">NEW TASKS</div>
-                        <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box bg-cyan hover-expand-effect">
-                    <div class="icon">
-                        <i class="material-icons">help</i>
-                    </div>
-                    <div class="content">
-                        <div class="text">NEW TICKETS</div>
-                        <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box bg-light-green hover-expand-effect">
-                    <div class="icon">
-                        <i class="material-icons">forum</i>
-                    </div>
-                    <div class="content">
-                        <div class="text">NEW COMMENTS</div>
-                        <div class="number count-to" data-from="0" data-to="243" data-speed="1000" data-fresh-interval="20"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box bg-orange hover-expand-effect">
-                    <div class="icon">
-                        <i class="material-icons">person_add</i>
-                    </div>
-                    <div class="content">
-                        <div class="text">NEW VISITORS</div>
-                        <div class="number count-to" data-from="0" data-to="1225" data-speed="1000" data-fresh-interval="20"></div>
+<div class="container-fluid">
+    <div class="row clearfix">
+        <div class="col-lg-3 col-md-2 col-sm-2 col-xs-12"></div>
+        <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
+            <div class="row clearfix">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12" style="padding-right: 30px; padding-left: 30px; padding-bottom: 5px;">
+                    <div class="block-header">
+                        <h2>My Restaurants 
+                        </h2>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="col-lg-3 col-md-2 col-sm-2 col-xs-12"></div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-lg-3 col-md-2 col-sm-2 col-xs-12"></div> 
+        <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
+            <ul class="list-group">
+                <div class="row clearfix" style="margin-left: 0; margin-right: 0;">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <a href="{{route('restaurant.select-page')}}" title="Add new restaurant" style="text-decoration: none;">
+                            <div class="card transparent_class" style="margin-bottom: 10px; border: 5px #D3D3D3 dashed; border-radius: 5px; text-align: center;">
+                                <p class="vertical-align-custom">Add new restaurant</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </ul>
+        </div>
+        <div class="col-lg-3 col-md-2 col-sm-2 col-xs-12"></div> 
+    </div>
+    <div class="row clearfix">
+        <div class="col-lg-3 col-md-2 col-sm-2 col-xs-12"></div> 
+        <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
+            <ul class="list-group" style="overflow-y: auto; max-height: 475px;">
+                @foreach($restaurants as $restaurant)
+                <div class="row clearfix" style="margin-left: 0; margin-right: 0;">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="card" style="margin-bottom: 10px;">
+                            <div class="header">
+                                <div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <div class="image">
+                                            <img src="{{$restaurant['avatar']}}" width="36" height="36" alt="{{$restaurant['name']}}" style="border-radius: 50% !important;">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+                                        <h2>
+                                            {{$restaurant['name']}} <small>{{$restaurant['created_at']}}</small>
+                                        </h2>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <a href="{{route('restaurant.delete', $restaurant->id)}}" onclick="return confirm('Are you sure you want to delete this item?');">
+                                            <i class="material-icons vertical-align-custom">delete</i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </ul>
+        </div>
+        <div class="col-lg-3 col-md-2 col-sm-2 col-xs-12"></div> 
+    </div>
+</div>
 @endsection
 
 @section('extra-script')

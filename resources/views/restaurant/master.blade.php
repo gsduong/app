@@ -20,6 +20,7 @@
         {{ Html::style('bsbmd/css/restaurant.css') }}
         {{ Html::style('bsbmd/css/landing-fonts.css') }}
         {{ Html::style('css/toastr.min.css')}}
+        {{ Html::style('css/custom.css')}}
          <!-- Google Fonts -->
         }
         }
@@ -49,6 +50,9 @@
         {{Html::script('js/toastr.min.js')}}
     @show    
     @yield('extra-script')
+    <script>
+        $('.dropdown-trigger').dropdown();
+    </script>
     @include('message.message')
 {{--     @section('script-bottom')
         {{Html::script('bsbmd/js/admin.js')}}

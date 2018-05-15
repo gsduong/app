@@ -19,7 +19,7 @@ Route::get('/social-auth/{provider}', 'Auth\SocialController@redirectToProvider'
 Route::get('/social-auth/{provider}/callback', 'Auth\SocialController@handleProviderCallback');
 
 /* Facebook Login with FacebookSDK*/
-Route::get('/login', 'Auth\FacebookController@showFormLogin')->name('facebook.login.show');
+Route::get('/login', 'Auth\FacebookController@showFormLogin')->name('login');
 Route::get('/facebook/callback', 'Auth\FacebookController@handleFacebookCallback');
 Route::get('/test', 'Auth\FacebookController@test');
 Route::get('/logout', 'Auth\FacebookController@logout')->name('logout');
@@ -35,5 +35,8 @@ Route::get('/media',['as'=>'media','uses'=>'MediaController@index']);
 Route::get('/chart',['as'=>'chart','uses'=>'ChartController@index']);
 Route::get('/dashboard',['as'=>'dashboard','uses'=>'DashboardController@index']);
 Route::get('/r', ['as' => 'restaurant.index', 'uses' => 'RestaurantController@index']);
-Route::get('/r/create', ['as' => 'restaurant.add', 'uses' => 'RestaurantController@showCreateForm']);
+Route::get('/r/select-page', ['as' => 'restaurant.select-page', 'uses' => 'RestaurantController@selectPage']);
+Route::get('/r/create', ['as' => 'restaurant.show-form-create', 'uses' => 'RestaurantController@showFormCreate']);
+Route::post('/r/create', ['as' => 'restaurant.show-form-create-with-id', 'uses' => 'RestaurantController@showFormCreateWithId']);
 Route::post('/r/add', ['as' => 'restaurant.create', 'uses' => 'RestaurantController@create']);
+Route::get('/r/delete/{restaurant_id}', ['as' => 'restaurant.delete', 'uses' => 'RestaurantController@delete']);
