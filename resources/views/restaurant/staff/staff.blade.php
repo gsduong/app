@@ -9,6 +9,81 @@
 @endsection
 
 @section('content')
+<div class="container-fluid">
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="block-header">
+                <ol class="breadcrumb">
+                    <li><a href="{{route('homepage')}}">Home</a></li>
+                    <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>
+                    <li><a href="{{route('restaurant.show', $restaurant->slug)}}">{{$restaurant->name}}</a></li>
+                    <li class="active">Members</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <h2>
+                        Members of {{$restaurant->name}}
+                        <small>You can manage roles with your <a href="{{'https://www.facebook.com/' . $restaurant->fb_page_id. '/settings/?tab=admin_roles'}}" target="_blank">Facebook Page Settings</a></small>
+                    </h2>
+                    <ul class="header-dropdown m-r--5">
+                        <li class="dropdown">
+                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href="{{'https://www.facebook.com/' . $restaurant->fb_page_id. '/settings/?tab=admin_roles'}}" class=" waves-effect waves-block" target="_blank">Goto Facebook Page</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="body">
+                    <h2 class="card-inside-title">User</h2>
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <div class="image">
+                                    <a href="{{'https://www.facebook.com/' . auth()->user()->provider_id}}" target="_blank" title="{{auth()->user()->name}}"><img src="{{auth()->user()->avatar}}" width="36" height="36" alt="{{auth()->user()->name}}" style="border-radius: 50% !important;"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2 class="card-inside-title">Admins</h2>
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <div class="image">
+                                @foreach($restaurant->admins() as $admin)
+                                
+                                    <a href="{{'https://www.facebook.com/' . $admin->provider_id}}" target="_blank" title="{{$admin->name}}"><img src="{{$admin->avatar}}" width="36" height="36" alt="{{$admin->name}}" style="border-radius: 50% !important;"></a>
+                                
+                                @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2 class="card-inside-title">Staffs</h2>
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <div class="image">
+                                @foreach($restaurant->staffs() as $staff)
+                                     <a href="{{'https://www.facebook.com/' . $staff->provider_id}}" target="_blank" title="{{$staff->name}}"><img src="{{$staff->avatar}}" width="36" height="36" alt="{{$staff->name}}" style="border-radius: 50% !important;"></a>
+                                @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @section('extra-script')

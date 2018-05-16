@@ -42,3 +42,4 @@ Route::post('/r/add', ['as' => 'restaurant.create', 'uses' => 'RestaurantControl
 Route::get('/r/delete/{restaurant_id}', ['as' => 'restaurant.delete', 'uses' => 'RestaurantController@delete'])->middleware('admin');
 Route::get('r/{slug}.html', ['as' => 'restaurant.show', 'uses' => 'RestaurantController@show'])->middleware('staff');
 Route::get('r/{slug}/members.html', ['as' => 'staff.index', 'uses' => 'RestaurantController@staff_index'])->middleware('staff');
+// Route::get('r/{slug}/delete/{id}', ['as' => 'staff.delete', 'uses' => 'RestaurantController@staff_delete'])->middleware('admin.delete');

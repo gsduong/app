@@ -91,8 +91,11 @@ class RestaurantController extends Controller
             return redirect()->route('restaurant.index')->with('error', 'Item not found!');
         }
         else {
+            $admins = $restaurant->admins();
             $restaurant->delete();
-            $this->user->update_pages();
+            foreach ($admins as $user) {
+                $user->update_pages();
+            }
             return redirect()->route('restaurant.index')->with('success', 'Item deleted!');
         }
     }
@@ -106,4 +109,15 @@ class RestaurantController extends Controller
         $restaurant = $this->user->restaurants->where('slug', $slug)->first();
         return view('restaurant/staff/staff', ['restaurant' => $restaurant]);
     }
+
+    // public function staff_delete($slug, $id){
+    //     if ($id == $this->user->id) {
+    //         return redirect()->route('staff.index', $slug)->with('error', 'Can not remove yourself');
+    //     }
+    //     else {
+    //         $restaurant = $this->user->restaurants->where('slug', $slug)->first();
+    //         $restaurant->users()->detach($id);
+    //         return redirect()->route('staff.index', $slug)->with('success', 'Successfully removed from restaurant');
+    //     }
+    // }
 }

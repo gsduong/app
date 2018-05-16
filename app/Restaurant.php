@@ -27,7 +27,7 @@ class Restaurant extends Model
     {
         return [
             'slug' => [
-                'source' => ['name', 'owner.id']
+                'source' => ['name', 'fb_page_id']
             ]
         ];
     }
@@ -46,5 +46,27 @@ class Restaurant extends Model
     public function owner()
     {
         return $this->belongsTo('App\User', 'creator_id');
+    }
+
+    public function staffs()
+    {
+        $staffs = array();
+        foreach ($this->users as $user) {
+            if (!$user->pivot->admin) {
+                array_push($staffs, $user);
+            }
+        }
+        return $staffs;
+    }
+
+    public function admins()
+    {
+        $admins = array();
+        foreach ($this->users as $user) {
+            if ($user->pivot->admin) {
+                array_push($admins, $user);
+            }
+        }
+        return $admins;
     }
 }

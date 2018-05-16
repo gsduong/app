@@ -62,5 +62,6 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\CheckAdmin::class,
         'staff' => \App\Http\Middleware\CheckStaff::class,
         'owner' => \App\Http\Middleware\CheckOwner::class,
+        'admin.delete' => \App\Http\Middleware\CheckDeleteByAdmin::class,
     ];
 }

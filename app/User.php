@@ -121,12 +121,13 @@ class User extends Authenticatable
             if (in_array('ADMINISTER', $page['perms'])) {
                 $flag = 1;
             }
+            $restaurant = Restaurant::where('fb_page_id', '=', $page['id'])->first();
             if ($this->check_if_user_has_restaurant_by_page_id($page['id'])) {
-                // user has this restaurant already. do nothing
+                // user has this restaurant already. update pivot
+                $this->restaurants()->updateExistingPivot($restaurant->id, ['admin' => $flag]);
             }
             else {
                 // add user to the list of admin of the restaurant
-                $restaurant = Restaurant::where('fb_page_id', '=', $page['id'])->first();
                 $this->restaurants()->attach($restaurant->id, ['admin' => $flag]);
             }
           }
