@@ -3,8 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-
-class CheckAdmin
+use App\Restaurant;
+class CheckOwner
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,11 @@ class CheckAdmin
     public function handle($request, Closure $next)
     {
         $restaurant_id = $request->route('restaurant_id');
-        if (!$request->user()->restaurants->find($restaurant_id) || !$request->user()->restaurants->find($restaurant_id)->pivot->admin) {
+        $restaurant = Restaurant::find($restaurant_id);
+        if ($restaurant === null) {
+            return redirect()->route('restaurant.index')->with('error', 'Not authorized!');
+        }
+        else if (!($restaurant->owner->id == $request->user()->id)) {
             return redirect()->route('restaurant.index')->with('error', 'Not authorized!');
         }
         return $next($request);

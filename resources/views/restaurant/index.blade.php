@@ -34,7 +34,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <a href="{{route('restaurant.select-page')}}" title="Add new restaurant" style="text-decoration: none;">
                             <div class="card transparent_class" style="margin-bottom: 10px; border: 5px #D3D3D3 dashed; border-radius: 5px; text-align: center;">
-                                <p class="vertical-align-custom">Add new restaurant from you facebook pages</p>
+                                <p class="vertical-align-custom">Add new restaurant from your facebook pages</p>
                             </div>
                         </a>
                     </div>

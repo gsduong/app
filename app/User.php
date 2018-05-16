@@ -102,15 +102,40 @@ class User extends Authenticatable
         }
         $graphNode = $response->getGraphEdge();
         $pages = array();
+        $page_id_array = array();
         foreach ($graphNode as $key => $node) {
           $page = $node->asArray();
-          if (in_array('ADMINISTER', $page['perms'])) {
-              if (!$this->check_exist_in_database($page['id'])) {
+          array_push($page_id_array, $page['id']);
+          if ($restaurant = $this->check_exist_in_database($page['id']) === null) {
+            // if not exists in db
+            if (in_array('ADMINISTER', $page['perms'])) {
+                $flag = 1;
                 $page['page_profile_picture'] = $this->get_page_picture_url_from_page_id($page['id']);
                 $page['url'] = 'https://www.facebook.com/' . $page['id'];
                   array_push($pages, $page);
-              }
+            }
           }
+          else {
+            // exists in db
+            $flag = 0;
+            if (in_array('ADMINISTER', $page['perms'])) {
+                $flag = 1;
+            }
+            if ($this->check_if_user_has_restaurant_by_page_id($page['id'])) {
+                // user has this restaurant already. do nothing
+            }
+            else {
+                // add user to the list of admin of the restaurant
+                $restaurant = Restaurant::where('fb_page_id', '=', $page['id'])->first();
+                $this->restaurants()->attach($restaurant->id, ['admin' => $flag]);
+            }
+          }
+        }
+        foreach ($this->restaurants as $restaurant) {
+            // if a facebook user is removed from the list of a page's admins, he can not access the restaurant created from that page
+            if (!in_array($restaurant->fb_page_id, $page_id_array)) {
+                $this->restaurants()->detach($restaurant->id);
+            }
         }
         $this->attributes['pages'] = json_encode($pages);
         $this->save();
@@ -119,10 +144,7 @@ class User extends Authenticatable
 
     private function check_exist_in_database($page_id) {
         // check if page is in use
-        if (Restaurant::where('fb_page_id', '=', $page_id)->first() === null) {
-            return null;
-        }
-        return true;
+        return Restaurant::where('fb_page_id', '=', $page_id)->first();
     }
 
     public static function get_page_picture_url_from_page_id($page_id) {
@@ -132,5 +154,9 @@ class User extends Authenticatable
     public static function get_profile_picture_url($facebook_user_id, $type="normal"){
       // $type = normal | square | null
       return 'http://graph.facebook.com/' . $facebook_user_id. '/picture?type=' . $type;
+    }
+
+    private function check_if_user_has_restaurant_by_page_id($page_id) {
+        return $this->restaurants->where('fb_page_id', '=', $page_id)->first();
     }
 }

@@ -14,7 +14,7 @@
                         <ul class="dropdown-menu pull-right">
                             <li><a href="javascript:void(0);"><i class="material-icons">settings</i>Settings</a></li>
                             {{-- <li role="seperator" class="divider"></li> --}}
-                            <li><a href="javascript:void(0);"><i class="material-icons">face</i>Staffs</a></li>
+                            <li><a href="{{route('staff.index', $restaurant->slug)}}"><i class="material-icons">face</i>Staffs</a></li>
                             <li role="seperator" class="divider"></li>
                             <li><a href="{{route('logout')}}"><i class="material-icons">exit_to_app</i>Sign Out</a></li>
                         </ul>
