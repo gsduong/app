@@ -1,4 +1,4 @@
-{{--                             <div class="form-group address-form">
+                            <div class="form-group address-form">
                                 <div class="row clearfix">
                                     <div class="col-md-5 col-lg-5 col-xs-12 col-sm-12">
                                         <label for="address[]">Địa chỉ</label>
@@ -23,7 +23,7 @@
                                         </button></div>
                                     </div>
                                 </div>
-                            </div> --}}
+                            </div>
 <script type="text/javascript">
 $(document).ready(function(){
     var x = 1; //Initial field counter is 1

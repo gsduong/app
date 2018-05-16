@@ -69,4 +69,12 @@ class Restaurant extends Model
         }
         return $admins;
     }
+
+    /**
+     * Get the comments for the blog post.
+     */
+    public function contacts()
+    {
+        return $this->hasMany('App\ContactInfo', 'restaurant_id');
+    }
 }
