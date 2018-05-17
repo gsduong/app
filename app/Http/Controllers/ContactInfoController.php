@@ -36,10 +36,20 @@ class ContactInfoController extends Controller
         if ($id) {
             $contact = $this->restaurant->contacts->find($id);
             if ($contact) {
+                $opening_time = $request->opening_time;
+                $closing_time = $request->closing_time;
+                if ($opening_time && !$this->check_time_string($opening_time)) {
+                    return redirect()->route('contact.index', $slug)->with('error', 'Invalid format of opening time!');
+                }
+                if ($closing_time && !$this->check_time_string($closing_time)) {
+                    return redirect()->route('contact.index', $slug)->with('error', 'Invalid format of closing time!');
+                }
                 $contact->address = $request->address;
                 $contact->phone = $request->phone;
                 $contact->secondary_phone = $request->secondary_phone;
                 $contact->map_url = $request->map_url;
+                $contact->opening_time = $opening_time;
+                $contact->closing_time = $closing_time;
                 $contact->save();
                 return redirect()->route('contact.index', $slug)->with('success', 'Contact successfully updated!');
             }
@@ -53,7 +63,15 @@ class ContactInfoController extends Controller
         $phone = $request->phone;
         $secondary_phone = $request->secondary_phone;
         $map_url = $request->map_url;
-        $this->restaurant->contacts()->create(['address' => $address, 'phone' => $phone, 'secondary_phone' => $secondary_phone, 'map_url' => $map_url ]);
+        $opening_time = $request->opening_time;
+        $closing_time = $request->closing_time;
+        if ($opening_time && !$this->check_time_string($opening_time)) {
+            return redirect()->route('contact.index', $slug)->with('error', 'Invalid format of opening time!');
+        }
+        if ($closing_time && !$this->check_time_string($closing_time)) {
+            return redirect()->route('contact.index', $slug)->with('error', 'Invalid format of closing time!');
+        }
+        $this->restaurant->contacts()->create(['address' => $address, 'phone' => $phone, 'secondary_phone' => $secondary_phone, 'map_url' => $map_url, 'opening_time' => $opening_time, 'closing_time' => $closing_time]);
         return redirect()->route('contact.index', $slug)->with('success', 'Contact successfully created!');
     }
 
@@ -64,5 +82,10 @@ class ContactInfoController extends Controller
             return redirect()->route('contact.index', $slug)->with('success', 'Contact successfully deleted!');
         }
         return redirect()->route('contact.index', $slug)->with('error', 'Contact not found!');
+    }
+
+    private function check_time_string($string) {
+        if(!$string) return true;
+        return (date('H:i', strtotime($string)) == $string);
     }
 }

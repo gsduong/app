@@ -27,13 +27,6 @@ Route::get('/logout', 'Auth\FacebookController@logout')->name('logout');
 // Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 /* Auth */
-Route::get('/typography',['as'=>'typography','uses'=>'TypographyController@index']);
-Route::get('/helper',['as'=>'helper','uses'=>'HelperController@index']);
-Route::get('/widget',['as'=>'widget','uses'=>'WidgetController@index']);
-Route::get('/table',['as'=>'table','uses'=>'TableController@index']);
-Route::get('/media',['as'=>'media','uses'=>'MediaController@index']);
-Route::get('/chart',['as'=>'chart','uses'=>'ChartController@index']);
-Route::get('/dashboard',['as'=>'dashboard','uses'=>'DashboardController@index']);
 Route::get('/r', ['as' => 'restaurant.index', 'uses' => 'RestaurantController@index']);
 Route::get('/r/select-page', ['as' => 'restaurant.select-page', 'uses' => 'RestaurantController@selectPage']);
 Route::get('/r/create', ['as' => 'restaurant.show-form-create', 'uses' => 'RestaurantController@showFormCreate']);

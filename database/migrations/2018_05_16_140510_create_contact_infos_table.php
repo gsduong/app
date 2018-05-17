@@ -20,6 +20,8 @@ class CreateContactInfosTable extends Migration
             $table->string('secondary_phone')->nullable();
             $table->string('map_url')->nullable();
             $table->unsignedInteger('restaurant_id');
+            $table->string('opening_time')->nullable();
+            $table->string('closing_time')->nullable();
             $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
             $table->timestamps();
         });

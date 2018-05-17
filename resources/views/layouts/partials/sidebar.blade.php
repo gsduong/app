@@ -26,10 +26,10 @@
             <div class="menu">
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
-                    <li {{Route::is('dashboard')? 'class=active':''}}>
-                        <a href="{{route('dashboard')}}">
+                    <li {{Route::is('restaurant.index')? 'class=active':''}}>
+                        <a href="{{route('restaurant.index')}}">
                             <i class="material-icons">home</i>
-                            <span>Home</span>
+                            <span>Restaurants</span>
                         </a>
                     </li>
                     <li {{ strpos(url()->current(), 'contact') ? 'class=active':''}}>
