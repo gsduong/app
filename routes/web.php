@@ -40,3 +40,7 @@ Route::get('r/{slug}/contact.html', ['as' => 'contact.index', 'uses' => 'Contact
 Route::post('r/{slug}/contact/update', ['as' => 'contact.update', 'uses' => 'ContactInfoController@update']);
 Route::post('r/{slug}/contact/create', ['as' => 'contact.create', 'uses' => 'ContactInfoController@create']);
 Route::get('r/{slug}/contact/delete/{contact_id}', ['as' => 'contact.delete', 'uses' => 'ContactInfoController@delete']);
+Route::get('r/{restaurant_slug}/menu.html', ['as' => 'category.index', 'uses' => 'CategoryController@index']);
+Route::post('r/{restaurant_slug}/menu/update', ['as' => 'category.update', 'uses' => 'CategoryController@update']);
+Route::post('r/{restaurant_slug}/menu/create', ['as' => 'category.create', 'uses' => 'CategoryController@create']);
+Route::get('r/{restaurant_slug}/menu/delete/{category_id}', ['as' => 'category.delete', 'uses' => 'CategoryController@delete']);

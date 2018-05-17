@@ -41,7 +41,7 @@ class Restaurant extends Model
     }
 
     /**
-     * Get the user that owns the phone.
+     * Get the user that owns the restaurant.
      */
     public function owner()
     {
@@ -71,10 +71,18 @@ class Restaurant extends Model
     }
 
     /**
-     * Get the comments for the blog post.
+     * Get the contacts
      */
     public function contacts()
     {
         return $this->hasMany('App\ContactInfo', 'restaurant_id');
+    }
+
+    /**
+     * Get the categories list for the blog post.
+     */
+    public function categories()
+    {
+        return $this->hasMany('App\Category', 'restaurant_id');
     }
 }
