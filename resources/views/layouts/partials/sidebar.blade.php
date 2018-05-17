@@ -32,40 +32,10 @@
                             <span>Home</span>
                         </a>
                     </li>
-                    <li {{Route::is('typography')? 'class=active':''}}>
-                        <a href="{{route('typography')}}">
-                            <i class="material-icons">text_fields</i>
-                            <span>Typography</span>
-                        </a>
-                    </li>
-                    <li {{Route::is('helper')? 'class=active':''}}>
-                        <a href="{{route('helper')}}">
-                            <i class="material-icons">layers</i>
-                            <span>Helper Classes</span>
-                        </a>
-                    </li>
-                    <li {{Route::is('widget')? 'class=active':''}}>
-                        <a href="{{route('widget')}}">
-                            <i class="material-icons">widgets</i>
-                            <span>Widgets</span>
-                        </a>
-                    </li>
-                    <li {{Route::is('table')? 'class=active':''}}>
-                        <a href="{{route('table')}}">
-                            <i class="material-icons">view_list</i>
-                            <span>Tables</span>
-                        </a>
-                    </li>
-                    <li {{Route::is('media')? 'class=active':''}}>
-                        <a href="{{route('media')}}">
-                            <i class="material-icons">perm_media</i>
-                            <span>Medias</span>
-                        </a>
-                    </li>
-                    <li {{Route::is('chart')? 'class=active':''}}>
-                        <a href="{{route('chart')}}">
-                            <i class="material-icons">pie_chart</i>
-                            <span>Charts</span>
+                    <li {{ strpos(url()->current(), 'contact') ? 'class=active':''}}>
+                        <a href="{{route('contact.index', $restaurant->slug)}}">
+                            <i class="material-icons">contact_phone</i>
+                            <span>Contact Information</span>
                         </a>
                     </li>
                     <li>

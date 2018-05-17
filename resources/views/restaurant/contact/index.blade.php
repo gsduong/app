@@ -39,43 +39,43 @@
                             @csrf
                             <div class="row clearfix">
                                 <div class="col-sm-3">
-                                    <label for="address[{{$no}}]">Address</label>
+                                    <label for="address">Address</label>
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" name="address[{{$no}}]" class="form-control" required placeholder="Address" value="{{$contact->address}}" name="address[{{$no}}]">
+                                            <input type="hidden" name="id" required value="{{$contact->id}}">
+                                            <input type="text" name="address" class="form-control" required placeholder="Address" value="{{$contact->address}}">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
-                                    <label for="phone[{{$no}}]">Phone Number</label>
+                                    <label for="phone">Phone</label>
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" name="phone[{{$no}}]" class="form-control" required placeholder="Phone number" value="{{$contact->phone}}" name="phone[{{$no}}]">
+                                            <input type="text" name="phone" class="form-control" required placeholder="Phone number" value="{{$contact->phone}}">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
-                                    <label for="secondary_phone[{{$no}}]">Second Phone Number</label>
+                                    <label for="secondary_phone">#2 Phone</label>
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" name="secondary_phone[{{$no}}]" class="form-control" placeholder="Optional" value="{{$contact->secondary_phone}}">
+                                            <input type="text" name="secondary_phone" class="form-control" placeholder="Optional" value="{{$contact->secondary_phone}}">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
-                                    <label for="map_url[{{$no}}]">Map URL</label>
+                                    <label for="map_url">Map URL</label>
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" class="form-control" name="map_url[{{$no}}]">
+                                            <input type="text" class="form-control" name="map_url" value="{{$contact->map_url}}">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm-2" style="text-align: center;">
                                     <label>Actions</label>
-                                    <div><a class="btn btn-default btn-circle waves-effect waves-circle waves-float" style="z-index: 1;" title="Add new address and phone number">
+                                    <div><a href="{{route('contact.delete', ['slug' => $restaurant->slug, 'contact_id' => $contact->id])}}" class="btn btn-default btn-circle waves-effect waves-circle waves-float" style="z-index: 1;" title="Delete">
                                         <i class="material-icons">delete</i>
-                                    </a></div>
-                                    <div><button type="submit" class="btn btn-default btn-circle waves-effect waves-circle waves-float" style="z-index: 1;" title="Add new address and phone number" onClick="this.form.submit(); this.disabled=true;">
+                                    </a>&nbsp;<button type="submit" class="btn btn-default btn-circle waves-effect waves-circle waves-float" style="z-index: 1;" onClick="this.form.submit(); this.disabled=true;" title="Save">
                                         <i class="material-icons">save</i>
                                     </button></div>
                                 </div>
@@ -84,12 +84,13 @@
                         @endforeach
                         @endif
                         <form method="POST" action="{{route('contact.create', $restaurant->slug)}}">
+                            @csrf
                             <div class="row clearfix">
                                 <div class="col-sm-3">
                                     <label for="address">Address</label>
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" class="form-control" name="address" required>
+                                            <input type="text" class="form-control" name="address" required placeholder="Your restaurant address">
                                         </div>
                                     </div>
                                 </div>
@@ -97,32 +98,29 @@
                                     <label for="phone">Phone</label>
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" class="form-control" name="phone" required>
+                                            <input type="text" class="form-control" name="phone" required placeholder="Primary Phone Number">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
-                                    <label for="secondary_phone">Second Phone Number</label>
+                                    <label for="secondary_phone">#2 Phone</label>
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" class="form-control" name="secondary_phone">
+                                            <input type="text" class="form-control" name="secondary_phone" placeholder="Optional">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
-                                    <label for="map_url">Map URL</label>
+                                    <label for="map_url">Map URL <a href="https://goo.gl/" target="_blank" title="Get shortened URL">(*)</a></label>
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" class="form-control" name="map_url">
+                                            <input type="text" class="form-control" name="map_url" placeholder="Optional">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm-2" style="text-align: center;">
                                     <label>Actions</label>
-                                    <div><button type="submit" class="btn btn-default btn-circle waves-effect waves-circle waves-float" style="z-index: 1;" title="Add new address and phone number">
-                                        <i class="material-icons">add</i>
-                                    </button></div>
-                                    <div><button type="submit" class="btn btn-default btn-circle waves-effect waves-circle waves-float" style="z-index: 1;" title="Add new address and phone number">
+                                    <div><button type="submit" class="btn btn-default btn-circle waves-effect waves-circle waves-float" style="z-index: 1;" title="Add new address and phone number" onClick="this.form.submit(); this.disabled=true;">
                                         <i class="material-icons">add</i>
                                     </button></div>
                                 </div>

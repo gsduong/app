@@ -44,5 +44,6 @@ Route::get('r/{slug}.html', ['as' => 'restaurant.show', 'uses' => 'RestaurantCon
 Route::get('r/{slug}/members.html', ['as' => 'staff.index', 'uses' => 'RestaurantController@staff_index'])->middleware('staff');
 // Route::get('r/{slug}/delete/{id}', ['as' => 'staff.delete', 'uses' => 'RestaurantController@staff_delete'])->middleware('admin.delete');
 Route::get('r/{slug}/contact.html', ['as' => 'contact.index', 'uses' => 'ContactInfoController@index']);
-Route::post('r/{slug}/contact-update.html', ['as' => 'contact.update', 'uses' => 'ContactInfoController@update']);
-Route::post('r/{slug}/contact-create.html', ['as' => 'contact.create', 'uses' => 'ContactInfoController@create']);
+Route::post('r/{slug}/contact/update', ['as' => 'contact.update', 'uses' => 'ContactInfoController@update']);
+Route::post('r/{slug}/contact/create', ['as' => 'contact.create', 'uses' => 'ContactInfoController@create']);
+Route::get('r/{slug}/contact/delete/{contact_id}', ['as' => 'contact.delete', 'uses' => 'ContactInfoController@delete']);

@@ -44,7 +44,7 @@
         {{Html::script('bsbmd/plugins/bootstrap-select/js/bootstrap-select.js')}}
         {{Html::script('bsbmd/plugins/jquery-slimscroll/jquery.slimscroll.js')}}
         {{Html::script('bsbmd/plugins/node-waves/waves.js')}}
-
+        {{Html::script('js/toastr.min.js')}}
     @show    
     @yield('extra-script')
     @include('message.message')
