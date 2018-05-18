@@ -27,3 +27,19 @@
 .restaurant-breadcrumb {
   padding-left: 0 !important;
 } 
+
+.margin-bottom-5 {
+  margin-bottom: 5px !important;
+}
+a.inline-link {
+  display: inline !important;
+}
+
+.sidebar .menu .list div.like-an-anchor {
+    color: #747474;
+    position: relative;
+    display: inline-flex;
+    vertical-align: middle;
+    width: 100%;
+    padding: 10px 13px;
+}

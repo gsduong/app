@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Cloudder;
 
 class CategoryController extends Controller
 {
@@ -38,7 +40,7 @@ class CategoryController extends Controller
 			return redirect()->route('category.index', $restaurant_slug)->with('error', 'Category name required!');
 		}
     	if ($this->restaurant->categories->where('name', '=', $name)->first() === null) {
-    		$this->restaurant->categories()->create(['name' => $name, 'description' => $request->description]);
+    		$category = $this->restaurant->categories()->create(['name' => $name, 'description' => $request->description]);
     		return redirect()->route('category.index', $restaurant_slug)->with('success', 'New category created!');
     	}
     	return redirect()->route('category.index', $restaurant_slug)->with('error', 'Duplicated category!');
@@ -68,11 +70,21 @@ class CategoryController extends Controller
     public function delete($restaurant_slug, $category_id) {
     	$category = $this->restaurant->categories->find($category_id);
     	if (!$category) {
+            if (strpos(url()->previous(), 'menu-list')) {
+                return redirect()->route('category.list', $restaurant_slug)->with('error', 'Category not found!');
+            }
     		return redirect()->route('category.index', $restaurant_slug)->with('error', 'Category not found!');
     	}
     	else {
     		$category->delete();
+            if (strpos(url()->previous(), 'menu-list')) {
+                return redirect()->route('category.list', $restaurant_slug)->with('success', 'Category deleted!');
+            }
     		return redirect()->route('category.index', $restaurant_slug)->with('success', 'Category deleted!');
     	}
+    }
+
+    public function list() {
+        return view('restaurant/menu/list', ['restaurant' => $this->restaurant]);
     }
 }

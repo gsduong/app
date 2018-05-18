@@ -20,7 +20,6 @@ class CreateCategoriesTable extends Migration
             $table->unsignedInteger('restaurant_id');
             $table->string('slug', 150);
             $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
-            $table->string('category_image')->nullable();
             $table->timestamps();
         });
     }

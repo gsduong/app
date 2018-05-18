@@ -30,17 +30,27 @@
                         Menu Management
                         <small>Easily create and manage your menu</small>
                     </h2>
+                    <ul class="header-dropdown m-r--5">
+                        <li class="dropdown">
+                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+                                <i class="material-icons">more_vert</i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href="{{route('category.list' , $restaurant->slug)}}" class=" waves-effect waves-block">View as a list</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
                 <div class="body">
                         @if($restaurant->categories->count() > 0)
 
                         @foreach($restaurant->categories as $no => $category)
-                        <form method="POST" action="{{route('category.update', $restaurant->slug)}}">
+                        <form method="POST" action="{{route('category.update', $restaurant->slug)}}" enctype="multipart/form-data">
                             @csrf
                             <div class="row clearfix">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-bottom-5">
                                     <div class="row clearfix">
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-4 margin-bottom-5">
                                             <label for="name">Category #{{$no + 1}}</label>
                                             <div class="input-group">
                                                 <div class="form-line">
@@ -49,12 +59,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3">
+{{--                                         <div class="col-sm-4">
                                             <label for="image">Category Image</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                                     @if($category->category_image)
-                                                        <img src="{{$category->category_image}}" width="36" height="36" alt="{{$category->name}}" style="border-radius: 50% !important;">
+                                                    <a href="{{$category->category_image}}" data-lightbox="image-{{$no}}" data-title="{{$category->name}}"><img src="{{$category->category_image}}" width="36" height="36" alt="{{$category->name}}" style="border-radius: 50% !important;"></a>
                                                     @else
                                                         <i class="material-icons">image</i>
                                                     @endif
@@ -63,8 +73,8 @@
                                                     <input type="file" class="form-control" name="image">
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-3">
+                                        </div> --}}
+                                        <div class="col-sm-4 margin-bottom-5">
                                             <label for="description">Description</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">
@@ -75,7 +85,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3" style="text-align: center;">
+                                        <div class="col-sm-4 margin-bottom-5" style="text-align: center;">
                                             <label>Actions</label>
                                             <div><a href="{{route('category.delete', ['slug' => $restaurant->slug, 'category_id' => $category->id])}}" class="btn btn-default btn-circle waves-effect waves-circle waves-float" style="z-index: 1;" title="Delete">
                                                 <i class="material-icons">delete</i>
@@ -89,12 +99,12 @@
                         </form>
                         @endforeach
                         @endif
-                        <form method="POST" action="{{route('category.create', $restaurant->slug)}}">
+                        <form method="POST" action="{{route('category.create', $restaurant->slug)}}" enctype="multipart/form-data">
                             @csrf
                             <div class="row clearfix">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-bottom-5">
                                     <div class="row clearfix">
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-4 margin-bottom-5">
                                             <label for="name">Create new category</label>
                                             <div class="input-group">
                                                 <div class="form-line">
@@ -102,7 +112,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3">
+{{--                                         <div class="col-sm-4">
                                             <label for="image">Category Image</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">
@@ -112,8 +122,8 @@
                                                     <input type="file" class="form-control" name="image">
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-3">
+                                        </div> --}}
+                                        <div class="col-sm-4 margin-bottom-5">
                                             <label for="description">Description</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">
@@ -124,7 +134,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3" style="text-align: center;">
+                                        <div class="col-sm-4 margin-bottom-5" style="text-align: center;">
                                             <label>Actions</label>
                                             <div><button type="submit" class="btn btn-default btn-circle waves-effect waves-circle waves-float" style="z-index: 1;" title="Add new category">
                                                 <i class="material-icons">add</i>
