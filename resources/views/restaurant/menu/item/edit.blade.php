@@ -33,10 +33,10 @@
                     </h2>
                 </div>
                     <div class="body">
-                        <form method="POST" action="{{route('item.update', ['restaurant_slug' => $restaurant->slug, 'category_slug' => $category->slug])}}">
+                        <form method="POST" action="{{route('item.update', ['restaurant_slug' => $restaurant->slug, 'category_slug' => $category->slug])}}" enctype="multipart/form-data">
                             @csrf
                             <div class="row clearfix">
-                                <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
                                     <label for="name">Name</label>
                                     <div class="form-group">
                                         <div class="form-line">
@@ -47,15 +47,15 @@
                                 @if(isset($item))
                                     <input type="hidden" name="item_id" class="form-control" required value="{{$item['id']}}">
                                 @endif
-                                <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
-                                    <label for="price">Price</label>
+                                <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
+                                    <label for="price">Price (VNĐ)</label>
                                     <div class="form-group">
                                         <div class="form-line">
                                             <input type="text" name="price" class="form-control" required placeholder="Price" value="{{isset($item) ? $item->price : ''}}">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
                                     <label for="unit">Unit</label>
                                     <div class="form-group">
                                         <div class="form-line">
@@ -63,11 +63,39 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
                                     <label for="item_url">Item Url</label>
                                     <div class="form-group">
                                         <div class="form-line">
                                             <input type="text" name="item_url" class="form-control" placeholder="Optional" value="{{isset($item) ? $item->item_url : ''}}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                @if($item->image_url)
+                                <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
+                                    <label>Current Image</label>
+                                    <div class="form-group">
+                                        <div class="image">
+                                            <a href="{{$item->image_url}}" data-lightbox="image-1" data-title="{{$item->name}}"><img src="{{$item->image_url}}" width="48" height="48" alt="{{$item->name}}" style="border-radius: 50% !important;"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+                                <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
+                                    <label for="image_file">Image Upload</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="file" name="image_file" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
+                                    <label for="ship">Accept online order for this item</label>
+                                    <div class="form-group">
+                                        <div class="switch">
+                                            <label>No<input type="checkbox" name="ship" {{ $item->ship ? 'checked' : ''}}><span class="lever"></span>Yes</label>
                                         </div>
                                     </div>
                                 </div>

@@ -33,10 +33,10 @@
                     </h2>
                 </div>
                     <div class="body">
-                        <form method="POST" action="{{route('item.create', ['restaurant_slug' => $restaurant->slug, 'category_slug' => $category->slug])}}">
+                        <form method="POST" action="{{route('item.create', ['restaurant_slug' => $restaurant->slug, 'category_slug' => $category->slug])}}" enctype="multipart/form-data">
                             @csrf
                             <div class="row clearfix">
-                                <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
                                     <label for="name">Name</label>
                                     <div class="form-group">
                                         <div class="form-line">
@@ -44,15 +44,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
-                                    <label for="price">Price</label>
+                                <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
+                                    <label for="price">Price (VNĐ)</label>
                                     <div class="form-group">
                                         <div class="form-line">
                                             <input type="text" name="price" class="form-control" required placeholder="Price">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
                                     <label for="unit">Unit</label>
                                     <div class="form-group">
                                         <div class="form-line">
@@ -60,11 +60,27 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
                                     <label for="item_url">Item Url</label>
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" name="item_url" class="form-control" placeholder="You can paste the link to the item on your website or your facebook page">
+                                            <input type="text" name="item_url" class="form-control" placeholder="Link to your website or facebook post">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
+                                    <label for="image_file">Image Upload</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="file" name="image_file" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
+                                    <label for="ship">Accept online order for this item</label>
+                                    <div class="form-group">
+                                        <div class="switch">
+                                            <label>No<input type="checkbox" name="ship"><span class="lever"></span>Yes</label>
                                         </div>
                                     </div>
                                 </div>

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use Bitly;
-
+use Cloudder;
 class ItemController extends Controller
 {
 	private $user;
@@ -52,8 +52,25 @@ class ItemController extends Controller
         if ($item) {
         	return redirect()->route('item.show-form-create', ['category_slug' => $category_slug, 'restaurant_slug' => $restaurant_slug])->with('error', 'Duplicated item!')->withInput();
         }
-        $item_url = strlen($request->item_url) > 25 ? Bitly::getUrl($request->item_url) : $request->item_url;
-        $item = $this->category->items()->create(['name' => $request->name, 'price' => $request->price, 'unit' => $request->unit, 'item_url' => $item_url]);
+		$item_url = $request->item_url;
+		if (strlen($request->item_url) > 25) {
+			try {
+				$item_url = Bitly::getUrl($item_url);
+			} catch (Exception $e) {
+			}
+		}
+		$image_url = null;
+		$public_id = null;
+        if ($request->hasFile('image_file')) {
+        	$result = $this->uploadImage($request);
+        	if (!$result) {
+        		return redirect()->route('item.show-form-edit', ['restaurant_slug' => $restaurant_slug, 'category_slug' => $category_slug, 'item_id' => $request->item_id])->withError('Only accept jpeg,bmp,jpg,png files! Size is upto 6000kb!');
+        	}
+			$image_url = $result['url'];
+			$public_id = $result['public_id'];
+        }
+        $ship = $request->ship ? 1 : 0;
+        $item = $this->category->items()->create(['name' => $request->name, 'price' => $request->price, 'unit' => $request->unit, 'item_url' => $item_url, 'image_url' => $image_url, 'public_id' => $public_id, 'ship' => $ship]);
 		return redirect()->route('category.show', ['category_slug' => $category_slug, 'restaurant_slug' => $restaurant_slug])->with('success', 'New item created');
 	}
 
@@ -94,9 +111,65 @@ class ItemController extends Controller
         $item->name = $request->name;
         $item->price = $request->price;
         $item->unit = $request->unit;
-        $item_url = strlen($request->item_url) > 25 ? Bitly::getUrl($request->item_url) : $request->item_url;
-        $item->item_url = $item_url;
+		$item_url = $request->item_url;
+		if (strlen($request->item_url) > 25) {
+			try {
+				$item_url = Bitly::getUrl($item_url);
+			} catch (Exception $e) {
+			}
+			$item->item_url = $item_url;
+		}
+        if ($request->hasFile('image_file')) {
+        	$result = $this->uploadImage($request);
+			$image_url = $result['url'];
+			$public_id = $result['public_id'];
+
+        	if (!$image_url) {
+        		return redirect()->route('item.show-form-edit', ['restaurant_slug' => $restaurant_slug, 'category_slug' => $category_slug, 'item_id' => $request->item_id])->withError('Only accept jpeg,bmp,jpg,png files! Size is upto 6000kb!');
+        	}
+        	$item->image_url = $image_url;
+        	$item->public_id = $public_id;
+
+        }
+        
+        $item->ship = $request->ship ? 1 : 0;
         $item->save();
 		return redirect()->route('item.show-form-edit', ['category_slug' => $category_slug, 'restaurant_slug' => $restaurant_slug, 'item_id' => $request->item_id])->with('success', 'Item updated!');
+	}
+
+	private function uploadImage(Request $request) {
+        $validator = Validator::make($request->all(), [
+			'image_file'=>'mimes:jpeg,bmp,jpg,png|between:1, 6000'
+        ]);
+        if ($request->hasFile('image_file')) {
+        	if ($validator->fails()) {
+        		return null;
+        	}
+        	// upload and get image_url
+            $file = $request->image_file;
+            //upload image
+            Cloudder::upload($file, 'booknow/' . $file, ['type' => 'upload']);
+            // $image_url = Cloudder::getResult()['url'];
+            // dd($image_url);
+            $public_id = Cloudder::getPublicId();
+            list($width, $height) = getimagesize($file);
+            $image_url= Cloudder::show('booknow/' . $file, ["width" => $width, "height"=>$height]);
+            return ['url' => $image_url, 'public_id' => $public_id];
+
+        } else return null;
+	}
+
+	public function deleteImage($restaurant_slug, $category_slug, $item_id) {
+		$item = $this->category->items->find($item_id);
+		if (!$item) {
+			return redirect()->route('category.show', ['restaurant_slug' => $restaurant_slug, 'category_slug' => $category_slug])->withError('Item not found');
+		}
+		$public_id = $item->public_id;
+		if ($public_id) {
+			Cloudder::delete($public_id, null);
+			$item->image_url = null;
+			$item->save();
+		}
+		return redirect()->route('category.show', ['restaurant_slug' => $restaurant_slug, 'category_slug' => $category_slug])->withSuccess('Image deleted!');
 	}
 }

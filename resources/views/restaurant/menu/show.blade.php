@@ -46,28 +46,58 @@
                     @if($category->items->count() > 0)
                     <table class="table">
                         <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Item</th>
-                                <th>Price</th>
-                                <th>Unit</th>
-                                <th>URL</th>
-                                <th>Actions</th>
+                            <tr >
+                                <th style="text-align: center;">#</th>
+                                <th style="text-align: center;">Item</th>
+                                <th style="text-align: center;">Price</th>
+                                <th style="text-align: center;">Unit</th>
+                                <th style="text-align: center;">URL</th>
+                                <th style="text-align: center;">Image</th>
+                                <th style="text-align: center;">Accept order</th>
+                                <th style="text-align: center;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($category->items as $no => $item)
                             <tr>
-                                <th scope="row">{{$no + 1}}</th>
-                                <td>{{$item->name}}</td>
-                                <td>{{$item->price}}</td>
-                                <td>{{$item->unit}}</td>
+                                <td style="text-align: center; vertical-align: middle;">{{$no + 1}}</th>
+                                <td style="text-align: center; vertical-align: middle;">{{$item->name}}</td>
+                                <td style="text-align: center; vertical-align: middle;">{{$item->price}} VNĐ</td>
+                                <td style="text-align: center; vertical-align: middle;">{{$item->unit}}</td>
                                 @if($item->item_url)
-                                <td><a href="{{$item->item_url}}" target="_blank">{{$item->item_url}}</a></td>
+                                <td style="text-align: center; vertical-align: middle;"><a href="{{$item->item_url}}" target="_blank">{{$item->item_url}}</a></td>
                                 @else
-                                <td>N/A</td>
+                                <td style="text-align: center; vertical-align: middle;">N/A</td>
                                 @endif
-                                <td><a href="{{route('item.delete', ['restaurant_slug' => $restaurant->slug, 'category_slug' => $category->slug, 'item_id' => $item->id])}}">Delete</a>&nbsp; <a href="{{route('item.show-form-edit', ['restaurant_slug' => $restaurant->slug, 'category_slug' => $category->slug, 'item_id' => $item->id])}}">Edit</a></td>
+                                @if($item->image_url)
+                                <td style="text-align: center; vertical-align: middle;">
+                                    <div class="image">
+                                        <a href="{{$item->image_url}}" data-lightbox="image-{{$no + 1}}" data-title="{{$item->name}}"><img src="{{$item->image_url}}" width="36" height="36" alt="{{$item->name}}" style="border-radius: 50% !important;"></a>
+                                    </div>
+                                </td>
+                                @else
+                                <td style="text-align: center; vertical-align: middle;">N/A</td>
+                                @endif
+                                <td style="text-align: center; vertical-align: middle;">
+                                    <div class="switch">
+                                        <label>No<input type="checkbox" name="ship" {{ $item->ship ? 'checked' : ''}} disabled><span class="lever"></span>Yes</label>
+                                    </div>
+                                </td>
+                                <td style="text-align: center; vertical-align: middle;">
+                                    <a href="{{route('item.delete', ['restaurant_slug' => $restaurant->slug, 'category_slug' => $category->slug, 'item_id' => $item->id])}}" class="btn btn-default btn-circle waves-effect waves-circle waves-float" onclick="return confirm('Are you sure you want to delete this item?');">
+                                        <i class="material-icons">delete</i>
+                                    </a>
+                                    &nbsp;
+                                    <a href="{{route('item.show-form-edit', ['restaurant_slug' => $restaurant->slug, 'category_slug' => $category->slug, 'item_id' => $item->id])}}" class="btn btn-default btn-circle waves-effect waves-circle waves-float">
+                                        <i class="material-icons">edit</i>
+                                    </a>
+                                    &nbsp;
+                                    @if($item->image_url)
+                                    <a href="{{route('item.delete-image', ['restaurant_slug' => $restaurant->slug, 'category_slug' => $category->slug, 'item_id' => $item->id])}}" class="btn btn-default btn-circle waves-effect waves-circle waves-float" onclick="return confirm('Are you sure you want to delete this image?');" title="Delete Image">
+                                        <i class="material-icons">broken_image</i>
+                                    </a>
+                                    @endif
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

@@ -49,5 +49,6 @@ Route::get('r/{restaurant_slug}/menu/{category_slug}.html', ['as' => 'category.s
 Route::get('r/{restaurant_slug}/menu/{category_slug}/item/create.html', ['as' => 'item.show-form-create', 'uses' => 'ItemController@showFormCreate']);
 Route::post('r/{restaurant_slug}/menu/{category_slug}/item/create', ['as' => 'item.create', 'uses' => 'ItemController@create']);
 Route::get('r/{restaurant_slug}/menu/{category_slug}/item/delete/{item_id}', ['as' => 'item.delete', 'uses' => 'ItemController@delete']);
+Route::get('r/{restaurant_slug}/menu/{category_slug}/item/delete-image/{item_id}', ['as' => 'item.delete-image', 'uses' => 'ItemController@deleteImage']);
 Route::get('r/{restaurant_slug}/menu/{category_slug}/item/edit/{item_id}.html', ['as' => 'item.show-form-edit', 'uses' => 'ItemController@showFormEdit']);
 Route::post('r/{restaurant_slug}/menu/{category_slug}/item/update', ['as' => 'item.update', 'uses' => 'ItemController@update']);
