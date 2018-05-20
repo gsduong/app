@@ -22,6 +22,7 @@ class CreateItemsTable extends Migration
             $table->string('image_url')->nullable();
             $table->string('item_url')->nullable();
             $table->string('public_id')->nullable();
+            $table->string('description')->nullable();
             $table->boolean('ship')->default(1);
             $table->unsignedInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');

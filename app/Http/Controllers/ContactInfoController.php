@@ -58,14 +58,14 @@ class ContactInfoController extends Controller
                     return redirect()->route('contact.index', $slug)->with('error', 'Invalid map URL!');
                 }
                 $map_url = null;
-                if (strlen($request->map_url) > 25) {
+                if (strlen($request->map_url) > 30) {
                     try {
                         $map_url = Bitly::getUrl($request->map_url);
                     } catch (Exception $e) {
                     }
-                    if (!$map_url) {
-                        $map_url = $request->map_url;
-                    }
+                }
+                if (!$map_url) {
+                    $map_url = $request->map_url;
                 }
                 $contact->map_url = $map_url;
                 $contact->save();
@@ -95,14 +95,14 @@ class ContactInfoController extends Controller
             return redirect()->route('contact.index', $slug)->with('error', 'Invalid map URL!');
         }
         $map_url = null;
-        if (strlen($request->map_url) > 25) {
+        if (strlen($request->map_url) > 30) {
             try {
                 $map_url = Bitly::getUrl($request->map_url);
             } catch (Exception $e) {
             }
-            if (!$map_url) {
-                $map_url = $request->map_url;
-            }
+        }
+        if (!$map_url) {
+            $map_url = $request->map_url;
         }
         $this->restaurant->contacts()->create(['address' => $address, 'phone' => $phone, 'secondary_phone' => $secondary_phone, 'map_url' => $map_url, 'opening_time' => $opening_time, 'closing_time' => $closing_time]);
         return redirect()->route('contact.index', $slug)->with('success', 'Contact successfully created!');

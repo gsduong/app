@@ -53,7 +53,7 @@ class ItemController extends Controller
         	return redirect()->route('item.show-form-create', ['category_slug' => $category_slug, 'restaurant_slug' => $restaurant_slug])->with('error', 'Duplicated item!')->withInput();
         }
 		$item_url = $request->item_url;
-		if (strlen($request->item_url) > 25) {
+		if (strlen($request->item_url) > 30) {
 			try {
 				$item_url = Bitly::getUrl($item_url);
 			} catch (Exception $e) {
@@ -70,7 +70,7 @@ class ItemController extends Controller
 			$public_id = $result['public_id'];
         }
         $ship = $request->ship ? 1 : 0;
-        $item = $this->category->items()->create(['name' => $request->name, 'price' => $request->price, 'unit' => $request->unit, 'item_url' => $item_url, 'image_url' => $image_url, 'public_id' => $public_id, 'ship' => $ship]);
+        $item = $this->category->items()->create(['name' => $request->name, 'price' => $request->price, 'unit' => $request->unit, 'item_url' => $item_url, 'image_url' => $image_url, 'public_id' => $public_id, 'ship' => $ship, 'description' => $request->description]);
 		return redirect()->route('category.show', ['category_slug' => $category_slug, 'restaurant_slug' => $restaurant_slug])->with('success', 'New item created');
 	}
 
@@ -112,7 +112,7 @@ class ItemController extends Controller
         $item->price = $request->price;
         $item->unit = $request->unit;
 		$item_url = $request->item_url;
-		if (strlen($request->item_url) > 25) {
+		if (strlen($request->item_url) > 30) {
 			try {
 				$item_url = Bitly::getUrl($item_url);
 			} catch (Exception $e) {
@@ -133,6 +133,7 @@ class ItemController extends Controller
         }
         
         $item->ship = $request->ship ? 1 : 0;
+        $item->description = $request->description;
         $item->save();
 		return redirect()->route('item.show-form-edit', ['category_slug' => $category_slug, 'restaurant_slug' => $restaurant_slug, 'item_id' => $request->item_id])->with('success', 'Item updated!');
 	}

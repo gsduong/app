@@ -15,7 +15,7 @@ class Item extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'unit', 'price', 'category_id', 'image_url', 'item_url', 'public_id', 'ship'
+        'name', 'unit', 'price', 'category_id', 'image_url', 'item_url', 'public_id', 'ship', 'description'
     ];
 
     /**

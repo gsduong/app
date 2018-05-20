@@ -85,6 +85,16 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row clearfix">
+                                <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                    <label for="description">Description</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <textarea rows="2" name="description" class="form-control no-resize" placeholder="Optional"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <button type="submit" class="btn btn-success m-t-15 waves-effect" style="margin-top: 0;">Create</button>
                         </form>
                     </div>
