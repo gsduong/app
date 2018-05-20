@@ -5,16 +5,17 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 
-class Category extends Model
+class Item extends Model
 {
-    use Sluggable;
+	use Sluggable;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'restaurant_id'
+        'name', 'unit', 'price', 'category_id', 'image_url'
     ];
 
     /**
@@ -26,25 +27,16 @@ class Category extends Model
     {
         return [
             'slug' => [
-                'source' => ['name', 'restaurant_id']
+                'source' => ['name', 'category_id']
             ]
         ];
     }
 
     /**
-     * Get the restaurant that owns the category.
+     * The category that belong to the restaurant.
      */
-    public function restaurant()
+    public function category()
     {
-        return $this->belongsTo('App\Restaurant', 'restaurant_id');
+        return $this->belongsTo('App\Category', 'category_id');
     }
-
-    /**
-     * Get the items of category
-     */
-    public function items()
-    {
-        return $this->hasMany('App\Item', 'category_id');
-    }
-
 }

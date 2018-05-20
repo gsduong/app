@@ -148,6 +148,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         SammyK\LaravelFacebookSdk\LaravelFacebookSdkServiceProvider::class,
         JD\Cloudder\CloudderServiceProvider::class,
+        Shivella\Bitly\BitlyServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -215,6 +216,7 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Facebook' => SammyK\LaravelFacebookSdk\FacebookFacade::class,
         'Cloudder' => JD\Cloudder\Facades\Cloudder::class,
+        'Bitly' => Shivella\Bitly\Facade\Bitly::class,
     ],
 
 ];

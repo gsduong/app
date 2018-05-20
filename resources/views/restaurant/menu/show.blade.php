@@ -1,7 +1,7 @@
 @extends('index')
 
 @section('title')
-  Categories in menu of {{$restaurant->name}}
+	{{$category->name}}
 @endsection
 
 @section('extra-css')
@@ -16,9 +16,8 @@
                 <ol class="breadcrumb restaurant-breadcrumb">
                     <li><a href="{{route('homepage')}}">Home</a></li>
                     <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>
-                    <li><a href="{{route('restaurant.show', $restaurant->slug)}}">{{$restaurant->name}}</a></li>
                     <li><a href="{{route('category.index', $restaurant->slug)}}">Menu</a></li>
-                    <li class="active">Categories</li>
+                    <li class="active">{{$category->name}}</li>
                 </ol>
             </div>
         </div>
@@ -28,54 +27,62 @@
             <div class="card">
                 <div class="header">
                     <h2>
-                        Categories in Menu
-                        <small>Easily create and manage your menu</small>
+                        {{$category->name}}
+                        <small>Items in {{$category->name}}</small>
                     </h2>
                     <ul class="header-dropdown m-r--5">
                         <li class="dropdown">
-                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons">more_vert</i>
                             </a>
                             <ul class="dropdown-menu pull-right">
-                                <li><a href="{{route('category.index' , $restaurant->slug)}}" class=" waves-effect waves-block">Back to menu</a></li>
+                                <li><a href="{{route('item.show-form-create', ['restaurant_slug' => $restaurant->slug, 'category_slug' => $category->slug])}}" class=" waves-effect waves-block">Add item</a></li>
+                                <li><a href="javascript:void(0);" class=" waves-effect waves-block">View as thumbnails</a></li>
                             </ul>
                         </li>
                     </ul>
                 </div>
                 <div class="body table-responsive">
-                    @if($restaurant->categories->count() > 0)
+                    @if($category->items->count() > 0)
                     <table class="table">
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Category</th>
-                                <th># Items</th>
-                                <th>Action</th>
+                                <th>Item</th>
+                                <th>Price</th>
+                                <th>Unit</th>
+                                <th>URL</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            
-                            @foreach($restaurant->categories as $no => $category)
+                            @foreach($category->items as $no => $item)
                             <tr>
                                 <th scope="row">{{$no + 1}}</th>
-                                <td>{{$category->name}}</td>
-                                <td>10</td>
-                                <td><a href="{{route('category.delete', ['slug' => $restaurant->slug, 'category_id' => $category->id])}}">Delete</a></td>
+                                <td>{{$item->name}}</td>
+                                <td>{{$item->price}}</td>
+                                <td>{{$item->unit}}</td>
+                                @if($item->item_url)
+                                <td><a href="{{$item->item_url}}" target="_blank">{{$item->item_url}}</a></td>
+                                @else
+                                <td>N/A</td>
+                                @endif
+                                <td><a href="{{route('item.delete', ['restaurant_slug' => $restaurant->slug, 'category_slug' => $category->slug, 'item_id' => $item->id])}}">Delete</a>&nbsp; <a href="{{route('item.show-form-edit', ['restaurant_slug' => $restaurant->slug, 'category_slug' => $category->slug, 'item_id' => $item->id])}}">Edit</a></td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
                     @else
-                    No category found
+                    No item found
                     @endif
                 </div>
             </div>
         </div>
     </div>
-</div>
 
+</div>
 @endsection
 
 @section('extra-script')
-        {{Html::script('bsbmd/plugins/jquery-countto/jquery.countTo.js')}}
+
 @endsection

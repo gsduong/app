@@ -13,7 +13,7 @@
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="block-header">
-                <ol class="breadcrumb">
+                <ol class="breadcrumb restaurant-breadcrumb">
                     <li><a href="{{route('homepage')}}">Home</a></li>
                     <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>
                     <li><a href="{{route('restaurant.show', $restaurant->slug)}}">{{$restaurant->name}}</a></li>
@@ -51,7 +51,7 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-bottom-5">
                                     <div class="row clearfix">
                                         <div class="col-sm-4 margin-bottom-5">
-                                            <label for="name">Category #{{$no + 1}}</label>
+                                            <label for="name">Category <a href="{{route('category.show', ['restaurant_slug' => $restaurant->slug, 'category_slug' => $category->slug])}}">#{{$no + 1}}</a></label>
                                             <div class="input-group">
                                                 <div class="form-line">
                                                     <input type="hidden" class="form-control" name="id" required value="{{$category->id}}">

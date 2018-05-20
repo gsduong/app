@@ -87,4 +87,12 @@ class CategoryController extends Controller
     public function list() {
         return view('restaurant/menu/list', ['restaurant' => $this->restaurant]);
     }
+
+    public function show($restaurant_slug, $category_slug) {
+        $category = $this->restaurant->categories->where('slug', '=', $category_slug)->first();
+        if (!$category) {
+            return redirect()->route('category.index', $restaurant_slug)->with('error', 'Category not found!');
+        }
+        return view('restaurant/menu/show', ['category' => $category, 'restaurant' => $this->restaurant]);
+    }
 }
