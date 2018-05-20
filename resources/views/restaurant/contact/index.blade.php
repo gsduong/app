@@ -128,7 +128,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
-                                            <label for="map_url">Map URL <a href="https://goo.gl/" target="_blank" title="Get shortened URL">(*)</a></label>
+                                            <label for="map_url">Map URL</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                                     <i class="material-icons">location_on</i>

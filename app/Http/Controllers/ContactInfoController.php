@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Bitly;
+use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 class ContactInfoController extends Controller
@@ -50,6 +51,23 @@ class ContactInfoController extends Controller
                 $contact->map_url = $request->map_url;
                 $contact->opening_time = $opening_time;
                 $contact->closing_time = $closing_time;
+                $validator = Validator::make($request->all(), [
+                    'map_url' => 'nullable|url'
+                ]);
+                if ($validator->fails()) {
+                    return redirect()->route('contact.index', $slug)->with('error', 'Invalid map URL!');
+                }
+                $map_url = null;
+                if (strlen($request->map_url) > 25) {
+                    try {
+                        $map_url = Bitly::getUrl($request->map_url);
+                    } catch (Exception $e) {
+                    }
+                    if (!$map_url) {
+                        $map_url = $request->map_url;
+                    }
+                }
+                $contact->map_url = $map_url;
                 $contact->save();
                 return redirect()->route('contact.index', $slug)->with('success', 'Contact successfully updated!');
             }
@@ -62,7 +80,6 @@ class ContactInfoController extends Controller
     	$address = $request->address;
         $phone = $request->phone;
         $secondary_phone = $request->secondary_phone;
-        $map_url = $request->map_url;
         $opening_time = $request->opening_time;
         $closing_time = $request->closing_time;
         if ($opening_time && !$this->check_time_string($opening_time)) {
@@ -70,6 +87,22 @@ class ContactInfoController extends Controller
         }
         if ($closing_time && !$this->check_time_string($closing_time)) {
             return redirect()->route('contact.index', $slug)->with('error', 'Invalid format of closing time!');
+        }
+        $validator = Validator::make($request->all(), [
+            'map_url' => 'nullable|url'
+        ]);
+        if ($validator->fails()) {
+            return redirect()->route('contact.index', $slug)->with('error', 'Invalid map URL!');
+        }
+        $map_url = null;
+        if (strlen($request->map_url) > 25) {
+            try {
+                $map_url = Bitly::getUrl($request->map_url);
+            } catch (Exception $e) {
+            }
+            if (!$map_url) {
+                $map_url = $request->map_url;
+            }
         }
         $this->restaurant->contacts()->create(['address' => $address, 'phone' => $phone, 'secondary_phone' => $secondary_phone, 'map_url' => $map_url, 'opening_time' => $opening_time, 'closing_time' => $closing_time]);
         return redirect()->route('contact.index', $slug)->with('success', 'Contact successfully created!');

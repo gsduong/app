@@ -87,7 +87,7 @@
                                         </div>
                                         <div class="col-sm-4 margin-bottom-5" style="text-align: center;">
                                             <label>Actions</label>
-                                            <div><a href="{{route('category.delete', ['slug' => $restaurant->slug, 'category_id' => $category->id])}}" class="btn btn-default btn-circle waves-effect waves-circle waves-float" style="z-index: 1;" title="Delete">
+                                            <div><a href="{{route('category.delete', ['slug' => $restaurant->slug, 'category_id' => $category->id])}}" class="btn btn-default btn-circle waves-effect waves-circle waves-float" style="z-index: 1;" title="Delete" onclick="return confirm('Are you sure you want to delete this item?');">
                                                 <i class="material-icons">delete</i>
                                             </a>&nbsp;<button type="submit" class="btn btn-default btn-circle waves-effect waves-circle waves-float" style="z-index: 1;" title="Save">
                                                 <i class="material-icons">save</i>
