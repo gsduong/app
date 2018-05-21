@@ -19,6 +19,7 @@ class WebhookController extends Controller
         $recipient_id = $data["entry"][0]["messaging"][0]["sender"]["id"];
         $page_id = $data["entry"][0]["messaging"][0]["recipient"]["id"];
         // echo $page_id;
+        echo $page_id;
         error_log($page_id);
         // $this->sendTextMessage($page_id, $recipient_id, "Hello");
 	}
