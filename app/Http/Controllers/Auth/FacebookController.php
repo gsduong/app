@@ -28,7 +28,7 @@ class FacebookController extends Controller
   }
 
   public function showFormLogin() {
-  	$login_url = Facebook::getLoginUrl(['email', 'manage_pages']);
+  	$login_url = Facebook::getLoginUrl(['email', 'manage_pages', 'pages_messaging']);
   	return view('auth/facebook/login', ['login_url' => $login_url]);
   }
 
@@ -45,7 +45,7 @@ class FacebookController extends Controller
       {
         if ($permission['status'] !== 'granted')
         {
-          $re_login_url = Facebook::getReRequestUrl(['manage_pages', 'email']);
+          $re_login_url = Facebook::getReRequestUrl(['manage_pages', 'email', 'pages_messaging']);
           return view('auth/facebook/login', ['error' => 'We require all permissions in order to connect your Facebook pages', 'login_url' => $re_login_url]);
         }
       }
@@ -55,11 +55,11 @@ class FacebookController extends Controller
       return redirect($this->redirectTo)->with('success', 'Successfully Signed In!');
     }
     catch(Facebook\Exceptions\FacebookResponseException $e) {
-      $re_login_url = Facebook::getReRequestUrl(['manage_pages', 'email']);
+      $re_login_url = Facebook::getReRequestUrl(['manage_pages', 'email', 'pages_messaging']);
       return view('auth/facebook/login', ['error' => $e->getMessage(), 'login_url' => $re_login_url]);
     }
     catch (Facebook\Exceptions\FacebookSDKException $e) {
-      $re_login_url = Facebook::getReRequestUrl(['manage_pages', 'email']);
+      $re_login_url = Facebook::getReRequestUrl(['manage_pages', 'email', 'pages_messaging']);
       return view('auth/facebook/login', ['error' => $e->getMessage(), 'login_url' => $re_login_url]);
     }
   }

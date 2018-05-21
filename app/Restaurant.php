@@ -93,4 +93,11 @@ class Restaurant extends Model
     {
         return $this->hasMany('App\Reservation', 'restaurant_id');
     }
+    /**
+     * The bot that belong to the restaurant.
+     */
+    public function bot()
+    {
+        return $this->hasOne('App\Bot', 'restaurant_id');
+    }
 }

@@ -60,3 +60,11 @@ Route::get('r/{restaurant_slug}/reservations/edit-{reservation_id}.html', ['as' 
 Route::post('r/{restaurant_slug}/reservations/create', ['as' => 'reservation.create', 'uses' => 'ReservationController@create']);
 Route::post('r/{restaurant_slug}/reservations/update', ['as' => 'reservation.update', 'uses' => 'ReservationController@update']);
 Route::get('r/{restaurant_slug}/reservations/delete/{reservation_id}', ['as' => 'reservation.delete', 'uses' => 'ReservationController@delete']);
+
+// Bot
+Route::get('r/{restaurant_slug}/bot/index.html', ['as' => 'bot.index', 'uses' => 'BotController@index']);
+Route::get('r/{restaurant_slug}/bot/create', ['as' => 'bot.create', 'uses' => 'BotController@create']);
+Route::get('bot/webhook', ['as' => 'bot.get-webhook', 'uses' => 'WebhookController@getWebhook']);
+
+Route::get("/webhook", "WebhookController@verify");
+Route::post("/webhook", "WebhookController@receive")->name('post_webhook');

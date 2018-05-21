@@ -79,7 +79,7 @@ class ReservationController extends Controller
 		$last_editor_id = $this->user->id;
 		$customer_requirement = $request->customer_requirement;
 		$data = ['customer_name' => $customer_name, 'customer_phone' => $customer_phone, 'date' => $date, 'time' => $time, 'adult' => $adult, 'children' => $children, 'address_id' => $address_id, 'status' => $status, 'last_editor_id' => $last_editor_id, 'customer_requirement' => $customer_requirement];
-		$book = $this->restaurant->reservations()->update($data);
+		$book = $this->restaurant->reservations->find($request->id)->update($data);
 		return redirect()->route('reservation.index', $restaurant_slug)->with('success', 'Reservation updated!');
 	}
 
