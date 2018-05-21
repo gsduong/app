@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
-
+use App\Restaurant;
 class WebhookController extends Controller
 {
 	public function verify(Request $request) {
@@ -15,6 +16,29 @@ class WebhookController extends Controller
 
 	public function receive(Request $request) {
         $data = $request->all();
-        var_dump($data);
+        $recipient_id = $data["entry"][0]["messaging"][0]["sender"]["id"];
+        $page_id = $data["entry"][0]["messaging"][0]["recipient"]["id"];
+        $this->sendTextMessage($page_id, $recipient_id, "Hello");
+	}
+
+
+private function sendTextMessage($page_id, $recipientId, $messageText)
+    {
+    	$page_access_token = Restaurant::where('fb_page_id', '=', $page_id)->first()->bot->access_token;
+        $messageData = [
+            "recipient" => [
+                "id" => $recipientId
+            ],
+            "message" => [
+                "text" => $messageText
+            ]
+        ];
+        $ch = curl_init('https://graph.facebook.com/v3.0/me/messages?access_token=' . $page_access_token);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type: application/json"]);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($messageData));
+        curl_exec($ch);    
 	}
 }
