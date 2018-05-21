@@ -12,8 +12,6 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        //
-        'https://booknoww.herokuapp.com/webhook',
-        'https://restaurant.local/webhook'
+        'webhook'
     ];
 }

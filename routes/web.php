@@ -67,4 +67,4 @@ Route::get('r/{restaurant_slug}/bot/create', ['as' => 'bot.create', 'uses' => 'B
 Route::get('bot/webhook', ['as' => 'bot.get-webhook', 'uses' => 'WebhookController@getWebhook']);
 
 Route::get("/webhook", "WebhookController@verify");
-Route::post("/webhook", "WebhookController@receive")->name('post_webhook');
+Route::post("/webhook", "WebhookController@receive")->name('webhook');
