@@ -52,3 +52,11 @@ Route::get('r/{restaurant_slug}/menu/{category_slug}/item/delete/{item_id}', ['a
 Route::get('r/{restaurant_slug}/menu/{category_slug}/item/delete-image/{item_id}', ['as' => 'item.delete-image', 'uses' => 'ItemController@deleteImage']);
 Route::get('r/{restaurant_slug}/menu/{category_slug}/item/edit/{item_id}.html', ['as' => 'item.show-form-edit', 'uses' => 'ItemController@showFormEdit']);
 Route::post('r/{restaurant_slug}/menu/{category_slug}/item/update', ['as' => 'item.update', 'uses' => 'ItemController@update']);
+
+// Booking
+Route::get('r/{restaurant_slug}/reservations.html', ['as' => 'reservation.index', 'uses' => 'ReservationController@index']);
+Route::get('r/{restaurant_slug}/reservations/create.html', ['as' => 'reservation.show-form-create', 'uses' => 'ReservationController@showFormCreate']);
+Route::get('r/{restaurant_slug}/reservations/edit-{reservation_id}.html', ['as' => 'reservation.show-form-edit', 'uses' => 'ReservationController@showFormEdit']);
+Route::post('r/{restaurant_slug}/reservations/create', ['as' => 'reservation.create', 'uses' => 'ReservationController@create']);
+Route::post('r/{restaurant_slug}/reservations/update', ['as' => 'reservation.update', 'uses' => 'ReservationController@update']);
+Route::get('r/{restaurant_slug}/reservations/delete/{reservation_id}', ['as' => 'reservation.delete', 'uses' => 'ReservationController@delete']);

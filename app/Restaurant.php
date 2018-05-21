@@ -85,4 +85,12 @@ class Restaurant extends Model
     {
         return $this->hasMany('App\Category', 'restaurant_id');
     }
+
+    /**
+     * Get the reservation
+     */
+    public function reservations()
+    {
+        return $this->hasMany('App\Reservation', 'restaurant_id');
+    }
 }

@@ -32,6 +32,12 @@
                             <span>Menu</span>
                         </a>
                     </li>
+                    <li {{ strpos(url()->current(), 'reservation') ? 'class=active':''}}>
+                        <a href="{{route('reservation.index', $restaurant->slug)}}">
+                            <i class="material-icons">book</i>
+                            <span>Reservation</span>
+                        </a>
+                    </li>
                     <li {{ strpos(url()->current(), 'contact') ? 'class=active':''}}>
                         <a href="{{route('contact.index', $restaurant->slug)}}">
                             <i class="material-icons">contact_phone</i>
