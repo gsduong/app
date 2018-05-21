@@ -17,17 +17,18 @@ class WebhookController extends Controller
 	public function receive(Request $request) {
                 $data = $request->all();
                 file_put_contents("php://stderr", "POST /webhook received: " . json_encode($data));
-                if ($data["object"] == 'page') {
+                $object = $this->get_value_by_key($data, 'object');
+                if ($object == 'page') {
                         // Iterate over each entry
                         // There may be multiple if batched
-                        foreach ($data["entry"] as $key => $entry) {
-                                $page_id = $entry["id"];
-                                $time_of_event = $entry["time"];
-                                foreach ($entry["messaging"] as $idx => $event) {
-                                        if ($event["message"]) {
+                        foreach ($entry = $this->get_value_by_key($data, "entry") as $key => $entry) {
+                                $page_id = $this->get_value_by_key($entry, "id");
+                                $time_of_event = $this->get_value_by_key($entry,"time");
+                                foreach ($this->get_value_by_key($entry,"messaging") as $idx => $event) {
+                                        if ($this->get_value_by_key($event,"message")) {
                                                 $this->receivedMessage($event);
                                         }
-                                        else if ($event["postback"]) {
+                                        else if ($this->get_value_by_key($event,"postback")) {
                                                 $this->receivedPostback($event);
                                         }
                                         else {
@@ -35,40 +36,36 @@ class WebhookController extends Controller
                                         }
                                 }
                         }
-                // Assume all went well.
-                //
-                // You must send back a 200, within 20 seconds, to let us know you've
-                // successfully received the callback. Otherwise, the request will time out.
-                        return 200;
+                        return response(200);
                 }
 
 	}
 
         private function receivedMessage($event) {
-                $senderId = $event["sender"]["id"];
-                $recipientId = $event["recipient"]["id"];
+                $senderId = $this->get_value_by_key($event, "sender")["id"];
+                $recipientId = $this->get_value_by_key($event, "recipient")["id"];
                 $page_id = $recipientId;
-                $timeOfMessage = $event["timestamp"];
-                $message = $event["message"];
+                $timeOfMessage = $this->get_value_by_key($event,"timestamp");
+                $message = $this->get_value_by_key($event,"message");
 
                 file_put_contents("php://stderr", "Received message for user " . $senderId . " and page " . $page_id . " at " . $timeOfMessage . " with message: " . json_encode($message));
 
-                $isEcho = $message["is_echo"];
-                $messageId = $message["mid"];
-                $appId = $message["app_id"];
-                $metadata = $message["metadata"];
+                $isEcho = $this->get_value_by_key($message,"is_echo");
+                $messageId = $this->get_value_by_key($message,"mid");
+                $appId = $this->get_value_by_key($message,"app_id");
+                $metadata = $this->get_value_by_key($message,"metadata");
 
                 // You may get a text or attachment but not both
-                $messageText = $message["text"];
-                $messageAttachments = $message["attachments"];
-                $quickReply = $message["quick_reply"];
+                $messageText = $this->get_value_by_key($message,"text");
+                $messageAttachments = $this->get_value_by_key($message,"attachments");
+                $quickReply = $this->get_value_by_key($message,"quick_reply");
 
                 if ($isEcho) {
                 // Just logging message echoes to console
                         file_put_contents("php://stderr", "Received echo for message " . $messageId . " and app " . $appId .  " with metadata " . $metadata);
                         return;
                 } else if ($quickReply) {
-                        $quickReplyPayload = $quickReply["payload"];
+                        $quickReplyPayload = $this->get_value_by_key($quickReply,"payload");
                         file_put_contents("php://stderr", "Quick reply for message " . $messageId . " with payload " . $quickReplyPayload);
 
                         $this->sendTextMessage($page_id, $senderId, "Quick reply tapped");
@@ -86,7 +83,12 @@ class WebhookController extends Controller
 
         private function sendTextMessage($page_id, $recipientId, $messageText)
         {
-        	$page_access_token = Restaurant::where('fb_page_id', '=', $page_id)->first()->bot->access_token;
+        	$restaurant = Restaurant::where('fb_page_id', '=', $page_id)->first();
+                if (!$restaurant) {
+                        file_put_contents("php://stderr", "Not found page id: " . $page_id);
+                        return;
+                }
+                $page_access_token = $restaurant->bot->access_token;
                 $messageData = [
                     "recipient" => [
                         "id" => $recipientId
@@ -103,9 +105,14 @@ class WebhookController extends Controller
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($messageData));
                 curl_exec($ch);
                 file_put_contents("php://stderr", $page_id . " replied " . $recipientId . " with message: " . $messageText);
+                return;
         }
 
         private function receivedPostback($event) {
 
+        }
+
+        private function get_value_by_key($array, $key) {
+                return array_key_exists($key, $array) ? $array[$key] : null;
         }
 }
