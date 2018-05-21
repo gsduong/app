@@ -15,6 +15,6 @@ class WebhookController extends Controller
 
 	public function receive(Request $request) {
         $data = $request->all();
-        dd($data);
+        var_dump($data);
 	}
 }
