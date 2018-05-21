@@ -16,7 +16,7 @@ class WebhookController extends Controller
 
 	public function receive(Request $request) {
                 $data = $request->all();
-
+                file_put_contents("php://stderr", "POST /webhook received: " . json_encode($data));
                 if ($data["object"] == 'page') {
                         // Iterate over each entry
                         // There may be multiple if batched
