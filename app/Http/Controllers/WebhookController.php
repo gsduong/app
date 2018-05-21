@@ -31,7 +31,7 @@ class WebhookController extends Controller
                                                 $this->receivedPostback($event);
                                         }
                                         else {
-                                                error_log("Webhook received unknown messagingEvent: " . json_encode($event));
+                                                print("Webhook received unknown messagingEvent: " . json_encode($event));
                                         }
                                 }
                         }
@@ -51,7 +51,7 @@ class WebhookController extends Controller
                 $timeOfMessage = $event["timestamp"];
                 $message = $event["message"];
 
-                error_log("Received message for user " . $senderID . " and page " . $page_id . " at " . $timeOfMessage . " with message: " . json_encode($message));
+                print("Received message for user " . $senderID . " and page " . $page_id . " at " . $timeOfMessage . " with message: " . json_encode($message));
 
                 $isEcho = $message["is_echo"];
                 $messageId = $message["mid"];
@@ -65,11 +65,11 @@ class WebhookController extends Controller
 
                 if ($isEcho) {
                 // Just logging message echoes to console
-                        error_log("Received echo for message " . $messageId . " and app " . $appId .  " with metadata " . $metadata);
+                        print("Received echo for message " . $messageId . " and app " . $appId .  " with metadata " . $metadata);
                         return;
                 } else if ($quickReply) {
                         $quickReplyPayload = $quickReply["payload"];
-                        error_log("Quick reply for message " . $messageId . " with payload " . $quickReplyPayload);
+                        print("Quick reply for message " . $messageId . " with payload " . $quickReplyPayload);
 
                         sendTextMessage($page_id, $senderID, "Quick reply tapped");
                         return;
@@ -102,7 +102,7 @@ class WebhookController extends Controller
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($messageData));
                 curl_exec($ch);
-                error_log($page_id . " replied " . $recipientID . " with message: " . $messageText);
+                print($page_id . " replied " . $recipientID . " with message: " . $messageText);
         }
 
         private function receivedPostback($event) {
