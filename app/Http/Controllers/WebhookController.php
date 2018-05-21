@@ -31,7 +31,7 @@ class WebhookController extends Controller
                                                 $this->receivedPostback($event);
                                         }
                                         else {
-                                                error_log("Webhook received unknown messagingEvent: " . json_encode($event));
+                                                file_put_contents("php://stderr", "Webhook received unknown messagingEvent: " . json_encode($event));
                                         }
                                 }
                         }
@@ -45,13 +45,13 @@ class WebhookController extends Controller
 	}
 
         private function receivedMessage($event) {
-                $senderID = $event["sender"]["id"];
-                $recipientID = $event["recipient"]["id"];
-                $page_id = $recipientID;
+                $senderId = $event["sender"]["id"];
+                $recipientId = $event["recipient"]["id"];
+                $page_id = $recipientId;
                 $timeOfMessage = $event["timestamp"];
                 $message = $event["message"];
 
-                error_log("Received message for user " . $senderID . " and page " . $page_id . " at " . $timeOfMessage . " with message: " . json_encode($message));
+                file_put_contents("php://stderr", "Received message for user " . $senderId . " and page " . $page_id . " at " . $timeOfMessage . " with message: " . json_encode($message));
 
                 $isEcho = $message["is_echo"];
                 $messageId = $message["mid"];
@@ -65,21 +65,21 @@ class WebhookController extends Controller
 
                 if ($isEcho) {
                 // Just logging message echoes to console
-                        error_log("Received echo for message " . $messageId . " and app " . $appId .  " with metadata " . $metadata);
+                        file_put_contents("php://stderr", "Received echo for message " . $messageId . " and app " . $appId .  " with metadata " . $metadata);
                         return;
                 } else if ($quickReply) {
                         $quickReplyPayload = $quickReply["payload"];
-                        error_log("Quick reply for message " . $messageId . " with payload " . $quickReplyPayload);
+                        file_put_contents("php://stderr", "Quick reply for message " . $messageId . " with payload " . $quickReplyPayload);
 
-                        $this->sendTextMessage($page_id, $senderID, "Quick reply tapped");
+                        $this->sendTextMessage($page_id, $senderId, "Quick reply tapped");
                         return;
                 }
 
                 if ($messageText) {
-                        $this->sendTextMessage($page_id, $senderID, "We received: " . $messageText);
+                        $this->sendTextMessage($page_id, $senderId, "We received: " . $messageText);
                         return;
                 } else if ($messageAttachments) {
-                        $this->sendTextMessage($page_id, $senderID, "Message with attachment received!");
+                        $this->sendTextMessage($page_id, $senderId, "Message with attachment received!");
                         return;
                 }
         }
@@ -102,7 +102,7 @@ class WebhookController extends Controller
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($messageData));
                 curl_exec($ch);
-                error_log($page_id . " replied " . $recipientID . " with message: " . $messageText);
+                file_put_contents("php://stderr", $page_id . " replied " . $recipientId . " with message: " . $messageText);
         }
 
         private function receivedPostback($event) {
