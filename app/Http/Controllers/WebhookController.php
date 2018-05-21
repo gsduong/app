@@ -16,14 +16,73 @@ class WebhookController extends Controller
 
 	public function receive(Request $request) {
                 $data = $request->all();
-                // error_log("hello, this is a test!");
-                // dd($data);
 
-                $recipient_id = $data["entry"][0]["messaging"][0]["sender"]["id"];
-                $page_id = $data["entry"][0]["messaging"][0]["recipient"]["id"];
-                $this->sendTextMessage($page_id, $recipient_id, "Hello");
+                if ($data["object"] == 'page') {
+                        // Iterate over each entry
+                        // There may be multiple if batched
+                        foreach ($data["entry"] as $key => $entry) {
+                                $page_id = $entry["id"];
+                                $time_of_event = $entry["time"];
+                                foreach ($entry["messaging"] as $idx => $event) {
+                                        if ($event["message"]) {
+                                                $this->receivedMessage($event);
+                                        }
+                                        else if ($event["postback"]) {
+                                                $this->receivedPostback($event);
+                                        }
+                                        else {
+                                                error_log("Webhook received unknown messagingEvent: " . json_encode($event));
+                                        }
+                                }
+                        }
+                // Assume all went well.
+                //
+                // You must send back a 200, within 20 seconds, to let us know you've
+                // successfully received the callback. Otherwise, the request will time out.
+                        return 200;
+                }
+
 	}
 
+        private function receivedMessage($event) {
+                $senderID = $event["sender"]["id"];
+                $recipientID = $event["recipient"]["id"];
+                $page_id = $recipientID;
+                $timeOfMessage = $event["timestamp"];
+                $message = $event["message"];
+
+                error_log("Received message for user " . $senderID . " and page " . $page_id . " at " . $timeOfMessage . " with message: " . json_encode($message));
+
+                $isEcho = $message["is_echo"];
+                $messageId = $message["mid"];
+                $appId = $message["app_id"];
+                $metadata = $message["metadata"];
+
+                // You may get a text or attachment but not both
+                $messageText = $message["text"];
+                $messageAttachments = $message["attachments"];
+                $quickReply = $message["quick_reply"];
+
+                if ($isEcho) {
+                // Just logging message echoes to console
+                        error_log("Received echo for message " . $messageId . " and app " . $appId .  " with metadata " . $metadata);
+                        return;
+                } else if ($quickReply) {
+                        $quickReplyPayload = $quickReply["payload"];
+                        error_log("Quick reply for message " . $messageId . " with payload " . $quickReplyPayload);
+
+                        sendTextMessage($page_id, $senderID, "Quick reply tapped");
+                        return;
+                }
+
+                if ($messageText) {
+                        sendTextMessage($page_id, $senderID, "We received: " . $messageText);
+                        return;
+                } else if ($messageAttachments) {
+                        sendTextMessage($page_id, $senderID, "Message with attachment received!");
+                        return;
+                }
+        }
 
         private function sendTextMessage($page_id, $recipientId, $messageText)
         {
@@ -42,6 +101,11 @@ class WebhookController extends Controller
                 curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type: application/json"]);
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($messageData));
-                curl_exec($ch);    
+                curl_exec($ch);
+                error_log($page_id . " replied " . $recipientID . " with message: " . $messageText);
+        }
+
+        private function receivedPostback($event) {
+
         }
 }
