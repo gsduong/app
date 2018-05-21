@@ -16,6 +16,8 @@ class WebhookController extends Controller
 
 	public function receive(Request $request) {
         $data = $request->all();
+        error_log("hello, this is a test!");
+        dd($data);
         $recipient_id = $data["entry"][0]["messaging"][0]["sender"]["id"];
         $page_id = $data["entry"][0]["messaging"][0]["recipient"]["id"];
         // echo $page_id;
