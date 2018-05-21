@@ -16,3 +16,8 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/{restaurant_slug}/reservations', ['uses' => 'Api\ReservationController@index']);
+Route::post('/{restaurant_slug}/reservations/create', ['uses' => 'Api\ReservationController@create']);
+// Route::get('/{restaurant_slug}/reservations/{id}', ['uses' => 'Api\ReservationController@show']);
+Route::get('/{restaurant_slug}/address', ['uses' => 'Api\AddressController@index']);
