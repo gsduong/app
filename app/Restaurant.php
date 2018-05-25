@@ -100,4 +100,18 @@ class Restaurant extends Model
     {
         return $this->hasOne('App\Bot', 'restaurant_id');
     }
+
+    public function orders()
+    {
+        return $this->hasMany('App\Order', 'restaurant_id');
+    }
+
+    public function update_users()
+    {
+        foreach ($this->users as $user) {
+            if (!$user->has_role_in_page($this->fb_page_id)) {
+                $this->users()->detach($user->id);
+            }
+        }
+    }
 }

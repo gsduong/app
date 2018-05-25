@@ -31,13 +31,13 @@ class RestaurantController extends Controller
      */
     public function index()
     {
+        $this->user->update_pages();
         $restaurants = $this->user->restaurants;
         return view('restaurant/index', ['restaurants' => $restaurants]);
     }
 
     public function selectPage() {
         // get the list of pages
-        // dd($this->get_available_pages());
         $this->user->update_pages();
         $pages = json_decode($this->user->pages, true);
         return view('restaurant/select-page', ['pages' => $pages]);
@@ -49,7 +49,7 @@ class RestaurantController extends Controller
             $this->user->update_pages();
             return redirect('/r')->with('error', 'Restaurant with the given page id already exists!');
         }
-        if ($this->user->hasPage($page_id)) {
+        if ($this->user->is_admin_of_page($page_id)) {
             $user_id = $this->user->id;
             try {
                 // do your database transaction here
@@ -90,34 +90,32 @@ class RestaurantController extends Controller
         if (!$restaurant) {
             return redirect()->route('restaurant.index')->with('error', 'Item not found!');
         }
-        else {
-            $admins = $restaurant->admins();
+        if ($this->user->is_admin_of_page($restaurant->fb_page_id)) {
             $restaurant->delete();
-            foreach ($admins as $user) {
-                $user->update_pages();
-            }
+            // $admins = $restaurant->admins();
+            // foreach ($admins as $user) {
+            //     $user->update_pages();
+            // }
             return redirect()->route('restaurant.index')->with('success', 'Item deleted!');
         }
+        return redirect()->route('restaurant.index')->with('error', 'Unauthorized!');
     }
 
     public function show($slug) {
         $restaurant = $this->user->restaurants->where('slug', $slug)->first();
+        if (!$restaurant) {
+            return redirect()->route('restaurant.index')->with('error', 'Unauthorized!');
+        }
+        $restaurant->update_users();
         return view('restaurant/restaurant', ['restaurant' => $restaurant]);
     }
 
     public function staff_index($slug){
         $restaurant = $this->user->restaurants->where('slug', $slug)->first();
+        if (!$restaurant) {
+            return redirect()->route('restaurant.index')->with('error', 'Unauthorized!');
+        }
+        $restaurant->update_users();
         return view('restaurant/staff/staff', ['restaurant' => $restaurant]);
     }
-
-    // public function staff_delete($slug, $id){
-    //     if ($id == $this->user->id) {
-    //         return redirect()->route('staff.index', $slug)->with('error', 'Can not remove yourself');
-    //     }
-    //     else {
-    //         $restaurant = $this->user->restaurants->where('slug', $slug)->first();
-    //         $restaurant->users()->detach($id);
-    //         return redirect()->route('staff.index', $slug)->with('success', 'Successfully removed from restaurant');
-    //     }
-    // }
 }

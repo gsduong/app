@@ -38,6 +38,12 @@
                             <span>Reservation</span>
                         </a>
                     </li>
+                    <li {{ strpos(url()->current(), 'order') ? 'class=active':''}}>
+                        <a href="{{route('order.index', $restaurant->slug)}}">
+                            <i class="material-icons">book</i>
+                            <span>Orders</span>
+                        </a>
+                    </li>
                     <li {{ strpos(url()->current(), 'bot') ? 'class=active':''}}>
                         <a href="{{route('bot.index', $restaurant->slug)}}">
                             <i class="material-icons">chat_bubble</i>

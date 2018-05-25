@@ -39,4 +39,9 @@ class Item extends Model
     {
         return $this->belongsTo('App\Category', 'category_id');
     }
+
+    public function orders()
+    {
+        return $this->belongsToMany('App\Order')->withPivot('qty', 'price');
+    }
 }

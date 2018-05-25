@@ -32,9 +32,9 @@ Route::get('/r/select-page', ['as' => 'restaurant.select-page', 'uses' => 'Resta
 Route::get('/r/create', ['as' => 'restaurant.show-form-create', 'uses' => 'RestaurantController@showFormCreate']);
 Route::post('/r/create', ['as' => 'restaurant.show-form-create-with-id', 'uses' => 'RestaurantController@showFormCreateWithId']);
 Route::post('/r/add', ['as' => 'restaurant.create', 'uses' => 'RestaurantController@create']);
-Route::get('/r/delete/{restaurant_id}', ['as' => 'restaurant.delete', 'uses' => 'RestaurantController@delete'])->middleware('admin');
-Route::get('r/{slug}.html', ['as' => 'restaurant.show', 'uses' => 'RestaurantController@show'])->middleware('staff');
-Route::get('r/{slug}/members.html', ['as' => 'staff.index', 'uses' => 'RestaurantController@staff_index'])->middleware('staff');
+Route::get('/r/delete/{restaurant_id}', ['as' => 'restaurant.delete', 'uses' => 'RestaurantController@delete']);
+Route::get('r/{slug}.html', ['as' => 'restaurant.show', 'uses' => 'RestaurantController@show']);
+Route::get('r/{slug}/members.html', ['as' => 'staff.index', 'uses' => 'RestaurantController@staff_index']);
 // Route::get('r/{slug}/delete/{id}', ['as' => 'staff.delete', 'uses' => 'RestaurantController@staff_delete'])->middleware('admin.delete');
 Route::get('r/{slug}/contact.html', ['as' => 'contact.index', 'uses' => 'ContactInfoController@index']);
 Route::post('r/{slug}/contact/update', ['as' => 'contact.update', 'uses' => 'ContactInfoController@update']);
@@ -61,6 +61,10 @@ Route::post('r/{restaurant_slug}/reservations/create', ['as' => 'reservation.cre
 Route::post('r/{restaurant_slug}/reservations/update', ['as' => 'reservation.update', 'uses' => 'ReservationController@update']);
 Route::get('r/{restaurant_slug}/reservations/delete/{reservation_id}', ['as' => 'reservation.delete', 'uses' => 'ReservationController@delete']);
 
+// order
+Route::get('r/{restaurant_slug}/orders.html', ['as' => 'order.index', 'uses' => 'OrderController@index']);
+Route::get('r/{restaurant_slug}/orders/create.html', ['as' => 'order.show-form-create', 'uses' => 'OrderController@showFormCreate']);
+Route::post('r/{restaurant_slug}/orders/create', ['as' => 'order.create', 'uses' => 'ReservationController@create']);
 // Bot
 Route::get('r/{restaurant_slug}/bot/index.html', ['as' => 'bot.index', 'uses' => 'BotController@index']);
 Route::get('r/{restaurant_slug}/bot/create', ['as' => 'bot.create', 'uses' => 'BotController@create']);

@@ -72,26 +72,12 @@ class User extends Authenticatable
         return null;
     }
 
-    public function delete_page_by_id($page_id) {
-        $pages = json_decode($this->pages, true);
-        foreach($pages as $key => $page) {
-            if(isset($page['id']) && $page['id'] == $page_id){
-                //delete this particular object from the $array
-                unset($pages[$key]);
-            } 
-        }
-        $this->attributes['pages'] = json_encode($pages);
-        $this->save();
-    }
-
     public function update_pages(){
-        $facebook_user_id = $this->provider_id;
-        $user_access_token = $this->user_access_token;
         try {
         // Returns a `FacebookFacebookResponse` object
         $response = Facebook::get(
-          '/' . $facebook_user_id . '/accounts',
-          $user_access_token
+          '/' . $this->provider_id . '/accounts',
+          $this->user_access_token
         );
         } catch(FacebookExceptionsFacebookResponseException $e) {
         echo 'Graph returned an error: ' . $e->getMessage();
@@ -102,50 +88,29 @@ class User extends Authenticatable
         }
         $graphNode = $response->getGraphEdge();
         $pages = array();
-        $page_id_array = array();
         foreach ($graphNode as $key => $node) {
           $page = $node->asArray();
-          array_push($page_id_array, $page['id']);
-          if ($restaurant = $this->check_exist_in_database($page['id']) === null) {
+          $restaurant = Restaurant::where('fb_page_id', '=', $page['id'])->first();
+          if (!$restaurant) {
             // if not exists in db
             if (in_array('ADMINISTER', $page['perms'])) {
-                $flag = 1;
                 $page['page_profile_picture'] = $this->get_page_picture_url_from_page_id($page['id']);
                 $page['url'] = 'https://www.facebook.com/' . $page['id'];
                   array_push($pages, $page);
             }
           }
           else {
-            // exists in db
-            $flag = 0;
-            if (in_array('ADMINISTER', $page['perms'])) {
-                $flag = 1;
-            }
-            $restaurant = Restaurant::where('fb_page_id', '=', $page['id'])->first();
-            if ($this->check_if_user_has_restaurant_by_page_id($page['id'])) {
-                // user has this restaurant already. update pivot
-                $this->restaurants()->updateExistingPivot($restaurant->id, ['admin' => $flag]);
-            }
-            else {
-                // add user to the list of admin of the restaurant
-                $this->restaurants()->attach($restaurant->id, ['admin' => $flag]);
+            $admin = in_array('ADMINISTER', $page['perms']) ? 1 : 0;
+            if ($this->restaurants->find($restaurant->id)) {
+                $this->restaurants()->updateExistingPivot($restaurant->id, ['admin' => $admin]);
+            } else {
+                $this->restaurants()->attach($restaurant->id, ['admin' => $admin]);
             }
           }
-        }
-        foreach ($this->restaurants as $restaurant) {
-            // if a facebook user is removed from the list of a page's admins, he can not access the restaurant created from that page
-            if (!in_array($restaurant->fb_page_id, $page_id_array)) {
-                $this->restaurants()->detach($restaurant->id);
-            }
         }
         $this->attributes['pages'] = json_encode($pages);
         $this->save();
         return $pages;
-    }
-
-    private function check_exist_in_database($page_id) {
-        // check if page is in use
-        return Restaurant::where('fb_page_id', '=', $page_id)->first();
     }
 
     public static function get_page_picture_url_from_page_id($page_id) {
@@ -157,7 +122,76 @@ class User extends Authenticatable
       return 'http://graph.facebook.com/' . $facebook_user_id. '/picture?type=' . $type;
     }
 
-    private function check_if_user_has_restaurant_by_page_id($page_id) {
-        return $this->restaurants->where('fb_page_id', '=', $page_id)->first();
+    public function is_admin_of_page($page_id) {
+        $admin = null;
+        try {
+        // Returns a `FacebookFacebookResponse` object
+        $response = Facebook::get(
+          '/' . $this->provider_id . '/accounts',
+          $this->user_access_token
+        );
+        } catch(FacebookExceptionsFacebookResponseException $e) {
+            return $admin;
+        } catch(FacebookExceptionsFacebookSDKException $e) {
+            return $admin;
+        }
+        $graphNode = $response->getGraphEdge();
+        foreach ($graphNode as $key => $node) {
+          $page = $node->asArray();
+            if ($page_id == $page['id'] && in_array('ADMINISTER', $page['perms'])) {
+                $admin = true;
+                break;
+            }
+        }
+        if ($admin) {
+            $restaurant = Restaurant::where('fb_page_id', '=', $page_id)->first();
+            if ($restaurant) {
+                if ($this->restaurants->find($restaurant->id)) {
+                    $this->restaurants()->updateExistingPivot($restaurant->id, ['admin' => 1]);
+                } else {
+                    $this->restaurants()->attach($restaurant->id, ['admin' => 1]);
+                }
+            }
+        }
+        return $admin;
+    }
+
+    public function has_role_in_page($page_id) {
+        $staff = null;
+        try {
+        // Returns a `FacebookFacebookResponse` object
+        $response = Facebook::get(
+          '/' . $this->provider_id . '/accounts',
+          $this->user_access_token
+        );
+        } catch(FacebookExceptionsFacebookResponseException $e) {
+            return $staff;
+        } catch(FacebookExceptionsFacebookSDKException $e) {
+            return $staff;
+        }
+        $graphNode = $response->getGraphEdge();
+        $admin = null;
+        foreach ($graphNode as $key => $node) {
+          $page = $node->asArray();
+            if ($page_id == $page['id']) {
+                if (in_array('ADMINISTER', $page['perms'])) {
+                    $admin = true;
+                }
+                $staff = true;
+                break;
+            }
+        }
+        $admin = $admin ? 1 : 0;
+        if ($staff) {
+            $restaurant = Restaurant::where('fb_page_id', '=', $page_id)->first();
+            if ($restaurant) {
+                if ($this->restaurants->find($restaurant->id)) {
+                    $this->restaurants()->updateExistingPivot($restaurant->id, ['admin' => $admin]);
+                } else {
+                    $this->restaurants()->attach($restaurant->id, ['admin' => $admin]);
+                }
+            }
+        }
+        return $staff;
     }
 }
