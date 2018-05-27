@@ -21,7 +21,7 @@ class CreateReservationsTable extends Migration
             $table->string('customer_phone');
             $table->string('customer_name');
             $table->integer('adult')->default(0);
-            $table->integer('children')->default(0);
+            $table->integer('children')->nullable();
             $table->string('customer_requirement')->nullable();
             $table->unsignedInteger('creator_id')->nullable();
             $table->unsignedInteger('restaurant_id')->nullable();

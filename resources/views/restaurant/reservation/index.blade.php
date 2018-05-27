@@ -54,7 +54,8 @@
                                 <th style="text-align: center;"># Adult</th>
                                 <th style="text-align: center;"># Children</th>
                                 <th style="text-align: center;">Status</th>
-                                <th style="text-align: center;">Created by</th>
+                                <th style="text-align: center;">Note</th>
+                                <th style="text-align: center;">BOT</th>
                                 <th style="text-align: center;">Last Edited by</th>
                                 <th style="text-align: center;">Actions</th>
                             </tr>
@@ -70,17 +71,25 @@
                                 <td style="text-align: center; vertical-align: middle;">{{$item->adult}}</td>
                                 <td style="text-align: center; vertical-align: middle;">{{$item->children}}</td>
                                 <td style="text-align: center; vertical-align: middle;"><span class="{{$item->getLabelClass()}}">{{$item->status}}</span></td>
-{{--                                 @if($item->image_url)
+                                @if($item->customer_requirement)
                                 <td style="text-align: center; vertical-align: middle;">
-                                    <div class="image">
-                                        <a href="{{$item->image_url}}" data-lightbox="image-{{$no + 1}}" data-title="{{$item->name}}"><img src="{{$item->image_url}}" width="36" height="36" alt="{{$item->name}}" style="border-radius: 50% !important;"></a>
-                                    </div>
+                                    <a class="btn btn-default btn-circle waves-effect waves-circle waves-float" href="{{asset('note-md.png')}}" data-lightbox="image-{{$no + 1}}" data-title="{{$item->customer_requirement}}"><i class="material-icons">email</i></a>
                                 </td>
                                 @else
                                 <td style="text-align: center; vertical-align: middle;">N/A</td>
-                                @endif --}}
-                                <td style="text-align: center; vertical-align: middle;">{{$item->getCreatorName()}}</td>
-                                <td style="text-align: center; vertical-align: middle;">{{$item->getLastEditorName()}}</td>
+                                @endif
+                                <td style="text-align: center; vertical-align: middle;">
+                                    @if($item->created_by_bot)
+                                    <i class="material-icons">check_box</i>
+                                    @endif
+                                </td>
+                                <td style="text-align: center; vertical-align: middle;">
+                                    @if($item->last_editor())
+                                    <div class="image">
+                                        <img src="{{$item->last_editor()->avatar}}" width="36" height="36" alt="{{$item->last_editor()->name}}" style="border-radius: 50% !important;">
+                                    </div>
+                                    @endif
+                                </td>
                                 <td style="text-align: center; vertical-align: middle;">
                                     <a href="{{route('reservation.delete', ['restaurant_slug' => $restaurant->slug, 'reservation_id' => $item->id])}}" class="btn btn-default btn-circle waves-effect waves-circle waves-float" onclick="return confirm('Are you sure you want to delete this item?');">
                                         <i class="material-icons">delete</i>

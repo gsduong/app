@@ -53,4 +53,7 @@ class Reservation extends Model
 			return User::find($this->last_editor_id)->name;
 		}
     }
+    public function last_editor () {
+        return User::find($this->last_editor_id);
+    }
 }

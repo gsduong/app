@@ -43,3 +43,14 @@ a.inline-link {
     width: 100%;
     padding: 10px 13px;
 }
+.validation-error-label {
+    margin-bottom: 7px;
+    display: block;
+    color: #ed4956;
+    position: relative;
+    padding-left: 26px;
+}
+
+section.content {
+  margin-top: 80px !important;
+}
