@@ -54,3 +54,26 @@ a.inline-link {
 section.content {
   margin-top: 80px !important;
 }
+.label-count {
+  background-color: #f44336;
+}
+.slimScrollDiv {
+  height: auto !important;
+}
+.slimScrollDiv > ul {
+  height: auto !important;
+}
+ul.pagination {
+  float: right !important;
+  margin-top: 0;
+  margin-right: 0;
+}
+.page-link {
+  border-radius: 5px !important;
+}
+.no-border-bottom:after {
+  border-bottom: none !important;
+}
+.no-border-bottom > input {
+  margin: auto;
+}

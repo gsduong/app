@@ -81,7 +81,7 @@
                                 <label for="status_1">Pending</label>
                                 <input name="status" type="radio" id="status_2" value="confirmed" {{$reservation->status == 'confirmed' ? 'checked' : ''}}>
                                 <label for="status_2">Confirmed</label>
-                                <input name="status" type="radio" id="status_3" value="cancelled" {{$reservation->status == 'cancelled' ? 'checked' : ''}}>
+                                <input name="status" type="radio" id="status_3" value="canceled" {{$reservation->status == 'cancelled' ? 'checked' : ''}}>
                                 <label for="status_3">Canceled</label>
                             </div>
                         </div>

@@ -23,98 +23,53 @@
                     <li><a href="javascript:void(0);" class="js-search" data-close="true"><i class="material-icons">search</i></a></li>
                     <!-- #END# Call Search -->
                     <!-- Notifications -->
-                    <li class="dropdown">
+                    <li class="dropdown" id="dropdown-reservations-{{$restaurant->fb_page_id}}">
                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
                             <i class="material-icons">notifications</i>
-                            <span class="label-count">7</span>
+                            <span class="label-count" data-count="{{$restaurant->pending_reservations()->count()}}">
+                                @if(isset($restaurant) && $restaurant->pending_reservations()->count())
+                                {{$restaurant->pending_reservations()->count()}}
+                                @endif
+                            </span>
                         </a>
-                        <ul class="dropdown-menu">
-                            <li class="header">NOTIFICATIONS</li>
+                        <ul class="dropdown-menu list-group" id="dropdown-reservations-wrapper">
+                            <li class="header">RESERVATIONS</li>
                             <li class="body">
-                                <ul class="menu">
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <div class="icon-circle bg-light-green">
-                                                <i class="material-icons">event_available</i>
-                                            </div>
-                                            <div class="menu-info">
-                                                <h4>New booking order</h4>
-                                                <p>
-                                                    <i class="material-icons">access_time</i> 14 mins ago
-                                                </p>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <div class="icon-circle bg-cyan">
-                                                <i class="material-icons">add_shopping_cart</i>
-                                            </div>
-                                            <div class="menu-info">
-                                                <h4>New food order</h4>
-                                                <p>
-                                                    <i class="material-icons">access_time</i> 22 mins ago
-                                                </p>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <div class="icon-circle bg-red">
-                                                <i class="material-icons">add_shopping_cart</i>
-                                            </div>
-                                            <div class="menu-info">
-                                                <h4>A Food order is cancelled</h4>
-                                                <p>
-                                                    <i class="material-icons">access_time</i> 3 hours ago
-                                                </p>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <div class="icon-circle bg-orange">
-                                                <i class="material-icons">mode_edit</i>
-                                            </div>
-                                            <div class="menu-info">
-                                                <h4>A Food order is updated</h4>
-                                                <p>
-                                                    <i class="material-icons">access_time</i> 2 hours ago
-                                                </p>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <div class="icon-circle bg-light-green">
-                                                <i class="material-icons">cached</i>
-                                            </div>
-                                            <div class="menu-info">
-                                                <h4>New message</h4>
-                                                <p>
-                                                    <i class="material-icons">access_time</i> 3 hours ago
-                                                </p>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <div class="icon-circle bg-purple">
-                                                <i class="material-icons">settings</i>
-                                            </div>
-                                            <div class="menu-info">
-                                                <h4>Settings updated</h4>
-                                                <p>
-                                                    <i class="material-icons">access_time</i> Yesterday
-                                                </p>
-                                            </div>
-                                        </a>
-                                    </li>
+                                <ul class="menu" id="dropdown-menu-reservations">
+                                    @if(isset($restaurant) && $restaurant->pending_reservations()->count())
+                                    @foreach($restaurant->pending_reservations() as $book)
+                                        <li id="reservation-{{$book->id}}">
+                                            <a href="javascript:void(0);" class=" waves-effect waves-block">
+                                                <div class="icon-circle bg-light-green">
+                                                    @if($book->created_by_bot)
+                                                    <img src="{{asset('bot-icon.png')}}" width="36" height="36" alt="Bot" style="border-radius: 50%;">
+                                                    @else
+                                                    <img src="{{$book->last_editor()->avatar}}" width="36" height="36" alt="Bot" style="border-radius: 50%;">
+                                                    @endif
+                                                </div>
+                                                <div class="menu-info">
+                                                    <h4>
+                                                        @if($book->created_by_bot)
+                                                        New reservation order via BOT
+                                                        @else
+                                                        New reservation order by staff
+                                                        @endif
+                                                    </h4>
+                                                    <p>
+                                                        <i class="material-icons">access_time</i> {{$book->updated_at}}
+                                                    </p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                    @endif
                                 </ul>
                             </li>
+                            @if(isset($restaurant))
                             <li class="footer">
-                                <a href="javascript:void(0);">View All Notifications</a>
+                                <a href="{{route('reservation.index', $restaurant->slug)}}">View All Reservation Orders</a>
                             </li>
+                            @endif
                         </ul>
                     </li>
                     <!-- #END# Notifications -->

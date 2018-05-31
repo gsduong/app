@@ -114,4 +114,12 @@ class Restaurant extends Model
             }
         }
     }
+
+    public function number_pending_reservations(){
+        return $this->reservations->where('status', 'pending')->count();
+    }
+
+    public function pending_reservations() {
+        return $this->reservations->where('status', 'pending')->sortByDesc('updated_at');
+    }
 }

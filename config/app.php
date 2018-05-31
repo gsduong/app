@@ -66,7 +66,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Ho_Chi_Minh',
 
     /*
     |--------------------------------------------------------------------------
@@ -159,7 +159,7 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
@@ -218,6 +218,7 @@ return [
         'Facebook' => SammyK\LaravelFacebookSdk\FacebookFacade::class,
         'Cloudder' => JD\Cloudder\Facades\Cloudder::class,
         'Bitly' => Shivella\Bitly\Facade\Bitly::class,
+        'Input'     => Illuminate\Support\Facades\Input::class,
     ],
 
 ];

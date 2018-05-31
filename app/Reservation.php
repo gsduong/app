@@ -33,7 +33,7 @@ class Reservation extends Model
     		case 'confirmed':
     			$class =  'label bg-green';
     			break;
-    		case 'cancelled':
+    		case 'canceled':
     			$class =  'label bg-red';
     			break;
     		default:
@@ -55,5 +55,10 @@ class Reservation extends Model
     }
     public function last_editor () {
         return User::find($this->last_editor_id);
+    }
+    public function creator () {
+        if($this->creator_id) {
+            return User::find($this->creator_id);
+        }
     }
 }

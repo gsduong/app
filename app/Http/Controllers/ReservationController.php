@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
+use Input;
+use DateTime;
+use DateTimeZone;
 class ReservationController extends Controller
 {
 	private $user;
@@ -29,7 +32,31 @@ class ReservationController extends Controller
 	}
 
 	public function index() {
-		return view('restaurant/reservation/index', ['restaurant' => $this->restaurant]);
+		$reservations = $this->restaurant->reservations()->newQuery();
+		if (Input::get('status')) {
+			$reservations->where('status', Input::get('status'));
+		}
+		if (Input::get('name')) {
+			$reservations->where('customer_name', Input::get('name'));
+		}
+		if (Input::get('phone')) {
+			$reservations->where('customer_phone', Input::get('phone'));
+		}
+
+		if (Input::get('date')) {
+			$reservations->whereDate('date', Input::get('date'));
+		}
+		if (!Input::get('status') && !Input::get('date') && !Input::get('phone') && !Input::get('name')) {
+			$tz = 'Asia/Ho_Chi_Minh';
+			$timestamp = time();
+			$dt = new DateTime("now", new DateTimeZone($tz)); //first argument "must" be a string
+			$dt->setTimestamp($timestamp); //adjust the object to correct timestamp
+			$reservations->whereDate('date', $dt->format('Y-m-d'));
+			$reservations = $reservations->orderBy('date', 'desc')->orderBy('time', 'asc')->paginate(5);
+			return view('restaurant/reservation/index', ['restaurant' => $this->restaurant, 'reservations' => $reservations, 'today' => $dt->format('Y-m-d')]);
+		}
+		$reservations = $reservations->orderBy('date', 'desc')->orderBy('time', 'asc')->paginate(5);
+		return view('restaurant/reservation/index', ['restaurant' => $this->restaurant, 'reservations' => $reservations]);
 	}
 
 	public function showFormCreate(){
@@ -61,12 +88,13 @@ class ReservationController extends Controller
 		$adult= $request->adult;
 		$children= $request->children;
 		$address_id= $request->address_id;
-		$status= 'confirmed';
+		$status= 'pending';
 		$creator_id = $this->user->id;
 		$last_editor_id = $this->user->id;
 		$customer_requirement = $request->requirement;
 		$data = ['customer_name' => $customer_name, 'customer_phone' => $customer_phone, 'date' => $date, 'time' => $time, 'adult' => $adult, 'children' => $children, 'address_id' => $address_id, 'status' => $status, 'creator_id' => $creator_id, 'last_editor_id' => $last_editor_id, 'customer_requirement' => $customer_requirement];
 		$book = $this->restaurant->reservations()->create($data);
+		event(new App\Events\PendingReservationCreated($book));
 		return redirect()->route('reservation.index', $restaurant_slug)->with('success', 'New reservation created!');
 	}
 
