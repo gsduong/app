@@ -72,39 +72,115 @@
             @foreach(auth()->user()->restaurants as $restaurant)
                 <script>
                     // Event for reservations
-                    var channel = pusher.subscribe('reservation.pending.restaurant.' + '{{$restaurant->id}}');
-                    channel.bind('App\\Events\\PendingReservationCreated', function(data) {
+                    var channel = pusher.subscribe('reservation.restaurant.' + '{{$restaurant->id}}');
+                    channel.bind('App\\Events\\ReservationUpdated', function(data) {
                         console.log(data.reservation);
-                        var reservationsWrapper   = $('#dropdown-reservations-' + '{{$restaurant->fb_page_id}}');
-                        if (reservationsWrapper) {
+                        var reservationsWrapper   = $('#dropdown-reservations-' + data.reservation.restaurant.fb_page_id);
+                        if (reservationsWrapper.length) {
                             var reservationsToggle    = reservationsWrapper.find('a[data-toggle]');
                             var reservationsCountElem = reservationsToggle.find('span[data-count]');
-                            var reservationsCount     = parseInt(reservationsCountElem.data('count'));
+                            var reservationsCount; // parseInt(reservationsCountElem.data('count'));
                             var reservations          = reservationsWrapper.find('ul#dropdown-menu-reservations');
                             var existingReservations = reservations.html();
-                            var newNotificationHtml = `
-                                <li>
-                                    <a href="javascript:void(0);" class=" waves-effect waves-block">
-                                        <div class="icon-circle bg-light-green">
-                                            <i class="material-icons">event_available</i>
-                                        </div>
-                                        <div class="menu-info">
-                                            <h4>` + `New table booking order` + `</h4>
-                                            <p>
-                                                <i class="material-icons">access_time</i> 14 mins ago
-                                            </p>
-                                        </div>
+                            if (data.reservation.status === 'pending') {
+                                // insert new to notifications list
+                                var notification_item = reservations.find('li#reservation-' + data.reservation.id);
+                                if (notification_item.length) {
+                                    toastr.options.timeOut = 6000; // How long the toast will display without user interaction
+                                    toastr.options.extendedTimeOut = 8000; // How long the toast will display after a user hovers over it
+                                    toastr.success('<a href="' + data.link + '">New reservation order for ' + data.reservation.restaurant.name + '</a>');
+                                } else {
+                                    var newNotificationHtml;
+                                    if (data.reservation.created_by_bot == 1) {
+                                        newNotificationHtml = `
+                                        <li id="reservation-` + data.reservation.id + `">
+                                            <a href="` + data.link + `" class=" waves-effect waves-block">
+                                                <div class="icon-circle bg-light-green">
+                                                    <img src="{{asset('bot-icon.png')}}" width="36" height="36" alt="Bot" style="border-radius: 50%;">
+                                                </div>
+                                                <div class="menu-info">
+                                                    <h4>` + `New table booking order` + `</h4>
+                                                    <p>
+                                                        <i class="material-icons">access_time</i>` + data.reservation.updated_at + `
+                                                    </p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        `;
+                                    } else {
+                                        newNotificationHtml = `
+                                        <li id="reservation-` + data.reservation.id + `">
+                                            <a href="` + data.link + `" class=" waves-effect waves-block">
+                                                <div class="icon-circle bg-light-green">
+                                                    <img src="` + data.last_editor.avatar + `" width="36" height="36" alt="` +data.last_editor.name + `" style="border-radius: 50%;">
+                                                </div>
+                                                <div class="menu-info">
+                                                    <h4>` + `New table booking order` + `</h4>
+                                                    <p>
+                                                        <i class="material-icons">access_time</i>` + data.reservation.updated_at + `
+                                                    </p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        `;
+                                    }
+                                    // reservationsCountElem = reservationsToggle.find('span[data-count]');
+                                    
+                                    reservations.html(newNotificationHtml + existingReservations);
+                                    reservationsCount     = parseInt(reservationsCountElem.attr('data-count'));
+                                    reservationsCount += 1;
+                                    reservationsCountElem.attr('data-count', reservationsCount);
+                                    reservationsCountElem.text(reservationsCount);
+                                    toastr.options.timeOut = 6000; // How long the toast will display without user interaction
+                                    toastr.options.extendedTimeOut = 8000; // How long the toast will display after a user hovers over it
+                                    toastr.success('<a href="' + data.link + '">New reservation order for ' + data.reservation.restaurant.name + '</a>');
+                                }
+                            } else {
+                                // delete the pending item from the current list - if any
+                                var notification_item = reservations.find('li#reservation-' + data.reservation.id);
+                                if (notification_item.length) {
+                                    notification_item.remove();
+                                    // reservationsCountElem = reservationsToggle.find('span[data-count]');
+                                    reservationsCount     = parseInt(reservationsCountElem.attr('data-count'));
+                                    reservationsCount -= 1;
+                                    reservationsCountElem.attr('data-count', reservationsCount);
+                                    reservationsCountElem.text(reservationsCount);
+                                }
+                                toastr.options.timeOut = 6000; // How long the toast will display without user interaction
+                                toastr.options.extendedTimeOut = 8000; // How long the toast will display after a user hovers over it
+                                toastr.success('A reservation order for ' + data.reservation.restaurant.name + ' has been handled.');
+                            }
+                            $('#date-' + data.reservation.id).text(data.reservation.date);
+                            $('#time-' + data.reservation.id).text(data.reservation.time);
+                            $('#name-' + data.reservation.id).text(data.reservation.name);
+                            $('#phone-' + data.reservation.id).text(data.reservation.phone);
+                            $('#adult-' + data.reservation.id).text(data.reservation.adult);
+                            $('#children-' + data.reservation.id).text(data.reservation.children);
+                            $('#status-' + data.reservation.id).text(data.reservation.status);
+                            switch (data.reservation.status) {
+                                case 'pending':
+                                    $('#status-' + data.reservation.id).attr('class', 'label bg-yellow');
+                                    break;
+                                case 'confirmed':
+                                    $('#status-' + data.reservation.id).attr('class', 'label bg-green');
+                                    break;
+                                case 'canceled':
+                                    $('#status-' + data.reservation.id).attr('class', 'label bg-red');
+                                    break;
+                            }
+                            if (data.reservation.customer_requirement) {
+                                var requirement = `
+                                    <a class="btn btn-default btn-circle waves-effect waves-circle waves-float" href="https://restaurant.local/note-md.png" data-lightbox="image-` + data.reservation.id + `" data-title="` +data.reservation.customer_requirement +`">
+                                        <i class="material-icons">event_note</i>
                                     </a>
-                                </li>
-                            `;
-                            reservations.html(newNotificationHtml + existingReservations);
-                            reservationsCount += 1;
-                            reservationsCountElem.attr('data-count', reservationsCount);
-                            reservationsCountElem.text(reservationsCount);
+                                `;
+                                $('#requirement-' + data.reservation.id).html(requirement);
+                            }
+                            else {
+                                $('#requirement-' + data.reservation.id).empty();
+                                $('#requirement-' + data.reservation.id).text('N/A');
+                            }
                         }
-                        toastr.options.timeOut = 6000; // How long the toast will display without user interaction
-                        toastr.options.extendedTimeOut = 8000; // How long the toast will display after a user hovers over it
-                        toastr.success('<a href="{{route('reservation.index', $restaurant->slug)}}">New reservation order for {{$restaurant->name}}</a>');
                     });
                 </script>
             @endforeach

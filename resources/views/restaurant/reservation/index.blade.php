@@ -60,26 +60,26 @@
                                 <th style="text-align: center;">Note</th>
                                 <th style="text-align: center;">Created by</th>
                                 <th style="text-align: center;">Last Edit</th>
-                                <th style="text-align: center;">Actions</th>
+                                <th style="text-align: center;">Edit</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($reservations as $no => $item)
                             <tr>
                                 <td style="text-align: center; vertical-align: middle;">{{$no + 1}}</th>
-                                <td style="text-align: center; vertical-align: middle;">{{$item->date}}</td>
-                                <td style="text-align: center; vertical-align: middle;">{{date('H:i', strtotime($item->time))}}</td>
-                                <td style="text-align: center; vertical-align: middle;">{{$item->customer_name}}</td>
-                                <td style="text-align: center; vertical-align: middle;">{{$item->customer_phone}}</td>
-                                <td style="text-align: center; vertical-align: middle;">{{$item->adult}}</td>
-                                <td style="text-align: center; vertical-align: middle;">{{$item->children}}</td>
-                                <td style="text-align: center; vertical-align: middle;"><span class="{{$item->getLabelClass()}}">{{$item->status}}</span></td>
+                                <td style="text-align: center; vertical-align: middle;" id="date-{{$item->id}}">{{$item->date}}</td>
+                                <td style="text-align: center; vertical-align: middle;" id="time-{{$item->id}}">{{date('H:i', strtotime($item->time))}}</td>
+                                <td style="text-align: center; vertical-align: middle;" id="name-{{$item->id}}">{{$item->customer_name}}</td>
+                                <td style="text-align: center; vertical-align: middle;" id="phone-{{$item->id}}">{{$item->customer_phone}}</td>
+                                <td style="text-align: center; vertical-align: middle;" id="adult-{{$item->id}}">{{$item->adult}}</td>
+                                <td style="text-align: center; vertical-align: middle;" id="children-{{$item->id}}">{{$item->children}}</td>
+                                <td style="text-align: center; vertical-align: middle;"><span class="{{$item->getLabelClass()}}" id="status-{{$item->id}}">{{$item->status}}</span></td>
                                 @if($item->customer_requirement)
-                                <td style="text-align: center; vertical-align: middle;">
-                                    <a class="btn btn-default btn-circle waves-effect waves-circle waves-float" href="{{asset('note-md.png')}}" data-lightbox="image-{{$no + 1}}" data-title="{{$item->customer_requirement}}"><i class="material-icons">event_note</i></a>
+                                <td style="text-align: center; vertical-align: middle;" id="requirement-{{$item->id}}">
+                                    <a class="btn btn-default btn-circle waves-effect waves-circle waves-float" href="{{asset('note-md.png')}}" data-lightbox="image-{{$item->id}}" data-title="{{$item->customer_requirement}}"><i class="material-icons">event_note</i></a>
                                 </td>
                                 @else
-                                <td style="text-align: center; vertical-align: middle;">N/A</td>
+                                <td style="text-align: center; vertical-align: middle;" id="requirement-{{$item->id}}">N/A</td>
                                 @endif
                                 <td style="text-align: center; vertical-align: middle;">
                                     @if($item->created_by_bot)
@@ -92,18 +92,18 @@
                                     </div>
                                     @endif
                                 </td>
-                                <td style="text-align: center; vertical-align: middle;">
+                                <td style="text-align: center; vertical-align: middle;"  id="{{$item->id}}">
                                     @if($item->last_editor())
                                     <div class="image">
-                                        <img src="{{$item->last_editor()->avatar}}" width="36" height="36" title="{{$item->last_editor()->name}}" alt="{{$item->last_editor()->name}}" style="border-radius: 50% !important;">
+                                        <img src="{{$item->last_editor()->avatar}}" width="36" height="36" title="{{$item->last_editor()->name}}" alt="{{$item->last_editor()->name}}" style="border-radius: 50% !important;" id="image-{{$item->id}}">
                                     </div>
                                     @endif
                                 </td>
                                 <td style="text-align: center; vertical-align: middle;">
-                                    <a href="{{route('reservation.delete', ['restaurant_slug' => $restaurant->slug, 'reservation_id' => $item->id])}}" class="btn btn-default btn-circle waves-effect waves-circle waves-float" onclick="return confirm('Are you sure you want to delete this item?');">
+{{--                                     <a href="{{route('reservation.delete', ['restaurant_slug' => $restaurant->slug, 'reservation_id' => $item->id])}}" class="btn btn-default btn-circle waves-effect waves-circle waves-float" onclick="return confirm('Are you sure you want to delete this item?');">
                                         <i class="material-icons">delete</i>
                                     </a>
-                                    &nbsp;
+                                    &nbsp; --}}
                                     <a href="{{route('reservation.show-form-edit', ['restaurant_slug' => $restaurant->slug, 'reservation_id' => $item->id])}}" class="btn btn-default btn-circle waves-effect waves-circle waves-float">
                                         <i class="material-icons">edit</i>
                                     </a>

@@ -9,22 +9,24 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-
-class StatusLiked implements ShouldBroadcast
+use App\Reservation;
+class ReservationUpdated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $username;
-    public $message;
+    public $reservation;
+    public $link;
+    public $last_editor;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($username)
+    public function __construct(Reservation $reservation)
     {
-        $this->username = $username;
-        $this->message  = "{$username} liked your status";
+        $this->reservation = $reservation;
+        $this->link = route('reservation.show-form-edit', ['restaurant_slug' => $reservation->restaurant->slug, 'reservation_id' => $reservation->id]);
+        $this->last_editor = $reservation->created_by_bot ? null : $reservation->last_editor();
     }
 
     /**
@@ -34,6 +36,6 @@ class StatusLiked implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['status-liked'];
+        return ['reservation.restaurant.'. $this->reservation->restaurant_id];
     }
 }

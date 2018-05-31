@@ -37,9 +37,9 @@
                             <li class="body">
                                 <ul class="menu" id="dropdown-menu-reservations">
                                     @if(isset($restaurant) && $restaurant->pending_reservations()->count())
-                                    @foreach($restaurant->pending_reservations() as $book)
-                                        <li id="reservation-{{$book->id}}">
-                                            <a href="javascript:void(0);" class=" waves-effect waves-block">
+                                    @foreach($restaurant->pending_reservations() as $no => $book)
+                                        <li id="reservation-{{$book->id}}" style="display: {{$no > 5 ? 'none' : 'block'}};">
+                                            <a href="{{route('reservation.show-form-edit', ['restaurant_slug' => $restaurant->slug, 'reservation_id' => $book->id])}}" class=" waves-effect waves-block">
                                                 <div class="icon-circle bg-light-green">
                                                     @if($book->created_by_bot)
                                                     <img src="{{asset('bot-icon.png')}}" width="36" height="36" alt="Bot" style="border-radius: 50%;">

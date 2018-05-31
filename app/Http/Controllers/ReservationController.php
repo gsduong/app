@@ -94,8 +94,8 @@ class ReservationController extends Controller
 		$customer_requirement = $request->requirement;
 		$data = ['customer_name' => $customer_name, 'customer_phone' => $customer_phone, 'date' => $date, 'time' => $time, 'adult' => $adult, 'children' => $children, 'address_id' => $address_id, 'status' => $status, 'creator_id' => $creator_id, 'last_editor_id' => $last_editor_id, 'customer_requirement' => $customer_requirement];
 		$book = $this->restaurant->reservations()->create($data);
-		event(new App\Events\PendingReservationCreated($book));
-		return redirect()->route('reservation.index', $restaurant_slug)->with('success', 'New reservation created!');
+		event(new \App\Events\ReservationUpdated($book));
+		return redirect()->route('reservation.index', $restaurant_slug);
 	}
 
 	public function showFormEdit($restaurant_slug, $reservation_id) {
@@ -138,8 +138,10 @@ class ReservationController extends Controller
 		$last_editor_id = $this->user->id;
 		$customer_requirement = $request->requirement;
 		$data = ['customer_name' => $customer_name, 'customer_phone' => $customer_phone, 'date' => $date, 'time' => $time, 'adult' => $adult, 'children' => $children, 'address_id' => $address_id, 'status' => $status, 'last_editor_id' => $last_editor_id, 'customer_requirement' => $customer_requirement];
-		$book = $this->restaurant->reservations->find($request->id)->update($data);
-		return redirect()->route('reservation.index', $restaurant_slug)->with('success', 'Reservation updated!');
+		$this->restaurant->reservations->find($request->id)->update($data);
+		$book = $this->restaurant->reservations->find($request->id);
+		event(new \App\Events\ReservationUpdated($book));
+		return redirect()->route('reservation.index', $restaurant_slug);
 	}
 
 	public function delete (Request $request, $restaurant_slug, $reservation_id) {
@@ -147,8 +149,9 @@ class ReservationController extends Controller
 		if (!$book) {
 			return redirect()->route('reservation.index', $restaurant_slug)->with('error', 'Reservation order not found!');
 		}
-		$book->delete();
-		return redirect()->route('reservation.index', $restaurant_slug)->with('success', 'Reservation deleted!');
+		$this->restaurant->reservations->find($reservation_id)->delete();
+		// event(new \App\Events\ReservationUpdated($book));
+		return redirect()->route('reservation.index', $restaurant_slug);
 	}
 
 }
