@@ -37,19 +37,27 @@
                         @foreach($restaurant->contacts as $no => $contact)
                         <form method="POST" action="{{route('contact.update', $restaurant->slug)}}">
                             @csrf
-                            <div class="row clearfix">
+                            <div class="row clearfix" style="border: 1px dotted grey; border-radius: 10px; margin-bottom: 5px;">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="row clearfix">
-                                        <div class="col-sm-6">
-                                            <b>Address #{{$no + 1}}</b>
+                                        <div class="col-sm-4">
+                                            <b>Name #{{$no + 1}}</b>
                                             <div class="input-group">
                                                 <div class="form-line">
                                                     <input type="hidden" name="id" required value="{{$contact->id}}">
+                                                    <input type="text" name="name" class="form-control" required placeholder="Name" value="{{$contact->name}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <b>Address</b>
+                                            <div class="input-group">
+                                                <div class="form-line">
                                                     <input type="text" name="address" class="form-control" required placeholder="Address" value="{{$contact->address}}">
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-4">
                                             <label for="map_url">Map URL</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">
@@ -116,18 +124,26 @@
                         @endif
                         <form method="POST" action="{{route('contact.create', $restaurant->slug)}}">
                             @csrf
-                            <div class="row clearfix">
+                            <div class="row clearfix" style="border: 1px dotted grey; border-radius: 10px; margin-bottom: 5px;">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="row clearfix">
-                                        <div class="col-sm-6">
-                                            <label for="address">Create new address</label>
+                                        <div class="col-sm-4">
+                                            <label for="name">Create new address</label>
                                             <div class="input-group">
                                                 <div class="form-line">
-                                                    <input type="text" class="form-control" name="address" required placeholder="Your restaurant address">
+                                                    <input type="text" class="form-control" name="name" required placeholder="Your branch name">
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-4">
+                                            <label for="address">Address</label>
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <input type="text" class="form-control" name="address" required placeholder="Your branch address">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
                                             <label for="map_url">Map URL</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">

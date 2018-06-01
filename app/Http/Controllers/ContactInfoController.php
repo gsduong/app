@@ -46,6 +46,7 @@ class ContactInfoController extends Controller
                     return redirect()->route('contact.index', $slug)->with('error', 'Invalid format of closing time!');
                 }
                 $contact->address = $request->address;
+                $contact->name = $request->name;
                 $contact->phone = $request->phone;
                 $contact->secondary_phone = $request->secondary_phone;
                 $contact->map_url = $request->map_url;
@@ -77,6 +78,7 @@ class ContactInfoController extends Controller
     }
 
     public function create(Request $request, $slug) {
+        $name = $request->name;
     	$address = $request->address;
         $phone = $request->phone;
         $secondary_phone = $request->secondary_phone;
@@ -104,7 +106,7 @@ class ContactInfoController extends Controller
         if (!$map_url) {
             $map_url = $request->map_url;
         }
-        $this->restaurant->contacts()->create(['address' => $address, 'phone' => $phone, 'secondary_phone' => $secondary_phone, 'map_url' => $map_url, 'opening_time' => $opening_time, 'closing_time' => $closing_time]);
+        $this->restaurant->contacts()->create(['name' => $name, 'address' => $address, 'phone' => $phone, 'secondary_phone' => $secondary_phone, 'map_url' => $map_url, 'opening_time' => $opening_time, 'closing_time' => $closing_time]);
         return redirect()->route('contact.index', $slug)->with('success', 'Contact successfully created!');
     }
 

@@ -35,12 +35,13 @@
                         </h2>
                     <ul class="header-dropdown m-r--5">
                         <li class="dropdown">
-                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
-                                <i class="material-icons">more_vert</i>
+                            <a href="{{route('reservation.show-form-create' , $restaurant->slug)}}" title="Add new reservation">
+                                <!-- class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true" -->
+                                <i class="material-icons">add</i>
                             </a>
-                            <ul class="dropdown-menu pull-right">
+<!--                             <ul class="dropdown-menu pull-right">
                                 <li><a href="{{route('reservation.show-form-create' , $restaurant->slug)}}" class=" waves-effect waves-block">Create a reservation for customer</a></li>
-                            </ul>
+                            </ul> -->
                         </li>
                     </ul>
                 </div>

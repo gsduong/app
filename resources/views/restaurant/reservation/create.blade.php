@@ -44,7 +44,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
-                                    <label for="price">Phone</label>
+                                    <label for="phone">Phone</label>
                                     <div class="form-group">
                                         <div class="form-line">
                                             <input type="text" name="phone" class="form-control" required placeholder="Phone">

@@ -1,7 +1,7 @@
 @extends('index')
 
 @section('title')
-  Menu management for {{$restaurant->name}}
+  Edit Menu for {{$restaurant->name}}
 @endsection
 
 @section('extra-css')
@@ -17,7 +17,8 @@
                     <li><a href="{{route('homepage')}}">Home</a></li>
                     <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>
                     <li><a href="{{route('restaurant.show', $restaurant->slug)}}">{{$restaurant->name}}</a></li>
-                    <li class="active">Menu</li>
+                    <li><a href="{{route('category.index', $restaurant->slug)}}">Menu</a></li>
+                    <li class="active">Edit Menu</li>
                 </ol>
             </div>
         </div>
@@ -27,16 +28,16 @@
             <div class="card">
                 <div class="header">
                     <h2>
-                        Menu Management
+                        Edit Categories In Menu
                         <small>Easily create and manage your menu</small>
                     </h2>
                     <ul class="header-dropdown m-r--5">
                         <li class="dropdown">
                             <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
-                                <i class="material-icons">more_vert</i>
+                                <i class="material-icons">arrow_back</i>
                             </a>
                             <ul class="dropdown-menu pull-right">
-                                <li><a href="{{route('category.list' , $restaurant->slug)}}" class=" waves-effect waves-block">View as a list</a></li>
+                                <li><a href="{{route('category.index' , $restaurant->slug)}}" class=" waves-effect waves-block">Back to Menu</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -112,17 +113,6 @@
                                                 </div>
                                             </div>
                                         </div>
-{{--                                         <div class="col-sm-4">
-                                            <label for="image">Category Image</label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                    <i class="material-icons">image</i>
-                                                </span>
-                                                <div class="form-line">
-                                                    <input type="file" class="form-control" name="image">
-                                                </div>
-                                            </div>
-                                        </div> --}}
                                         <div class="col-sm-4 margin-bottom-5">
                                             <label for="description">Description</label>
                                             <div class="input-group">

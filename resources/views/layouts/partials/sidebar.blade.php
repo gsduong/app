@@ -34,19 +34,25 @@
                     </li>
                     <li {{ strpos(url()->current(), 'reservation') ? 'class=active':''}}>
                         <a href="{{route('reservation.index', $restaurant->slug)}}">
-                            <i class="material-icons">book</i>
+                            <i class="material-icons">date_range</i>
                             <span>Reservation</span>
                         </a>
                     </li>
                     <li {{ strpos(url()->current(), 'order') ? 'class=active':''}}>
                         <a href="{{route('order.index', $restaurant->slug)}}">
-                            <i class="material-icons">book</i>
+                            <i class="material-icons">shopping_cart</i>
                             <span>Orders</span>
+                        </a>
+                    </li>
+                    <li {{ strpos(url()->current(), 'discount') ? 'class=active':''}}>
+                        <a href="{{route('discount.index', $restaurant->slug)}}">
+                            <i class="material-icons">loyalty</i>
+                            <span>Discounts</span>
                         </a>
                     </li>
                     <li {{ strpos(url()->current(), 'bot') ? 'class=active':''}}>
                         <a href="{{route('bot.index', $restaurant->slug)}}">
-                            <i class="material-icons">chat_bubble</i>
+                            <i class="material-icons">chat</i>
                             <span>Chatbot</span>
                         </a>
                     </li>

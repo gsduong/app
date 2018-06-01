@@ -61,6 +61,13 @@ Route::post('r/{restaurant_slug}/reservations/create', ['as' => 'reservation.cre
 Route::post('r/{restaurant_slug}/reservations/update', ['as' => 'reservation.update', 'uses' => 'ReservationController@update']);
 Route::get('r/{restaurant_slug}/reservations/delete/{reservation_id}', ['as' => 'reservation.delete', 'uses' => 'ReservationController@delete']);
 
+// Discount
+Route::get('r/{restaurant_slug}/discounts.html', ['as' => 'discount.index', 'uses' => 'DiscountController@index']);
+Route::get('r/{restaurant_slug}/discounts/create.html', ['as' => 'discount.show-form-create', 'uses' => 'DiscountController@showFormCreate']);
+Route::post('r/{restaurant_slug}/discounts/create', ['as' => 'discount.create', 'uses' => 'DiscountController@create']);
+Route::get('r/{restaurant_slug}/discounts/delete/{discount_id}', ['as' => 'discount.delete', 'uses' => 'DiscountController@delete']);
+Route::post('r/{restaurant_slug}/discounts/update/{discount_id}', ['as' => 'discount.update', 'uses' => 'DiscountController@update']);
+Route::get('r/{restaurant_slug}/discounts/edit{discount_id}.html', ['as' => 'discount.show-form-edit', 'uses' => 'DiscountController@showFormEdit']);
 // order
 Route::get('r/{restaurant_slug}/orders.html', ['as' => 'order.index', 'uses' => 'OrderController@index']);
 Route::get('r/{restaurant_slug}/orders/create.html', ['as' => 'order.show-form-create', 'uses' => 'OrderController@showFormCreate']);

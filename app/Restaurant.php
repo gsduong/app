@@ -122,4 +122,12 @@ class Restaurant extends Model
     public function pending_reservations() {
         return $this->reservations->where('status', 'pending')->sortByDesc('updated_at');
     }
+
+    /**
+     * Get the discounts
+     */
+    public function discounts()
+    {
+        return $this->hasMany('App\Discount', 'restaurant_id');
+    }
 }

@@ -44,4 +44,8 @@ class Item extends Model
     {
         return $this->belongsToMany('App\Order')->withPivot('qty', 'price');
     }
+
+    public function money() {
+        return number_format($this->price, 0, ',', '.');
+    }
 }

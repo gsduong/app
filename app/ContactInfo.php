@@ -12,7 +12,7 @@ class ContactInfo extends Model
      * @var array
      */
     protected $fillable = [
-        'address', 'phone', 'secondary_phone', 'map_url', 'restaurant_id', 'opening_time', 'closing_time'
+        'name', 'address', 'phone', 'secondary_phone', 'map_url', 'restaurant_id', 'opening_time', 'closing_time'
     ];
 
     /**
