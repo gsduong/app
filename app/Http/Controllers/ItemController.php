@@ -58,6 +58,9 @@ class ItemController extends Controller
 				$item_url = Bitly::getUrl($item_url);
 			} catch (Exception $e) {
 			}
+			if ($item_url == $request->item_url) {
+				$item_url = $request->item_url;
+			}
 		}
 		$image_url = null;
 		$public_id = null;
@@ -117,8 +120,11 @@ class ItemController extends Controller
 				$item_url = Bitly::getUrl($item_url);
 			} catch (Exception $e) {
 			}
-			$item->item_url = $item_url;
+			if ($item_url == $request->item_url) {
+				$item_url = $request->item_url;
+			}
 		}
+		$item->item_url = $item_url;
         if ($request->hasFile('image_file')) {
         	$result = $this->uploadImage($request);
 			$image_url = $result['url'];
