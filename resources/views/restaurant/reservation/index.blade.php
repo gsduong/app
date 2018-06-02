@@ -39,9 +39,6 @@
                                 <!-- class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true" -->
                                 <i class="material-icons">add</i>
                             </a>
-<!--                             <ul class="dropdown-menu pull-right">
-                                <li><a href="{{route('reservation.show-form-create' , $restaurant->slug)}}" class=" waves-effect waves-block">Create a reservation for customer</a></li>
-                            </ul> -->
                         </li>
                     </ul>
                 </div>

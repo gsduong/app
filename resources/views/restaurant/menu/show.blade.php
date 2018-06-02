@@ -16,6 +16,7 @@
                 <ol class="breadcrumb restaurant-breadcrumb">
                     <li><a href="{{route('homepage')}}">Home</a></li>
                     <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>
+                    <li><a href="{{route('restaurant.show', $restaurant->slug)}}">{{$restaurant->name}}</a></li>
                     <li><a href="{{route('category.index', $restaurant->slug)}}">Menu</a></li>
                     <li class="active">{{$category->name}}</li>
                 </ol>
@@ -32,18 +33,14 @@
                     </h2>
                     <ul class="header-dropdown m-r--5">
                         <li class="dropdown">
-                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
+                            <a href="{{route('item.show-form-create', ['restaurant_slug' => $restaurant->slug, 'category_slug' => $category->slug])}}" title="Add new item">
+                                <i class="material-icons">add</i>
                             </a>
-                            <ul class="dropdown-menu pull-right">
-                                <li><a href="{{route('item.show-form-create', ['restaurant_slug' => $restaurant->slug, 'category_slug' => $category->slug])}}" class=" waves-effect waves-block">Add item</a></li>
-                                <li><a href="javascript:void(0);" class=" waves-effect waves-block">View as thumbnails</a></li>
-                            </ul>
                         </li>
                     </ul>
                 </div>
                 <div class="body table-responsive">
-                    @if($category->items->count() > 0)
+                    @if($items->count() > 0)
                     <table class="table">
                         <thead>
                             <tr >
@@ -58,11 +55,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($category->items as $no => $item)
+                            @foreach($items as $no => $item)
                             <tr>
                                 <td style="text-align: center; vertical-align: middle;">{{$no + 1}}</th>
                                 <td style="text-align: center; vertical-align: middle;">{{$item->name}}</td>
-                                <td style="text-align: center; vertical-align: middle;">{{$item->price}} VNĐ</td>
+                                <td style="text-align: center; vertical-align: middle;">{{$item->money()}} VNĐ</td>
                                 <td style="text-align: center; vertical-align: middle;">{{$item->unit}}</td>
                                 @if($item->item_url)
                                 <td style="text-align: center; vertical-align: middle;"><a href="{{$item->item_url}}" target="_blank">{{$item->item_url}}</a></td>
@@ -107,6 +104,26 @@
                     @endif
                 </div>
             </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <form method="GET" action="{{route('category.show', ['restaurant_slug' => $restaurant->slug, 'category_slug' => $category->slug])}}">
+                <div class="row clearfix">
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <div class="input-group" style="margin-bottom: 0;">
+                            <div class="form-line no-border-bottom" style="box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);border: 1px !important; border-radius: 10px;">
+                                <input type="text" class="form-control" name="name" value="{{Input::get('name')}}" placeholder=" Name" style="padding-left: 15px; border-radius: 10px;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3"><button type="submit" class="btn btn-default waves-effect" style="border-radius: 10px;">Filter</button>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3"><a href="{{route('category.show', ['restaurant_slug' => $restaurant->slug, 'category_slug' => $category->slug])}}" class="btn btn-default waves-effect" style="border-radius: 10px;">Clear</a>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 pull-right">
+                        {{$items->appends(['name' => Input::get('name')])->links()}}
+                    </div>
+                </div>                
+            </form>
         </div>
     </div>
 

@@ -59,6 +59,11 @@
                                         <i class="material-icons">add</i>
                                     </a>
                                     &nbsp;
+                                    <a class="btn btn-default btn-circle waves-effect waves-circle waves-float" href="{{route('category.show' , ['restaurant_slug' => $restaurant->slug, 'category_slug' => $category->slug])}}" title="View as a list">
+                                        <!-- class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true" -->
+                                        <i class="material-icons">list</i>
+                                    </a>
+                                    &nbsp;
                                     <a href="{{route('category.delete', ['slug' => $restaurant->slug, 'category_id' => $category->id])}}" class="btn btn-default btn-circle waves-effect waves-circle waves-float" style="z-index: 1;" title="Delete" onclick="return confirm('Are you sure you want to delete this item?');">
                                         <i class="material-icons">delete</i>
                                     </a>

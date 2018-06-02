@@ -141,7 +141,7 @@ class ItemController extends Controller
         $item->ship = $request->ship ? 1 : 0;
         $item->description = $request->description;
         $item->save();
-		return redirect()->route('item.show-form-edit', ['category_slug' => $category_slug, 'restaurant_slug' => $restaurant_slug, 'item_id' => $request->item_id])->with('success', 'Item updated!');
+		return redirect()->route('category.show', ['category_slug' => $category_slug, 'restaurant_slug' => $restaurant_slug])->with('success', 'Item updated!');
 	}
 
 	private function uploadImage(Request $request) {

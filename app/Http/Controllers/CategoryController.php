@@ -6,7 +6,7 @@ use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Cloudder;
-
+use Input;
 class CategoryController extends Controller
 {
 	private $user;
@@ -93,6 +93,11 @@ class CategoryController extends Controller
         if (!$category) {
             return redirect()->route('category.index', $restaurant_slug)->with('error', 'Category not found!');
         }
-        return view('restaurant/menu/show', ['category' => $category, 'restaurant' => $this->restaurant]);
+        $items = $category->items()->newQuery();
+        if (Input::get('name')) {
+            $items->where('name', 'like', '%' . Input::get('name') . '%');
+        }
+        $items = $items->orderBy('name', 'asc')->paginate(5);
+        return view('restaurant/menu/show', ['category' => $category, 'restaurant' => $this->restaurant, 'items' => $items]);
     }
 }

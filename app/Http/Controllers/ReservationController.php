@@ -37,7 +37,7 @@ class ReservationController extends Controller
 			$reservations->where('status', Input::get('status'));
 		}
 		if (Input::get('name')) {
-			$reservations->where('customer_name', Input::get('name'));
+			$reservations->where('customer_name', 'like', '%' . Input::get('name') . '%');
 		}
 		if (Input::get('phone')) {
 			$reservations->where('customer_phone', Input::get('phone'));
