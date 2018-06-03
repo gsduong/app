@@ -30,16 +30,19 @@
                         Bot Management
                         <small>Easily manage your bot</small>
                     </h2>
-{{--                     <ul class="header-dropdown m-r--5">
+                    <ul class="header-dropdown m-r--5">
                         <li class="dropdown">
                             <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
                                 <i class="material-icons">more_vert</i>
                             </a>
+                            @if($bot)
                             <ul class="dropdown-menu pull-right">
-                                <li><a href="" class=" waves-effect waves-block">View as a list</a></li>
+                                <li><a href="{{route('bot.delete', $restaurant->slug)}}" onclick="displayLoadingCircle();" class=" waves-effect waves-block">Delete bot</a></li>
+                                <li><a href="{{route('bot.test', $restaurant->slug)}}" onclick="displayLoadingCircle();" class=" waves-effect waves-block">Test bot</a></li>
                             </ul>
+                            @endif
                         </li>
-                    </ul> --}}
+                    </ul>
                 </div>
                 <div class="body">
                     @if(!$bot)
@@ -49,7 +52,7 @@
                                 <ul class="list-group">
                                     <div class="row clearfix" style="margin-left: 0; margin-right: 0;">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <a href="{{route('bot.create', $restaurant->slug)}}" title="Create bot for this restaurant" style="text-decoration: none;">
+                                            <a href="{{route('bot.create', $restaurant->slug)}}" onclick="displayLoadingCircle();" title="Create bot for this restaurant" style="text-decoration: none;">
                                                 <div class="card transparent_class" style="margin-bottom: 10px; border: 5px #D3D3D3 dashed; border-radius: 5px; text-align: center;">
                                                     <p class="vertical-align-custom">Create chatbot for your restaurant page</p>
                                                 </div>
@@ -70,6 +73,12 @@
 </div>
 
 @endsection
-
+<script>
+    function displayLoadingCircle(){
+        $('section').hide();
+        $('.lds-dual-ring').show();
+        return true;
+    }
+</script>
 @section('extra-script')
 @endsection

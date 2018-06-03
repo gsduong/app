@@ -75,7 +75,8 @@ Route::post('r/{restaurant_slug}/orders/create', ['as' => 'order.create', 'uses'
 // Bot
 Route::get('r/{restaurant_slug}/bot/index.html', ['as' => 'bot.index', 'uses' => 'BotController@index']);
 Route::get('r/{restaurant_slug}/bot/create', ['as' => 'bot.create', 'uses' => 'BotController@create']);
-Route::get('bot/webhook', ['as' => 'bot.get-webhook', 'uses' => 'WebhookController@getWebhook']);
+Route::get('r/{restaurant_slug}/bot/delete', ['as' => 'bot.delete', 'uses' => 'BotController@delete']);
+Route::get('r/{restaurant_slug}/bot/test', ['as' => 'bot.test', 'uses' => 'BotController@test']);
 
 Route::get("/webhook", "WebhookController@verify");
 Route::post("/webhook", "WebhookController@receive")->name('webhook');

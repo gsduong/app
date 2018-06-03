@@ -130,4 +130,11 @@ class Restaurant extends Model
     {
         return $this->hasMany('App\Discount', 'restaurant_id');
     }
+    /**
+     * Get the customers
+     */
+    public function customers()
+    {
+        return $this->hasMany('App\Customer', 'restaurant_id');
+    }
 }

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Bot extends Model
+class Customer extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,11 +12,10 @@ class Bot extends Model
      * @var array
      */
     protected $fillable = [
-        'restaurant_id', 'settings', 'access_token', 'active', 'default_response', 'welcome_message'
+        'name', 'app_scoped_id', 'restaurant_id'
     ];
-
     /**
-     * Get the restaurant that owns the bot
+     * Get the restaurant that owns the customer.
      */
     public function restaurant()
     {

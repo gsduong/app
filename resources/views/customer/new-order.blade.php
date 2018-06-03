@@ -40,6 +40,7 @@
                             @if($category->items->count())
                                 <div class="row">
                                 @foreach($category->items as $idx => $item)
+                                    @if($item->ship)
                                     <div class="col-sm-3 col-md-2">
                                         <div class="thumbnail">
                                             <div class="image">
@@ -77,6 +78,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @endif
                                 @endforeach
                                 </div>
                             @else

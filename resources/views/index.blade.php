@@ -33,6 +33,7 @@
 <body class="theme-green">
     @include('layouts.partials.loader')
     <div class="overlay"></div>
+    <div class="lds-dual-ring" style="display: none;"></div>
     @include('layouts.partials.header')
     @include('layouts.partials.sidebar')
 
