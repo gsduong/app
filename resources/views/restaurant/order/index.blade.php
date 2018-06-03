@@ -37,6 +37,7 @@
                             </a>
                             <ul class="dropdown-menu pull-right">
                             <li><a href="{{route('order.show-form-create' , $restaurant->slug)}}" class=" waves-effect waves-block">Create an online order from customer</a></li>
+                            <li><a href="{{route('customer.show-form-create-order' , $restaurant->slug)}}" class=" waves-effect waves-block">Create an online order as a customer</a></li>
                             </ul>
                         </li>
                     </ul>

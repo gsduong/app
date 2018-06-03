@@ -79,3 +79,5 @@ Route::get('bot/webhook', ['as' => 'bot.get-webhook', 'uses' => 'WebhookControll
 
 Route::get("/webhook", "WebhookController@verify");
 Route::post("/webhook", "WebhookController@receive")->name('webhook');
+
+Route::get('customer/{restaurant_slug}/create-order.html', ['as' => 'customer.show-form-create-order', 'uses' => 'CustomerController@showFormCreateOrder']);
