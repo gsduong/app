@@ -28,4 +28,7 @@ class CustomerController extends Controller
 		return view('customer.new-order', ['restaurant' => $this->restaurant]);
 	}
 
+	public function showFormCreateReservation() {
+		return view('customer.reservation', ['restaurant' => $this->restaurant]);
+	}
 }
