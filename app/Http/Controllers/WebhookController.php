@@ -41,78 +41,83 @@ class WebhookController extends Controller
 
 	}
 
-        private function receivedMessage($event) {
-                $senderId = $this->get_value_by_key($event, "sender")["id"];
-                $recipientId = $this->get_value_by_key($event, "recipient")["id"];
-                $page_id = $recipientId;
-                $timeOfMessage = $this->get_value_by_key($event,"timestamp");
-                $message = $this->get_value_by_key($event,"message");
+    private function receivedMessage($event) {
+            $senderId = $this->get_value_by_key($event, "sender")["id"];
+            $recipientId = $this->get_value_by_key($event, "recipient")["id"];
+            $page_id = $recipientId;
+            $timeOfMessage = $this->get_value_by_key($event,"timestamp");
+            $message = $this->get_value_by_key($event,"message");
 
-                file_put_contents("php://stderr", "Received message for user " . $senderId . " and page " . $page_id . " at " . $timeOfMessage . " with message: " . json_encode($message));
+            file_put_contents("php://stderr", "Received message for user " . $senderId . " and page " . $page_id . " at " . $timeOfMessage . " with message: " . json_encode($message));
 
-                $isEcho = $this->get_value_by_key($message,"is_echo");
-                $messageId = $this->get_value_by_key($message,"mid");
-                $appId = $this->get_value_by_key($message,"app_id");
-                $metadata = $this->get_value_by_key($message,"metadata");
+            $isEcho = $this->get_value_by_key($message,"is_echo");
+            $messageId = $this->get_value_by_key($message,"mid");
+            $appId = $this->get_value_by_key($message,"app_id");
+            $metadata = $this->get_value_by_key($message,"metadata");
 
-                // You may get a text or attachment but not both
-                $messageText = $this->get_value_by_key($message,"text");
-                $messageAttachments = $this->get_value_by_key($message,"attachments");
-                $quickReply = $this->get_value_by_key($message,"quick_reply");
+            // You may get a text or attachment but not both
+            $messageText = $this->get_value_by_key($message,"text");
+            $messageAttachments = $this->get_value_by_key($message,"attachments");
+            $quickReply = $this->get_value_by_key($message,"quick_reply");
 
-                if ($isEcho) {
-                // Just logging message echoes to console
-                        file_put_contents("php://stderr", "Received echo for message " . $messageId . " and app " . $appId .  " with metadata " . $metadata);
-                        return;
-                } else if ($quickReply) {
-                        $quickReplyPayload = $this->get_value_by_key($quickReply,"payload");
-                        file_put_contents("php://stderr", "Quick reply for message " . $messageId . " with payload " . $quickReplyPayload);
+            if ($isEcho) {
+            // Just logging message echoes to console
+                    file_put_contents("php://stderr", "Received echo for message " . $messageId . " and app " . $appId .  " with metadata " . $metadata);
+                    return;
+            } else if ($quickReply) {
+                    $quickReplyPayload = $this->get_value_by_key($quickReply,"payload");
+                    file_put_contents("php://stderr", "Quick reply for message " . $messageId . " with payload " . $quickReplyPayload);
 
-                        $this->sendTextMessage($page_id, $senderId, "Quick reply tapped");
-                        return;
-                }
+                    $this->sendTextMessage($page_id, $senderId, "Quick reply tapped");
+                    return;
+            }
 
-                if ($messageText) {
-                        $this->sendTextMessage($page_id, $senderId, "We received: " . $messageText);
-                        return;
-                } else if ($messageAttachments) {
-                        $this->sendTextMessage($page_id, $senderId, "Message with attachment received!");
-                        return;
-                }
-        }
+            if ($messageText) {
+                    $this->sendTextMessage($page_id, $senderId, "We received: " . $messageText);
+                    return;
+            } else if ($messageAttachments) {
+                    $this->sendTextMessage($page_id, $senderId, "Message with attachment received!");
+                    return;
+            }
+    }
 
-        private function sendTextMessage($page_id, $recipientId, $messageText)
-        {
-        	$restaurant = Restaurant::where('fb_page_id', '=', $page_id)->first();
-                if (!$restaurant) {
-                        file_put_contents("php://stderr", "Not found page id: " . $page_id);
-                        return;
-                }
-                $page_access_token = $restaurant->bot->access_token;
-                $messageData = [
-                    "recipient" => [
-                        "id" => $recipientId
-                    ],
-                    "message" => [
-                        "text" => $messageText
-                    ]
-                ];
-                $ch = curl_init('https://graph.facebook.com/v2.6/me/messages?access_token=' . $page_access_token);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HEADER, false);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type: application/json"]);
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($messageData));
-                curl_exec($ch);
-                file_put_contents("php://stderr", $page_id . " replied " . $recipientId . " with message: " . $messageText);
-                return;
-        }
+    private function sendTextMessage($page_id, $recipientId, $messageText)
+    {
+    	$restaurant = Restaurant::where('fb_page_id', '=', $page_id)->first();
+            if (!$restaurant) {
+                    file_put_contents("php://stderr", "Not found page id: " . $page_id);
+                    return;
+            }
+            $page_access_token = $restaurant->bot->access_token;
+            $messageData = [
+                "recipient" => [
+                    "id" => $recipientId
+                ],
+                "message" => [
+                    "text" => $messageText
+                ]
+            ];
+            $ch = curl_init('https://graph.facebook.com/v2.6/me/messages?access_token=' . $page_access_token);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, false);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type: application/json"]);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($messageData));
+            curl_exec($ch);
+            file_put_contents("php://stderr", $page_id . " replied " . $recipientId . " with message: " . $messageText);
+            return;
+    }
 
-        private function receivedPostback($event) {
+    private function receivedPostback($event) {
+        $senderId = $this->get_value_by_key($event, "sender")["id"];
+        $recipientId = $this->get_value_by_key($event, "recipient")["id"];
+        $page_id = $recipientId;
+        $payload = $this->get_value_by_key($event, "postback")["payload"];
+        $this->sendTextMessage($page_id, $senderId, $payload);
+        return;
+    }
 
-        }
-
-        private function get_value_by_key($array, $key) {
-                return array_key_exists($key, $array) ? $array[$key] : null;
-        }
+    private function get_value_by_key($array, $key) {
+        return array_key_exists($key, $array) ? $array[$key] : null;
+    }
 }
