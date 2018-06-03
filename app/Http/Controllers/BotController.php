@@ -80,13 +80,14 @@ class BotController extends Controller
 			  $response = Facebook::post(
 			    '/me/messenger_profile?access_token='. $bot->access_token,
 			    array (
-			      "get_started" => array("payload" => "GET_STARTED_PAYLOAD"),
-			      "greeting" => array(array("locale" => "default", "text" => $bot->welcome_message)),
-			      "persistent_menu" => array(
-			      	array(
-			      		"locale" => "default",
-			      		"composer_input_disabled" => false, // disable = true means your bot can only be interacted with via the persistent menu, postbacks, buttons, and webviews
-			      		"call_to_actions" => array(
+			    	"whitelisted_domains" => array("https://booknoww.herokuapp.com", route('homepage')),
+					"get_started" => array("payload" => "GET_STARTED_PAYLOAD"),
+					"greeting" => array(array("locale" => "default", "text" => $bot->welcome_message)),
+					"persistent_menu" => array(
+						array(
+							"locale" => "default",
+							"composer_input_disabled" => false, // disable = true means your bot can only be interacted with via the persistent menu, postbacks, buttons, and webviews
+							"call_to_actions" => array(
 							array(
 								// Menu
 								"title" => "Menu",
@@ -130,8 +131,8 @@ class BotController extends Controller
 									)
 								)
 							)
-			      		)
-			      	)
+							)
+						)
 			      )
 			    ),
 			    $bot->access_token
@@ -162,7 +163,7 @@ class BotController extends Controller
 		  $response = Facebook::delete(
 		    '/me/messenger_profile?access_token='. $this->restaurant->bot->access_token,
 		    array (
-		      "fields" => array("persistent_menu","get_started", "greeting")
+		      "fields" => array("persistent_menu","get_started", "greeting", "whitelisted_domains")
 		    ),
 		    $this->restaurant->bot->access_token
 		  );
@@ -199,7 +200,7 @@ class BotController extends Controller
 		try {
 		  // Returns a `FacebookFacebookResponse` object
 		  $response = Facebook::get(
-		    '/me/messenger_profile?fields=get_started,greeting,persistent_menu&access_token='. $this->restaurant->bot->access_token,
+		    '/me/messenger_profile?fields=get_started,greeting,persistent_menu,whitelisted_domains&access_token='. $this->restaurant->bot->access_token,
 		    null,
 		    $this->restaurant->bot->access_token
 		  );
