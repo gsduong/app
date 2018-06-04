@@ -42,7 +42,7 @@
                         </h2>
                     </div>
                     <div class="body">
-                        <form method="POST" action="{{route('restaurant.create')}}">
+                        <form method="POST" action="{{route('restaurant.create')}}" enctype="multipart/form-data">
                             @csrf
                             <div class="row clearfix">
                                 <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
@@ -50,6 +50,14 @@
                                     <div class="form-group">
                                         <div class="form-line">
                                             <input type="text" name="name" class="form-control" required placeholder="Nhập tên nhà hàng của bạn" value="{{isset($page) ? $page['name'] : ''}}" autofocus>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                    <label for="image_file">Background Image</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="file" name="image_file" required class="form-control">
                                         </div>
                                     </div>
                                 </div>

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Facebook;
+use Validator;
+use Bitly;
+use Cloudder;
 use App\Restaurant;
 use App\User;
 class RestaurantController extends Controller
@@ -51,6 +54,16 @@ class RestaurantController extends Controller
         }
         if ($this->user->is_admin_of_page($page_id)) {
             $user_id = $this->user->id;
+            $image_url = null;
+            $public_id = null;
+            if ($request->hasFile('image_file')) {
+                $result = $this->uploadImage($request);
+                if (!$result) {
+                    return redirect()->route('restaurant.show-form-create')->withError('Only accept jpeg,bmp,jpg,png files! Size is upto 6000kb!');
+                }
+                $image_url = $result['url'];
+                $public_id = $result['public_id'];
+            }
             try {
                 // do your database transaction here
                 $restaurant = $this->user->restaurants()->create([
@@ -58,7 +71,8 @@ class RestaurantController extends Controller
                     'fb_page_id' => $page_id,
                     'fb_page_access_token' => $this->user->get_page_access_token_from_page_id($page_id),
                     'creator_id' => $user_id,
-                    'avatar' => User::get_page_picture_url_from_page_id($page_id)
+                    'avatar' => User::get_page_picture_url_from_page_id($page_id),
+                    'background_url' => $image_url
                 ]);
             } catch (\Illuminate\Database\QueryException $e) {
                 return redirect('/r')->with('error', 'Cannot create new restaurant with the given page id!');
@@ -117,5 +131,77 @@ class RestaurantController extends Controller
         }
         $restaurant->update_users();
         return view('restaurant/staff/staff', ['restaurant' => $restaurant]);
+    }
+
+    private function uploadImage(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'image_file'=>'mimes:jpeg,bmp,jpg,png|between:1, 6000'
+        ]);
+        if ($request->hasFile('image_file')) {
+            if ($validator->fails()) {
+                return null;
+            }
+            // upload and get image_url
+            $file = $request->image_file;
+            //upload image
+            Cloudder::upload($file, 'booknow/' . $file, ['type' => 'upload']);
+            // $image_url = Cloudder::getResult()['url'];
+            // dd($image_url);
+            $public_id = Cloudder::getPublicId();
+            list($width, $height) = getimagesize($file);
+            $image_url= Cloudder::show('booknow/' . $file, ["width" => $width, "height"=>$height]);
+            return ['url' => $image_url, 'public_id' => $public_id];
+
+        } else return null;
+    }
+
+    public function showFormEdit($restaurant_id) {
+        $restaurant = $this->user->restaurants->find($restaurant_id);
+        if (!$restaurant) {
+            return redirect()->route('restaurant.index')->withError('Unauthorized!');
+        }
+        return view('restaurant/edit', ['restaurant' => $restaurant]);
+    }
+
+    public function update(Request $request, $restaurant_id) {
+        $restaurant = $this->user->restaurants->find($restaurant_id);
+        if (!$restaurant) {
+            return redirect()->route('restaurant.index')->withError('Unauthorized!');
+        }
+        $page_id = $restaurant->fb_page_id;
+        if ($this->user->is_admin_of_page($page_id)) {
+            $user_id = $this->user->id;
+            $image_url = null;
+            $public_id = null;
+            $old_url = $restaurant->background_url;
+            if ($request->hasFile('image_file')) {
+                $result = $this->uploadImage($request);
+                if (!$result) {
+                    return redirect()->route('restaurant.show-form-create')->withError('Only accept jpeg,bmp,jpg,png files! Size is upto 6000kb!');
+                }
+                $image_url = $result['url'];
+                $public_id = $result['public_id'];
+            }
+            try {
+                // do your database transaction here
+                $restaurant->update([
+                    'name' => $request->name,
+                    'fb_page_id' => $page_id,
+                    'fb_page_access_token' => $this->user->get_page_access_token_from_page_id($page_id),
+                    'creator_id' => $user_id,
+                    'avatar' => User::get_page_picture_url_from_page_id($page_id),
+                    'background_url' => $image_url ? $image_url : $old_url
+                ]);
+            } catch (\Illuminate\Database\QueryException $e) {
+                return redirect('/r')->with('error', 'Cannot update this time. Try again later!');
+            } catch (\Exception $e) {
+                return redirect('/r')->with('error', 'Cannot update this time. Try again later!');
+            }
+
+            // update user's pages
+            $this->user->update_pages();
+            return redirect('/r')->with('success', 'Successfully updated restaurant!');
+        }
+        return redirect()->route('restaurant.index')->withError('Unauthorized!');
     }
 }

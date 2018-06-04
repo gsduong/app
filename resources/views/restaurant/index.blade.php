@@ -66,8 +66,12 @@
                                         </div>
                                     </a>
                                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
-                                        <a href="{{route('restaurant.delete', $restaurant->id)}}" onclick="return confirm('Are you sure you want to delete this item?');">
+                                        <a href="{{route('restaurant.delete', $restaurant->id)}}" onclick="return confirm('Are you sure you want to delete this item?');" title="Delete">
                                             <i class="material-icons vertical-align-custom">delete</i>
+                                        </a>
+                                        &nbsp;
+                                        <a href="{{route('restaurant.show-form-edit', $restaurant->id)}}" title="Edit">
+                                            <i class="material-icons vertical-align-custom">edit</i>
                                         </a>
                                     </div>
                                 </div>

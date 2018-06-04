@@ -15,7 +15,7 @@ class Restaurant extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'fb_page_id', 'fb_page_access_token', 'creator_id', 'avatar'
+        'name', 'fb_page_id', 'fb_page_access_token', 'creator_id', 'avatar', 'background_url'
     ];
 
     /**
