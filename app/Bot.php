@@ -66,6 +66,7 @@ class Bot extends Model
         //     }
         // }
         // return $fields;
+        return null;
     }
 
     // public function getPostbackButtonsForDefaultResponse(){
