@@ -147,15 +147,16 @@ class WebhookController extends Controller
             file_put_contents("php://stderr", 'Successfully sent default_response_in_maintenance in maintenace!');
         }
         else {
-
+            $text = "";
             $text = $message ? $message . " Bạn có thể gõ trực tiếp: " : $restaurant->bot->default_response;
             foreach ($fields as $key => $value) {
                 $text = $text . "\"" . $value["name"] . "\", "
             }
             $text = rtrim($text,',');
             $text = $text . ".";
-            $this->sendTextMessage($page_id, $recipientId, $text);
-            file_put_contents("php://stderr", 'Successfully sent default response from ' . $page_id . " to " . $recipientId);
+            file_put_contents("php://stderr", $text);
+            // $this->sendTextMessage($page_id, $recipientId, $text);
+            // file_put_contents("php://stderr", 'Successfully sent default response from ' . $page_id . " to " . $recipientId);
             // try {
             //   // Returns a `FacebookFacebookResponse` object
             //   $response = Facebook::post(
