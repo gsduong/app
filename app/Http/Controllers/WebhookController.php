@@ -152,7 +152,7 @@ class WebhookController extends Controller
                 return;
         }
         // construct array of postback buttons
-        $buttons = json_decode($restaurant->bot->generatePostbackButtonsForDefaultResponse(), true);
+        $buttons = json_decode($restaurant->bot->generatePostbackButtonsForDefaultResponse($recipient_id), true);
         try {
           // Returns a `FacebookFacebookResponse` object
           $response = Facebook::post(

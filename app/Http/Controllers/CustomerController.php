@@ -28,7 +28,11 @@ class CustomerController extends Controller
 		return view('customer.new-order', ['restaurant' => $this->restaurant]);
 	}
 
-	public function showFormCreateReservation() {
-		return view('customer.reservation', ['restaurant' => $this->restaurant]);
+	public function showFormCreateReservation($psid) {
+		$customer = $this->restaurant->customers->where('app_scoped_id', '=', $psid)->first();
+		if (!$customer) {
+			return response()->view('errors/404');
+		}
+		return view('customer.reservation', ['restaurant' => $this->restaurant, 'customer' => $customer]);
 	}
 }
