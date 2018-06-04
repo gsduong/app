@@ -123,7 +123,7 @@ class WebhookController extends Controller
                     file_put_contents("php://stderr", $e->getMessage());
                 }
                 try {
-                    $this->sendTextMessage($page_id, $senderId, $restaurant->bot->default_response);
+                    $this->sendDefaultResponse($page_id, $senderId);
                 } catch (Exception $e) {
                     file_put_contents("php://stderr", $e->getMessage());
                 }
@@ -137,5 +137,40 @@ class WebhookController extends Controller
 
     private function get_value_by_key($array, $key) {
         return array_key_exists($key, $array) ? $array[$key] : null;
+    }
+
+    private function sendDefaultResponse($page_id, $recipient_id) {
+        $restaurant = Restaurant::where('fb_page_id', '=', $page_id)->first();
+        // construct array of postback buttons
+        $bot = $restaurant->bot;
+        $buttons = json_decode($bot->generatePostbackButtonsForDefaultResponse(), true);
+        try {
+          // Returns a `FacebookFacebookResponse` object
+          $response = Facebook::post(
+            '/me/messages?access_token'. $bot->access_token,
+            array(
+                "recipient" => array(
+                    "id" => $recipient_id
+                ),
+                "message" => array(
+                    "attachment" => array(
+                        "type" => "template",
+                        "payload" => array(
+                            "template_type" => "generic",
+                            "elements" => array(
+                                array("title" => $bot->default_response),
+                                "buttons" => $buttons
+                            )
+                        )
+                    )
+                )
+            ),
+            $bot->access_token
+          );
+          file_put_contents("php://stderr", "Sent a generic template from " . $page_id . " to " . $recipientId);
+        } catch(Exception $e) {
+            file_put_contents("php://stderr", $e->getMessage());
+        }
+        return;
     }
 }
