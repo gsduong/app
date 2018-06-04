@@ -112,12 +112,65 @@ class WebhookController extends Controller
         $senderId = $this->get_value_by_key($event, "sender")["id"];
         $recipientId = $this->get_value_by_key($event, "recipient")["id"];
         $page_id = $recipientId;
+        $restaurant = Restaurant::where('fb_page_id', '=', $page_id)->first();
         $payload = $this->get_value_by_key($event, "postback")["payload"];
-        $this->sendTextMessage($page_id, $senderId, $payload);
+        switch ($payload) {
+            case 'GET_STARTED_PAYLOAD':
+                $restaurant->customers()->firstOrCreate(['app_scoped_id' => $senderId]); // create new customer instance
+                $this->sendDefaultResponse($page_id, $senderId, $restaurant->bot->welcome_message);
+                break;
+            
+            default:
+                $this->sendTextMessage($page_id, $senderId, $payload);
+                break;
+        }
         return;
     }
 
     private function get_value_by_key($array, $key) {
         return array_key_exists($key, $array) ? $array[$key] : null;
+    }
+
+    private function sendDefaultResponse($page_id, $recipientId, $message = null) {
+        $restaurant = Restaurant::where('fb_page_id', '=', $page_id)->first();
+        $fields = $restaurant->bot->getActiveFieldsForDefaultResponse();
+        if (!$fields) {
+            $this->sendTextMessage($restaurant->fb_page_id, $recipientId, $restaurant->bot->default_response_in_maintenance);
+        }
+        $text = $message ? $message . " Bạn có thể gõ trực tiếp: " : $restaurant->bot->default_response;
+        foreach ($fields as $key => $value) {
+            $text = $text . "\"" . $value["name"] . "\", "
+        }
+        $text = rtrim($text,',');
+        $text = $text . ".";
+        try {
+          // Returns a `FacebookFacebookResponse` object
+          $response = Facebook::post(
+            '/me/messages?access_token='. $restaurant->bot->access_token,
+            array (
+                "recipient" => array("id" => $recipientId),
+                "message" => array(
+                    "attachment" => array(
+                        "type" => "template",
+                        "payload" => array(
+                            "template_type" => "generic",
+                            "elements" => array(
+                                array(
+                                    "title" => $text,
+                                ), 
+                                array(
+                                    "buttons" => $restaurant->bot->getPostbackButtonsForDefaultResponse()
+                                )
+                            )
+                        )
+                    )
+                )
+            ),
+            $restaurant->bot->access_token
+          );
+        } catch(Exception $e) {
+            file_put_contents("php://stderr", "Failed to send defaultresponse.");
+        }
+        return;
     }
 }

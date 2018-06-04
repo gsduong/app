@@ -64,9 +64,12 @@ class BotController extends Controller
 			$bot = new Bot;
 			$bot->access_token = $this->restaurant->fb_page_access_token;
 			$bot->restaurant_id = $this->restaurant->id;
-			$bot->welcome_message = "Chào mừng {{user_full_name}} đến với " . $bot->restaurant->name;
+			$bot->default_response = $this->restaurant->name . " có thể giúp gì cho bạn? Bạn có thể gõ trực tiếp: ";
+			$bot->default_response_in_maintenance = "Hiện tại chúng tôi đang trong quá trình cập nhật thông tin. Mong quý khách vui lòng quay lại sau. Xin cảm ơn!";
+			$bot->welcome_message = "Chào mừng {{user_full_name}} đến với " . $bot->restaurant->name . ".";
 			$settings = array();
 			$settings["menu"] = array("active" => 1, "default_response" => "Hiện tại menu của nhà hàng vẫn đang trong quá trình hoàn thiện. Mong quý khách vui lòng chờ đợi trong thời gian ngắn! Xin cảm ơn!");
+			$settings["order"] = array("active" => 1, "default_response" => "Hiện tại nhà hàng không tiếp nhận đơn đặt hàng online. Mong quý khách vui lòng liên hệ lại sau! Xin cảm ơn!");
 			$settings["address"] = array("active" => 1, "default_response" => "Hiện tại nhà hàng chưa cập nhật địa chỉ. Mong quý khách vui lòng chờ đợi trong thời gian ngắn! Xin cảm ơn!");
 			$settings["opening_hour"] = array("active" => 1, "default_response" => "Hiện tại nhà hàng chưa có giờ mở cửa cụ thể. Mong quý khách vui lòng chờ đợi trong thời gian ngắn! Xin cảm ơn!");
 			$settings["phone_number"] = array("active" => 1, "default_response" => "Hiện tại nhà hàng chưa cập nhật số điện thoại. Mong quý khách vui lòng chờ đợi trong thời gian ngắn! Xin cảm ơn!");
