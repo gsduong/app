@@ -20,7 +20,6 @@ class CustomerController extends Controller
 		$this->middleware(function ($request, $next) {
 			$this->restaurant = Restaurant::where('slug', '=', $request->route('restaurant_slug'))->first();
 			if (!$this->restaurant) {
-				dd('Fuck!');
 				return response()->view('errors/404');
 			}
 			return $next($request);
@@ -30,10 +29,9 @@ class CustomerController extends Controller
 		return view('customer.new-order', ['restaurant' => $this->restaurant]);
 	}
 
-	public function showFormCreateReservation($psid) {
+	public function showFormCreateReservation($restaurant_slug, $psid) {
 		$customer = $this->restaurant->customers->where('app_scoped_id', '=', $psid)->first();
 		if (!$customer) {
-			dd("Fuck!");
 			return response()->view('errors/404');
 		}
 		return view('customer.reservation', ['restaurant' => $this->restaurant, 'customer' => $customer]);
