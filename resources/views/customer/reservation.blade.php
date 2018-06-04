@@ -25,7 +25,7 @@
                                 <i class="material-icons">person</i>
                             </span>
                             <div class="form-line">
-                                <input type="text" name="name" class="form-control" placeholder="Please provide your name" required="true" value="{{ old('name') }}">
+                                <input type="text" name="name" id="name" class="form-control" placeholder="Please provide your name" required="true" value="{{ old('name') }}">
                             </div>
                         </div>
                         <label id="name-error" class="validation-error-label" for="name"><small>{{ $errors->first('name') }}</small></label>
@@ -37,7 +37,7 @@
                                 <i class="material-icons">phone</i>
                             </span>
                             <div class="form-line">
-                                <input type="text" name="phone" class="form-control" placeholder="Please provide your phone number" required="true" value="{{ old('phone') }}">
+                                <input type="text" name="phone" id="phone" class="form-control" placeholder="Please provide your phone number" required="true" value="{{ old('phone') }}">
                             </div>
                         </div>
                         <label id="phone-error" class="validation-error-label" for="phone"><small>{{ $errors->first('phone') }}</small></label>
@@ -71,10 +71,16 @@
                             <b>Branch</b>
                             <div class="input-group" style="margin-bottom: 0;">
                                 <div class="demo-radio-button">
+                                    <div class="row">
                                     @foreach($restaurant->contacts as $no => $contact)
-                                    <input name="address_id" type="radio" id="address_{{$no + 1}}" {{$no == 0 ? 'checked' : ''}} value="{{$contact->id}}">
-                                    <label for="address_{{$no + 1}}">{{$contact->address}}</label>
+                                    <div class="col-xs-6" style="padding-left: 11px; margin-bottom: 5px;">
+                                        <input name="address_id" type="radio" id="address_{{$no + 1}}" {{$no == 0 ? 'checked' : ''}} value="{{$contact->id}}">
+                                        <label for="address_{{$no + 1}}">{{$contact->address}}</label>
+                                    </div>
+
                                     @endforeach
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -86,9 +92,10 @@
                                 <i class="material-icons">people</i>
                             </span>
                             <div class="form-line">
-                                <input type="number" name="adult" class="form-control" placeholder="Adults" required="true" min="1" value="{{ old('adult') }}">
+                                <input type="number" id="adult" name="adult" class="form-control" placeholder="Adults" required="true" min="1" value="{{ old('adult') }}">
                             </div>
                         </div>
+                        <label id="adult-error" class="validation-error-label" for="adult"><small>{{ $errors->first('adult') }}</small></label>
                     </div>
                     <div class="col-xs-6">
                         <b>Children</b>
@@ -97,7 +104,7 @@
                                 <i class="material-icons">child_care</i>
                             </span>
                             <div class="form-line">
-                                <input type="number" name="children" class="form-control" placeholder="Children" value="{{ old('children') }}" min="0">
+                                <input type="number" id="children" name="children" class="form-control" placeholder="Children" value="{{ old('children') }}" min="0">
                             </div>
                         </div>
                         <label id="children-error" class="validation-error-label" for="children"><small>{{ $errors->first('children') }}</small></label>
@@ -114,7 +121,7 @@
                         </div>
                     </div>
                     <div class="col-xs-12">
-                        <button type="submit" class="btn btn-block btn-lg btn-success waves-effect">BOOK</button>
+                        <button type="submit" class="btn btn-block btn-lg btn-success waves-effect" onclick="formValidate()">BOOK</button>
                     </div>
                 </div>
             </form>
@@ -161,7 +168,58 @@
             })
         }
     </script>
-@endsection
-
-@section('extra-script')
+    <script>
+        function formValidate(){
+            $flag = true;
+            var name = document.getElementById("name");
+            if (!name.checkValidity()) {
+                document.getElementById("name-error").style.display = "block";
+                document.getElementById("name-error").innerHTML = name.validationMessage;
+                $flag = false;
+            } else {
+                document.getElementById("name-error").style.display = "none";
+            }
+            var phone = document.getElementById("phone");
+            if (!phone.checkValidity()) {
+                document.getElementById("phone-error").style.display = "block";
+                document.getElementById("phone-error").innerHTML = phone.validationMessage;
+                $flag = false;
+            } else {
+                document.getElementById("phone-error").style.display = "none";
+            }
+            var adult = document.getElementById("adult");
+            if (!adult.checkValidity()) {
+                document.getElementById("adult-error").style.display = "block";
+                document.getElementById("adult-error").innerHTML = adult.validationMessage;
+                $flag = false;
+            } else {
+                document.getElementById("adult-error").style.display = "none";
+            }
+            var children = document.getElementById("children");
+            if (!children.checkValidity()) {
+                document.getElementById("children-error").style.display = "block";
+                document.getElementById("children-error").innerHTML = children.validationMessage;
+                $flag = false;
+            } else {
+                document.getElementById("children-error").style.display = "none";
+            }
+            var date = document.getElementById("date");
+            if (!date.checkValidity()) {
+                document.getElementById("date-error").style.display = "block";
+                document.getElementById("date-error").innerHTML = date.validationMessage;
+                $flag = false;
+            } else {
+                document.getElementById("date-error").style.display = "none";
+            }
+            var time = document.getElementById("time");
+            if (!time.checkValidity()) {
+                document.getElementById("time-error").style.display = "block";
+                document.getElementById("time-error").innerHTML = time.validationMessage;
+                $flag = false;
+            } else {
+                document.getElementById("time-error").style.display = "none";
+            }
+            return $flag;
+        }
+    </script>
 @endsection
