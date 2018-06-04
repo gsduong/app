@@ -108,7 +108,7 @@
                         </div>
                         <label id="children-error" class="validation-error-label" for="children"><small>{{ $errors->first('children') }}</small></label>
                     </div>
-                    <div class="col-xs-12" style="margin-bottom: 0;">
+                    <div class="col-xs-12" style="margin-bottom: 20px;">
                         <b>Requirements</b>
                         <div class="input-group" style="margin-bottom: 0;">
                             <span class="input-group-addon">
