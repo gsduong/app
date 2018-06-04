@@ -147,7 +147,6 @@ class WebhookController extends Controller
                 return;
         }
         // construct array of postback buttons
-        $page_access_token = $restaurant->bot->access_token;
         $buttons = json_decode($restaurant->bot->generatePostbackButtonsForDefaultResponse(), true);
         try {
           // Returns a `FacebookFacebookResponse` object
@@ -163,8 +162,11 @@ class WebhookController extends Controller
                         "payload" => [
                             "template_type" => "generic",
                             "elements" => [
-                                ["title" => $bot->default_response],
-                                "buttons" => $buttons
+                                array(
+                                    "title" => $bot->default_response,
+                                    "image_url" => $restaurant->background_url,
+                                    "buttons" => $buttons
+                                )
                             ]
                         ]
                     ]
@@ -174,9 +176,6 @@ class WebhookController extends Controller
           );
           file_put_contents("php://stderr", "Response: " . $response);
           file_put_contents("php://stderr", "Sent a generic template from " . $page_id . " to " . $recipientId);
-        }
-        catch(Facebook\FacebookRequestException $e) {
-            file_put_contents("php://stderr", $e->getMessage());
         }
         catch(Facebook\Exceptions\FacebookResponseException $e) {
             file_put_contents("php://stderr", $e->getMessage());
