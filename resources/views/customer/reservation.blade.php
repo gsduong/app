@@ -49,7 +49,7 @@
                                 <i class="material-icons">date_range</i>
                             </span>
                             <div class="form-line">
-                                <input type="date" class="form-control" name="date" value="{{ old('date') }}" required="true" min={{date('Y-m-d')}}>
+                                <input type="text" class="form-control" name="date" placeholder="Ex: 2018-06-01" id="date" value="{{ old('date') }}" required="true" min={{date('Y-m-d')}}>
                             </div>
                         </div>
                         <label id="date-error" class="validation-error-label" for="date"><small>{{ $errors->first('date') }}</small></label>
@@ -61,7 +61,7 @@
                                 <i class="material-icons">access_time</i>
                             </span>
                             <div class="form-line">
-                                <input type="time" value="{{ old('time') }}" class="form-control" name="time" placeholder="Ex: 23:59" required="true">
+                                <input type="text" value="{{ old('time') }}" class="form-control" name="time" placeholder="Ex: 23:59" id="time" required="true">
                             </div>
                         </div>
                         <label id="time-error" class="validation-error-label" for="time"><small>{{ $errors->first('time') }}</small></label>
@@ -114,7 +114,7 @@
                         </div>
                     </div>
                     <div class="col-xs-12">
-                        <button type="submit" class="btn btn-block btn-lg btn-default waves-effect">BOOK</button>
+                        <button type="submit" class="btn btn-block btn-lg btn-success waves-effect">BOOK</button>
                     </div>
                 </div>
             </form>
@@ -125,6 +125,42 @@
 </div>
 
 </div>
+@endsection
+@section('extra-script')
+    <script>
+        date.onclick = function() {
+            var d = new Date();
+            var datePicker = new DateTimePicker.Date({
+                lang: 'en-EN',
+                default: date.value,
+                min: '{{date('Y-m-d')}}'
+            })
+            datePicker.on('selected', function (formatDate, now) {
+                console.log('selected date: ', formatDate, now)
+                date.value = formatDate
+            })
+            datePicker.on('cleared', function () {
+                console.log('cleared date')
+                date.value = ''
+            })
+        }
+        time.onclick = function() {
+            var timePicker = new DateTimePicker.Time({
+                default: time.value,
+                min: '00:00',
+                max: '23:59',
+                minuteStep: 1
+            })
+            timePicker.on('selected', function (formatTime, now) {
+                console.log('selected time: ', formatTime, now)
+                time.value = formatTime
+            })
+            timePicker.on('cleared', function () {
+                console.log('cleared time')
+                time.value = ''
+            })
+        }
+    </script>
 @endsection
 
 @section('extra-script')

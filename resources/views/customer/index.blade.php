@@ -22,7 +22,12 @@
         {{ Html::style('css/custom.css')}}
         {{ Html::style('css/lightbox.css')}}
         {{ Html::style('css/customer.css')}}
-
+        {{ Html::style('css/date-time-picker.min.css')}}
+        <style>
+        * {margin:0;}
+        html {height:100%}
+        body {min-height:100%}
+        </style>
          <!-- Google Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
@@ -50,6 +55,7 @@
         {{Html::script('bsbmd/plugins/node-waves/waves.js')}}
         {{Html::script('js/toastr.min.js')}}
         {{Html::script('js/lightbox.js')}}
+        {{Html::script('js/date-time-picker.min.js')}}
     @show    
     @yield('extra-script')
     @include('message.message')
