@@ -123,7 +123,7 @@ class WebhookController extends Controller
                     file_put_contents("php://stderr", $e->getMessage());
                 }
                 try {
-                    $this->sendTextMessage($page_id, $senderId, $restaurant->bot->welcome_message);
+                    $this->sendTextMessage($page_id, $senderId, $restaurant->bot->default_response);
                 } catch (Exception $e) {
                     file_put_contents("php://stderr", $e->getMessage());
                 }

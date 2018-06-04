@@ -65,7 +65,7 @@ class BotController extends Controller
 			$bot->access_token = $this->restaurant->fb_page_access_token;
 			$bot->restaurant_id = $this->restaurant->id;
 			$bot->welcome_message = "Chào mừng {{user_full_name}} đến với " . $this->restaurant->name . "!";
-			$bot->default_response = $this->restaurant->name . " có thể giúp gì cho bạn? Bạn có thể gõ trực tiếp: \"Menu\", \"Đặt bàn\", \"Order\", \"Chat với nhân viên\", \"Số điện thoại\", \"Địa chỉ\", \"Giờ mở cửa\"";
+			$bot->default_response = "Hãy xem " . $this->restaurant->name . " có thể giúp gì cho bạn? Bạn có thể gõ trực tiếp: \"Menu\", \"Đặt bàn\", \"Order\", \"Chat với nhân viên\", \"Số điện thoại\", \"Địa chỉ\", \"Giờ mở cửa\"";
 
 			// set greeting message and get started button
 			try {
