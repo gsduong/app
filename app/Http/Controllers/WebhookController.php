@@ -141,8 +141,8 @@ class WebhookController extends Controller
 
     private function sendDefaultResponse($page_id, $recipientId, $message) {
         $restaurant = Restaurant::where('fb_page_id', '=', $page_id)->first();
-        $fields = $restaurant->bot->getActiveFieldsForDefaultResponse();
-        if (!$fields) {
+        $fields = $restaurant->bot->settings;
+        if ($fields) {
             $this->sendTextMessage($page_id, $recipientId, $restaurant->bot->default_response_in_maintenance);
             file_put_contents("php://stderr", 'Successfully sent default_response_in_maintenance in maintenace!');
         }
