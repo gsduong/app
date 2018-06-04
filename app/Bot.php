@@ -24,13 +24,13 @@ class Bot extends Model
     }
 
     public function getActiveFieldsForDefaultResponse() {
-        $settings = json_decode($this->settings, true);
-        file_put_contents("php://stderr", $settings);
+        // $settings = json_decode($this->settings, true);
+        // file_put_contents("php://stderr", $settings);
         file_put_contents("php://stderr", $this->settings);
-        if (!$settings) {
-             file_put_contents("php://stderr", 'Bot settings is null!');
-            return null;
-        }
+        // if (!$settings) {
+        //      file_put_contents("php://stderr", 'Bot settings is null!');
+        //     return null;
+        // }
         // $fields = array();
         // foreach ($settings as $key => $value) {
         //     if ($value["active"]) {
