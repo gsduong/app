@@ -11,8 +11,7 @@
 @section('content')
 <div class="container-fluid">
 <div class="row clearfix">
-    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12"></div>
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" style="padding: 0;">
         <div class="card">
             <div class="body">
             <form method="POST" action="{{-- {{route('reservation.create', ['restaurant_slug' => $restaurant->slug])}} --}}">
@@ -109,7 +108,7 @@
                         </div>
                         <label id="children-error" class="validation-error-label" for="children"><small>{{ $errors->first('children') }}</small></label>
                     </div>
-                    <div class="col-xs-12">
+                    <div class="col-xs-12" style="margin-bottom: 0;">
                         <b>Requirements</b>
                         <div class="input-group" style="margin-bottom: 0;">
                             <span class="input-group-addon">
@@ -128,7 +127,6 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12"></div>
 </div>
 
 </div>

@@ -79,3 +79,6 @@ section.content {
 .date-picker-days i {
 	padding: 0 !important;
 }
+section.content {
+	margin-top: 1px !important;
+}
