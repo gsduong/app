@@ -22,6 +22,7 @@ class CreateBotsTable extends Migration
             $table->boolean('active')->default(1);
             $table->string('welcome_message')->nullable();
             $table->string('default_response')->nullable();
+            $table->text('default_response_in_maintenance')->nullable();
             $table->timestamps();
         });
     }
