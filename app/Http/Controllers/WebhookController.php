@@ -115,19 +115,18 @@ class WebhookController extends Controller
         $restaurant = Restaurant::where('fb_page_id', '=', $page_id)->first();
         $payload = $this->get_value_by_key($event, "postback")["payload"];
         switch ($payload) {
-            case 'GET_STARTED_PAYLOAD':
-                try {
-                    $restaurant->customers()->firstOrCreate(['app_scoped_id' => $senderId]);
-                } catch (Exception $e) {
-                    file_put_contents("php://stderr", $e->getMessage());
-                }
-                try {
-                    $this->sendDefaultResponse($page_id, $senderId, $restaurant->bot->welcome_message);
-                } catch (Exception $e) {
-                    file_put_contents("php://stderr", $e->getMessage());
-                }
-                break;
-            
+            // case 'GET_STARTED_PAYLOAD':
+            //     try {
+            //         $restaurant->customers()->firstOrCreate(['app_scoped_id' => $senderId]);
+            //     } catch (Exception $e) {
+            //         file_put_contents("php://stderr", $e->getMessage());
+            //     }
+            //     try {
+            //         $this->sendDefaultResponse($page_id, $senderId, $restaurant->bot->welcome_message);
+            //     } catch (Exception $e) {
+            //         file_put_contents("php://stderr", $e->getMessage());
+            //     }
+            //     break;
             default:
                 $this->sendTextMessage($page_id, $senderId, $payload);
                 break;
@@ -143,7 +142,7 @@ class WebhookController extends Controller
         $restaurant = Restaurant::where('fb_page_id', '=', $page_id)->first();
         $fields = $restaurant->bot->getActiveFieldsForDefaultResponse();
         if (!$fields) {
-            
+
             $this->sendTextMessage($restaurant->fb_page_id, $recipientId, $restaurant->bot->default_response_in_maintenance);
         }
         $text = $message ? $message . " Bạn có thể gõ trực tiếp: " : $restaurant->bot->default_response;
