@@ -147,7 +147,7 @@ class WebhookController extends Controller
         try {
           // Returns a `FacebookFacebookResponse` object
           $response = Facebook::post(
-            '/me/messages?access_token'. $bot->access_token,
+            '/me/messages?access_token='. $bot->access_token,
             array(
                 "recipient" => array(
                     "id" => $recipient_id
@@ -167,6 +167,7 @@ class WebhookController extends Controller
             ),
             $bot->access_token
           );
+          file_put_contents("php://stderr", "Response: " . $response);
           file_put_contents("php://stderr", "Sent a generic template from " . $page_id . " to " . $recipientId);
         } catch(Exception $e) {
             file_put_contents("php://stderr", $e->getMessage());

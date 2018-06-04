@@ -190,7 +190,7 @@ class BotController extends Controller
 	}
 
 	public function test() {
-		return $this->restaurant->bot->generatePostbackButtonsForDefaultResponse();
+		return json_decode($this->restaurant->bot->generatePostbackButtonsForDefaultResponse(), true);
 		try {
 		  // Returns a `FacebookFacebookResponse` object
 		  $response = Facebook::get(
