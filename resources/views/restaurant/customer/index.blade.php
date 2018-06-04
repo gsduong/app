@@ -66,7 +66,7 @@
                                     N/A
                                     @endif
                                 </td>
-                                <td style="text-align: center; vertical-align: middle;"><a href="{{route('customer.reservation', ['restaurant_slug' => $restaurant->slug, 'psid' => $item->app_scoped_id])}}"></a>
+                                <td style="text-align: center; vertical-align: middle;"><a href="{{route('customer.reservation', ['restaurant_slug' => $restaurant->slug, 'psid' => $item->app_scoped_id])}}">Reservation</a>
                                 </td>
                             </tr>
                             @endforeach
