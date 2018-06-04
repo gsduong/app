@@ -123,7 +123,7 @@ class WebhookController extends Controller
                     file_put_contents("php://stderr", $e->getMessage());
                 }
                 try {
-                    $this->sendDefaultResponse($page_id, $senderId, $restaurant->bot->welcome_message);
+                    $this->sendTextMessage($page_id, $senderId, $restaurant->bot->welcome_message);
                 } catch (Exception $e) {
                     file_put_contents("php://stderr", $e->getMessage());
                 }
@@ -137,63 +137,5 @@ class WebhookController extends Controller
 
     private function get_value_by_key($array, $key) {
         return array_key_exists($key, $array) ? $array[$key] : null;
-    }
-
-    private function sendDefaultResponse($page_id, $recipientId, $message) {
-        $restaurant = Restaurant::where('fb_page_id', '=', $page_id)->first();
-        $fields = $restaurant->bot->settings;
-        if ($fields) {
-            $this->sendTextMessage($page_id, $recipientId, $restaurant->bot->default_response_in_maintenance);
-            file_put_contents("php://stderr", 'Successfully sent default_response_in_maintenance in maintenace!');
-        }
-        else {
-            $text = "";
-            if (!$message) {
-                $text = $restaurant->bot->default_response;
-            }
-            else {
-                $text = $message . " Bạn có thể gõ trực tiếp: ";
-            }
-            file_put_contents("php://stderr", $text);
-            foreach ($fields as $key => $value) {
-                $text = $text . "\"" . $value["name"] . "\", "
-            }
-            file_put_contents("php://stderr", $text);
-            $text = rtrim($text,',');
-            file_put_contents("php://stderr", $text);
-            $text = $text . ".";
-            file_put_contents("php://stderr", $text);
-            // $this->sendTextMessage($page_id, $recipientId, $text);
-            // file_put_contents("php://stderr", 'Successfully sent default response from ' . $page_id . " to " . $recipientId);
-            // try {
-            //   // Returns a `FacebookFacebookResponse` object
-            //   $response = Facebook::post(
-            //     '/me/messages?access_token='. $restaurant->bot->access_token,
-            //     array (
-            //         "recipient" => array("id" => $recipientId),
-            //         "message" => array(
-            //             "attachment" => array(
-            //                 "type" => "template",
-            //                 "payload" => array(
-            //                     "template_type" => "generic",
-            //                     "elements" => array(
-            //                         array(
-            //                             "title" => $text,
-            //                         ), 
-            //                         array(
-            //                             "buttons" => $restaurant->bot->getPostbackButtonsForDefaultResponse()
-            //                         )
-            //                     )
-            //                 )
-            //             )
-            //         )
-            //     ),
-            //     $restaurant->bot->access_token
-            //   );
-            // } catch(Exception $e) {
-            //     file_put_contents("php://stderr", $e->getMessage());
-            // }
-        }
-        return;
     }
 }
