@@ -80,5 +80,11 @@ section.content {
 	padding: 0 !important;
 }
 section.content {
-	margin-top: 1px !important;
+	margin-top: 0px !important;
+}
+body {
+	background-color: white: 
+}
+.card {
+	box-shadow: none;
 }
