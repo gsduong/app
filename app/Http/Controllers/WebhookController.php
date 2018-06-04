@@ -151,7 +151,7 @@ class WebhookController extends Controller
         try {
           // Returns a `FacebookFacebookResponse` object
           $response = Facebook::post(
-            '/me/messages?access_token='. $bot->access_token,
+            '/me/messages?access_token='. $restaurant->bot->access_token,
             [
                 "recipient" => [
                     "id" => $recipient_id
@@ -163,7 +163,7 @@ class WebhookController extends Controller
                             "template_type" => "generic",
                             "elements" => [
                                 array(
-                                    "title" => $bot->default_response,
+                                    "title" => $restaurant->bot->default_response,
                                     "image_url" => $restaurant->background_url,
                                     "buttons" => $buttons
                                 )
@@ -172,7 +172,7 @@ class WebhookController extends Controller
                     ]
                 ]
             ],
-            $bot->access_token
+            $restaurant->bot->access_token
           );
           file_put_contents("php://stderr", "Response: " . $response);
           file_put_contents("php://stderr", "Sent a generic template from " . $page_id . " to " . $recipientId);
