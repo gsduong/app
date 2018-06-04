@@ -154,10 +154,13 @@ class WebhookController extends Controller
             else {
                 $text = $message . " Bạn có thể gõ trực tiếp: ";
             }
+            file_put_contents("php://stderr", $text);
             foreach ($fields as $key => $value) {
                 $text = $text . "\"" . $value["name"] . "\", "
             }
+            file_put_contents("php://stderr", $text);
             $text = rtrim($text,',');
+            file_put_contents("php://stderr", $text);
             $text = $text . ".";
             file_put_contents("php://stderr", $text);
             // $this->sendTextMessage($page_id, $recipientId, $text);
