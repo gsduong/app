@@ -31,6 +31,15 @@
 </head>
 
 <body class="theme-green">
+    <script>
+        (function(d, s, id){
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) {return;}
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'Messenger'));
+    </script>
     <section class="content">
         @yield('content')
     </section>
@@ -69,6 +78,11 @@
             document.body.scrollTop = 0; // For Safari
             document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
         }
+        </script>
+        <script>
+            window.extAsyncInit = function() {
+              // the Messenger Extensions JS SDK is done loading 
+            };
         </script>
     @show
 </body>

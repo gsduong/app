@@ -140,7 +140,10 @@ $(".quantity-btn").on("click", function() {
 </script>
 <script>
     function resetForm() {
-        document.getElementById("form").reset();
+        var form = document.getElementById("form");
+        if (form) {
+            form.reset();
+        }
     }
 </script>
 @endsection

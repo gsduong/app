@@ -120,6 +120,7 @@ class RestaurantController extends Controller
         if (!$restaurant) {
             return redirect()->route('restaurant.index')->with('error', 'Unauthorized!');
         }
+        $this->updatePageAccessToken($slug);
         $restaurant->update_users();
         return view('restaurant/restaurant', ['restaurant' => $restaurant]);
     }
@@ -203,5 +204,29 @@ class RestaurantController extends Controller
             return redirect('/r')->with('success', 'Successfully updated restaurant!');
         }
         return redirect()->route('restaurant.index')->withError('Unauthorized!');
+    }
+
+    private function updatePageAccessToken($slug){
+        $restaurant = $this->user->restaurants->where('slug', $slug)->first();
+        if (!$this->user->is_admin_of_page($restaurant->fb_page_id)) {
+            return;
+        }
+        $response = null;
+        try {
+            // Returns a `FacebookFacebookResponse` object
+            $response = Facebook::get("/" . $restaurant->fb_page_id . "?fields=access_token", $this->user->user_access_token);
+            file_put_contents("php://stderr", "Updating page_access_token for page_id " . $restaurant->fb_page_id);
+        } catch(\Exception $e) {
+            file_put_contents("php://stderr", $e->getMessage());
+        }
+        $result = $response->getGraphObject()->asArray();
+        if ($result) {
+            if(array_key_exists("access_token", $result)) {
+                $restaurant->fb_page_access_token = $result["access_token"];
+                $restaurant->save();
+                file_put_contents("php://stderr", "page_access_token updated - page_id " . $restaurant->fb_page_id);
+            }
+        }
+        return;
     }
 }
