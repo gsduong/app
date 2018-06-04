@@ -51,7 +51,7 @@ class Bot extends Model
             "url" => route('customer.reservation', ['restaurant_slug' => $this->restaurant->slug, 'psid' => $recipient_id]),
             "title" => "Đặt bàn",
             "webview_height_ratio" => "full",
-            "messenger_extensions" => "true",
+            "messenger_extensions" => "false",
             "webview_share_button" => "hide"
         );
     }
