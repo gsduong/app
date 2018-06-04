@@ -149,60 +149,44 @@ class WebhookController extends Controller
         // construct array of postback buttons
         $page_access_token = $restaurant->bot->access_token;
         $buttons = json_decode($restaurant->bot->generatePostbackButtonsForDefaultResponse(), true);
-        $messageData = [
-            "recipient" => [
-                "id" => $recipient_id
-            ],
-            "message" => [
-                "attachment" => [
-                    "type" => "template",
-                    "payload" =>  [
-                        "template_type" => "generic",
-                        "elements" => [
-                            [ "title" => $restaurant->bot->default_response ],
-                            "buttons" => $buttons
+        try {
+          // Returns a `FacebookFacebookResponse` object
+          $response = Facebook::post(
+            '/me/messages?access_token='. $bot->access_token,
+            [
+                "recipient" => [
+                    "id" => $recipient_id
+                ],
+                "message" => [
+                    "attachment" => [
+                        "type" => "template",
+                        "payload" => [
+                            "template_type" => "generic",
+                            "elements" => [
+                                ["title" => $bot->default_response],
+                                "buttons" => $buttons
+                            ]
                         ]
                     ]
                 ]
-            ]
-        ];
-        $ch = curl_init('https://graph.facebook.com/v2.6/me/messages?access_token=' . $page_access_token);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type: application/json"]);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($messageData));
-        curl_exec($ch);
-        file_put_contents("php://stderr", $page_id . " replied " . $recipient_id . " with message: " . $messageData);
+            ],
+            $bot->access_token
+          );
+          file_put_contents("php://stderr", "Response: " . $response);
+          file_put_contents("php://stderr", "Sent a generic template from " . $page_id . " to " . $recipientId);
+        }
+        catch(Facebook\FacebookRequestException $e) {
+            file_put_contents("php://stderr", $e->getMessage());
+        }
+        catch(Facebook\Exceptions\FacebookResponseException $e) {
+            file_put_contents("php://stderr", $e->getMessage());
+        }
+        catch(Facebook\Exceptions\FacebookSDKException $e) {
+            file_put_contents("php://stderr", $e->getMessage());
+        }
+        catch(\Exception $e) {
+            file_put_contents("php://stderr", $e->getMessage());
+        }
         return;
-        // try {
-        //   // Returns a `FacebookFacebookResponse` object
-        //   $response = Facebook::post(
-        //     '/me/messages?access_token='. $bot->access_token,
-        //     array(
-        //         "recipient" => array(
-        //             "id" => $recipient_id
-        //         ),
-        //         "message" => array(
-        //             "attachment" => array(
-        //                 "type" => "template",
-        //                 "payload" => array(
-        //                     "template_type" => "generic",
-        //                     "elements" => array(
-        //                         array("title" => $bot->default_response),
-        //                         "buttons" => $buttons
-        //                     )
-        //                 )
-        //             )
-        //         )
-        //     ),
-        //     $bot->access_token
-        //   );
-        //   file_put_contents("php://stderr", "Response: " . $response);
-        //   file_put_contents("php://stderr", "Sent a generic template from " . $page_id . " to " . $recipientId);
-        // } catch(Exception $e) {
-        //     file_put_contents("php://stderr", $e->getMessage());
-        // }
-        // return;
     }
 }

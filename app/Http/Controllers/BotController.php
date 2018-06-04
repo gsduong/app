@@ -190,17 +190,61 @@ class BotController extends Controller
 	}
 
 	public function test() {
-		return json_decode($this->restaurant->bot->generatePostbackButtonsForDefaultResponse(), true);
-		try {
-		  // Returns a `FacebookFacebookResponse` object
-		  $response = Facebook::get(
-		    '/me/messenger_profile?fields=get_started,greeting,persistent_menu,whitelisted_domains&access_token='. $this->restaurant->bot->access_token,
-		    null,
-		    $this->restaurant->bot->access_token
-		  );
-		} catch(Exception $e) {
-			return redirect()->route('bot.index', $this->restaurant->slug)->withError($e->getMessage());
-		}
-		dd($response);
+		$bot = $this->restaurant->bot;
+		$buttons = json_decode($bot->generatePostbackButtonsForDefaultResponse(), true);
+        try {
+          // Returns a `FacebookFacebookResponse` object
+          $response = Facebook::post(
+            '/me/messages?access_token='. $bot->access_token,
+            [
+                "recipient" => [
+                    "id" => "1855048967935590"
+                ],
+                "message" => [
+                    "attachment" => [
+                        "type" => "template",
+                        "payload" => [
+                            "template_type" => "generic",
+                            "elements" => [
+                                [ "title" => $bot->default_response ],
+                                "buttons" => $buttons
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            $bot->access_token
+          );
+          file_put_contents("php://stderr", "Response: " . $response);
+          file_put_contents("php://stderr", "Testing: Sent a generic template from " . "2023483744638293" . " to " . "1855048967935590");
+        }
+        catch(Facebook\FacebookRequestException $e) {
+            file_put_contents("php://stderr", $e->getMessage());
+            return $e->getMessage();
+        }
+        catch(Facebook\Exceptions\FacebookResponseException $e) {
+            file_put_contents("php://stderr", $e->getMessage());
+            return $e->getMessage();
+        }
+        catch(Facebook\Exceptions\FacebookSDKException $e) {
+            file_put_contents("php://stderr", $e->getMessage());
+            return $e->getMessage();
+        }
+        catch(\Exception $e) {
+            file_put_contents("php://stderr", $e->getMessage());
+            return $e->getMessage();
+        }
+		// return json_decode($this->restaurant->bot->generatePostbackButtonsForDefaultResponse(), true);
+		// try {
+		//   // Returns a `FacebookFacebookResponse` object
+		//   $response = Facebook::get(
+		//     '/me/messenger_profile?fields=get_started,greeting,persistent_menu,whitelisted_domains&access_token='. $this->restaurant->bot->access_token,
+		//     null,
+		//     $this->restaurant->bot->access_token
+		//   );
+		// } catch(Exception $e) {
+		// 	return redirect()->route('bot.index', $this->restaurant->slug)->withError($e->getMessage());
+		// }
+		// dd($response);
 	}
 }
