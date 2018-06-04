@@ -116,7 +116,11 @@ class WebhookController extends Controller
         $payload = $this->get_value_by_key($event, "postback")["payload"];
         switch ($payload) {
             case 'GET_STARTED_PAYLOAD':
-                $restaurant->customers()->firstOrCreate(['app_scoped_id' => $senderId]); // create new customer instance
+                try {
+                    $restaurant->customers()->firstOrCreate(['app_scoped_id' => $senderId]);
+                } catch (Exception $e) {
+                    file_put_contents("php://stderr", $e->getMessage());
+                }
                 $this->sendDefaultResponse($page_id, $senderId, $restaurant->bot->welcome_message);
                 break;
             
@@ -169,7 +173,7 @@ class WebhookController extends Controller
             $restaurant->bot->access_token
           );
         } catch(Exception $e) {
-            file_put_contents("php://stderr", "Failed to send defaultresponse.");
+            file_put_contents("php://stderr", $e->getMessage());
         }
         return;
     }
