@@ -5,6 +5,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Restaurant;
+use Facebook;
 class WebhookController extends Controller
 {
 	public function verify(Request $request) {
