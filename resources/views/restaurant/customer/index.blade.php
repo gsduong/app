@@ -57,9 +57,13 @@
                                 <td style="text-align: center; vertical-align: middle;">{{$item->app_scoped_id}}
                                 </td>
                                 <td style="text-align: center; vertical-align: middle;">
+                                    @if(item->profile_pic)
                                     <div class="image">
                                         <img src="{{$item->profile_pic}}" width="36" height="36" title="{{$item->first_name}} {{$item->last_name}}" alt="{{$item->first_name}} {{$item->last_name}}" style="border-radius: 50% !important;" id="image-{{$item->id}}">
                                     </div>
+                                    @else
+                                    N/A
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach

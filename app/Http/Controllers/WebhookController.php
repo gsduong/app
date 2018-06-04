@@ -122,7 +122,8 @@ class WebhookController extends Controller
         switch ($payload) {
             case 'GET_STARTED_PAYLOAD':
                 try {
-                    $customer = $restaurant->customers()->firstOrCreate(['app_scoped_id' => $senderId]);
+                    $restaurant->customers()->firstOrCreate(['app_scoped_id' => $senderId]);
+                    $customer = $restaurant->customers->where('app_scoped_id', $senderId)->first();
                     $customer->updateInformation();
                     file_put_contents("php://stderr", 'Successfully created new customer!');
                 } catch (Exception $e) {

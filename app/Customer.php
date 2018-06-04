@@ -24,6 +24,7 @@ class Customer extends Model
 
     public function updateInformation() {
         // update first_name, last_name, profile_pic
+        $response = null;
         try {
           // Returns a `FacebookFacebookResponse` object
           $response = Facebook::get(
