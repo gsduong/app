@@ -38,14 +38,15 @@ class Customer extends Model
         $result = $response->getGraphObject()->asArray();
         if ($result) {
             if(array_key_exists("first_name", $result)) {
-                $this->first_name = $result["first_name"];
+                $this->attributes['first_name'] = $result["first_name"];
             }
             if(array_key_exists("last_name", $result)) {
-                $this->last_name = $result["last_name"];
+                $this->attributes['last_name'] = $result["last_name"];
             }
             if(array_key_exists("profile_pic", $result)) {
-                $this->profile_pic = $result["profile_pic"];
+                $this->attributes['profile_pic'] = $result["profile_pic"];
             }
+            $this->save();
         }
     }
 }
