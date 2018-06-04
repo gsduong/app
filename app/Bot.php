@@ -35,23 +35,30 @@ class Bot extends Model
                 switch ($key) {
                     case 'menu':
                         $fields[$key] = array("payload" => "MENU_PAYLOAD", "name" => "Menu");
+                        file_put_contents("php://stderr", $fields);
                         break;
                     case 'order':
                         $fields[$key] = array("payload" => null, "name" => "Order đồ ăn");
+                        file_put_contents("php://stderr", $fields);
                         break;
                     case 'booking':
                         $fields[$key] = array("payload" => "BOOKING_PAYLOAD", "name" => "Đặt bàn");
+                        file_put_contents("php://stderr", $fields);
                         break;
                     case 'chat_with_staff':
                         $fields[$key] = array("payload" => "STAFF_PAYLOAD", "name" => "Chat với nhân viên");
+                        file_put_contents("php://stderr", $fields);
                         break;
                     case 'address':
                         $fields[$key] = array("payload" => null, "name" => "Địa chỉ");
+                        file_put_contents("php://stderr", $fields);
                         break;
                     case 'opening_hour':
                         $fields[$key] = array("payload" => null, "name" => "Giờ mở cửa");
+                        file_put_contents("php://stderr", $fields);
                         break;
                     default:
+                        file_put_contents("php://stderr", $fields);
                         break;
                 }
             }
