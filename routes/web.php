@@ -74,6 +74,10 @@ Route::get('r/{restaurant_slug}/discounts/edit{discount_id}.html', ['as' => 'dis
 Route::get('r/{restaurant_slug}/orders.html', ['as' => 'order.index', 'uses' => 'OrderController@index']);
 Route::get('r/{restaurant_slug}/orders/create.html', ['as' => 'order.show-form-create', 'uses' => 'OrderController@showFormCreate']);
 Route::post('r/{restaurant_slug}/orders/create', ['as' => 'order.create', 'uses' => 'ReservationController@create']);
+
+// CRM
+Route::get('r/{restaurant_slug}/customers/index.html', ['as' => 'customer.index', 'uses' => 'CustomerController@index']);
+
 // Bot
 Route::get('r/{restaurant_slug}/bot/index.html', ['as' => 'bot.index', 'uses' => 'BotController@index']);
 Route::get('r/{restaurant_slug}/bot/create', ['as' => 'bot.create', 'uses' => 'BotController@create']);

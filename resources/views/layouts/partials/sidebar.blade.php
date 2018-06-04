@@ -56,6 +56,12 @@
                             <span>Chatbot</span>
                         </a>
                     </li>
+                    <li {{ strpos(url()->current(), 'customer') ? 'class=active':''}}>
+                        <a href="{{route('customer.index', $restaurant->slug)}}">
+                            <i class="material-icons">people</i>
+                            <span>CRM</span>
+                        </a>
+                    </li>
                     <li {{ strpos(url()->current(), 'contact') ? 'class=active':''}}>
                         <a href="{{route('contact.index', $restaurant->slug)}}">
                             <i class="material-icons">contact_phone</i>

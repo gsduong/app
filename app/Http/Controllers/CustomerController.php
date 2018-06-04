@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Restaurant;
+use Input;
 class CustomerController extends Controller
 {
 	private $customer;
@@ -34,5 +35,17 @@ class CustomerController extends Controller
 			return response()->view('errors/404');
 		}
 		return view('customer.reservation', ['restaurant' => $this->restaurant, 'customer' => $customer]);
+	}
+
+	public function index(){
+		$customers = $this->restaurant->customers()->newQuery();
+		if (Input::get('first_name')) {
+			$customers->where('first_name', 'like', '%' . Input::get('first_name') . '%');
+		}
+		if (Input::get('last_name')) {
+			$customers->where('last_name', 'like', '%' . Input::get('last_name') . '%');
+		}
+		$customers = $customers->orderBy('created_at', 'desc')->paginate(5);
+		return view('restaurant/customer/index', ['restaurant' => $this->restaurant, 'customers' => $customers]);
 	}
 }
