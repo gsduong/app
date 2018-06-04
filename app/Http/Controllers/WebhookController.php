@@ -5,6 +5,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Restaurant;
+use App\Customer;
 use Facebook;
 class WebhookController extends Controller
 {
@@ -118,13 +119,14 @@ class WebhookController extends Controller
         switch ($payload) {
             case 'GET_STARTED_PAYLOAD':
                 try {
-                    $restaurant->customers()->firstOrCreate(['app_scoped_id' => $senderId]);
+                    $customer = $restaurant->customers()->firstOrCreate(['app_scoped_id' => $senderId]);
+                    $customer->updateInformation();
                     file_put_contents("php://stderr", 'Successfully created new customer!');
                 } catch (Exception $e) {
                     file_put_contents("php://stderr", $e->getMessage());
                 }
                 try {
-                    $this->sendDefaultResponse($page_id, $senderId);
+                    $this->sendDefaultResponse($page_id, $senderId, "Chào mừng " . $customer->first_name . " " . $customer->last_name . " đến với " . $restaurant->name);
                 } catch (Exception $e) {
                     file_put_contents("php://stderr", $e->getMessage());
                 }
@@ -140,7 +142,7 @@ class WebhookController extends Controller
         return array_key_exists($key, $array) ? $array[$key] : null;
     }
 
-    private function sendDefaultResponse($page_id, $recipient_id) {
+    private function sendDefaultResponse($page_id, $recipient_id, $message) {
         $restaurant = Restaurant::where('fb_page_id', '=', $page_id)->first();
         if (!$restaurant) {
                 file_put_contents("php://stderr", "Not found page id: " . $page_id);
@@ -163,7 +165,7 @@ class WebhookController extends Controller
                             "template_type" => "generic",
                             "elements" => [
                                 array(
-                                    "title" => $restaurant->bot->default_response,
+                                    "title" => $message,
                                     "image_url" => $restaurant->background_url,
                                     "buttons" => $buttons
                                 )

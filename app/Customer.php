@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Facebook;
 class Customer extends Model
 {
     /**
@@ -12,7 +12,7 @@ class Customer extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'app_scoped_id', 'restaurant_id'
+        'name', 'app_scoped_id', 'restaurant_id', 'profile_pic', 'first_name', 'last_name'
     ];
     /**
      * Get the restaurant that owns the customer.
@@ -20,5 +20,31 @@ class Customer extends Model
     public function restaurant()
     {
         return $this->belongsTo('App\Restaurant', 'restaurant_id');
+    }
+
+    public function updateInformation() {
+        // update first_name, last_name, profile_pic
+        try {
+          // Returns a `FacebookFacebookResponse` object
+          $response = Facebook::get(
+            $this->app_scoped_id . '?fields=first_name,last_name,profile_pic&access_token=' . $this->restaurant->fb_page_access_token,
+            null,
+            $this->restaurant->fb_page_access_token
+          );
+        } catch(Exception $e) {
+            return;
+        }
+        $result = $response->getGraphObject()->asArray();
+        if ($result) {
+            if(array_key_exists("first_name", $result)) {
+                $this->first_name = $result["first_name"];
+            }
+            if(array_key_exists("last_name", $result)) {
+                $this->last_name = $result["last_name"];
+            }
+            if(array_key_exists("profile_pic", $result)) {
+                $this->profile_pic = $result["profile_pic"];
+            }
+        }
     }
 }
