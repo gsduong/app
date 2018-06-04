@@ -121,7 +121,11 @@ class WebhookController extends Controller
                 } catch (Exception $e) {
                     file_put_contents("php://stderr", $e->getMessage());
                 }
-                $this->sendDefaultResponse($page_id, $senderId, $restaurant->bot->welcome_message);
+                try {
+                    $this->sendDefaultResponse($page_id, $senderId, $restaurant->bot->welcome_message);
+                } catch (Exception $e) {
+                    file_put_contents("php://stderr", $e->getMessage());
+                }
                 break;
             
             default:
@@ -139,6 +143,7 @@ class WebhookController extends Controller
         $restaurant = Restaurant::where('fb_page_id', '=', $page_id)->first();
         $fields = $restaurant->bot->getActiveFieldsForDefaultResponse();
         if (!$fields) {
+            
             $this->sendTextMessage($restaurant->fb_page_id, $recipientId, $restaurant->bot->default_response_in_maintenance);
         }
         $text = $message ? $message . " Bạn có thể gõ trực tiếp: " : $restaurant->bot->default_response;
