@@ -44,9 +44,11 @@ class WebhookController extends Controller
 	}
 
     private function receivedMessage($event) {
+
             $senderId = $this->get_value_by_key($event, "sender")["id"];
             $recipientId = $this->get_value_by_key($event, "recipient")["id"];
             $page_id = $recipientId;
+            $this->displaySenderAction($page_id, $senderId);
             $timeOfMessage = $this->get_value_by_key($event,"timestamp");
             $message = $this->get_value_by_key($event,"message");
 
@@ -114,6 +116,7 @@ class WebhookController extends Controller
         $senderId = $this->get_value_by_key($event, "sender")["id"];
         $recipientId = $this->get_value_by_key($event, "recipient")["id"];
         $page_id = $recipientId;
+        $this->displaySenderAction($page_id, $senderId);
         $restaurant = Restaurant::where('fb_page_id', '=', $page_id)->first();
         $payload = $this->get_value_by_key($event, "postback")["payload"];
         switch ($payload) {
@@ -178,6 +181,37 @@ class WebhookController extends Controller
           );
           file_put_contents("php://stderr", "Response: " . $response);
           file_put_contents("php://stderr", "Sent a generic template from " . $page_id . " to " . $recipientId);
+        }
+        catch(Facebook\Exceptions\FacebookResponseException $e) {
+            file_put_contents("php://stderr", $e->getMessage());
+        }
+        catch(Facebook\Exceptions\FacebookSDKException $e) {
+            file_put_contents("php://stderr", $e->getMessage());
+        }
+        catch(\Exception $e) {
+            file_put_contents("php://stderr", $e->getMessage());
+        }
+        return;
+    }
+
+    private function displaySenderAction($page_id, $recipient_id) {
+        $restaurant = Restaurant::where('fb_page_id', '=', $page_id)->first();
+        if (!$restaurant) {
+                file_put_contents("php://stderr", "Not found page id: " . $page_id);
+                return;
+        }
+        try {
+          // Returns a `FacebookFacebookResponse` object
+          $response = Facebook::post(
+            '/me/messages?access_token='. $restaurant->bot->access_token,
+            array(
+                "recipient" => array("id" => $recipient_id),
+                "sender_action" => "typing_on"
+            ),
+            $restaurant->bot->access_token
+          );
+          file_put_contents("php://stderr", "Response: " . $response);
+          file_put_contents("php://stderr", "Sent a sender action from " . $page_id . " to " . $recipient_id);
         }
         catch(Facebook\Exceptions\FacebookResponseException $e) {
             file_put_contents("php://stderr", $e->getMessage());
