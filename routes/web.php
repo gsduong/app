@@ -92,3 +92,4 @@ Route::get('customer/{restaurant_slug}/reservation-{psid}.html', ['as' => 'custo
 Route::get('customer/{restaurant_slug}/reservations/review-{reservation_id}.html', ['as' => 'customer.reservation.review', 'uses' => 'CustomerController@review']);
 Route::get('customer/{restaurant_slug}/reservations/cancel-{reservation_id}.html', ['as' => 'customer.reservation.cancel', 'uses' => 'CustomerController@cancel_reservation']);
 Route::post('customer/{restaurant_slug}/reservation-create', ['as' => 'customer.reservation.create', 'uses' => 'CustomerController@create_reservation']);
+Route::get('customer/{restaurant_slug}/menu.html', ['as' => 'customer.menu.view', 'uses' => 'CustomerController@showMenu']);

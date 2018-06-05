@@ -130,4 +130,8 @@ class CustomerController extends Controller
 		$this->restaurant->bot->replyReservation($book, $customer);
 		return response()->view('info/order-success');
 	}
+
+	public function showMenu() {
+		return view('customer/menu', ['restaurant' => $this->restaurant]);
+	}
 }
