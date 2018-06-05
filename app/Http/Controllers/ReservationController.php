@@ -104,12 +104,14 @@ class ReservationController extends Controller
 			'date'	=> 'required|after_or_equal:' . date('Y-m-d'),
 			'time'	=> 'required',
 			'adult'	=> 'required|min:1',
-			'children' => 'required|min:0'
+			'children' => 'required|min:0',
+			'email'	=> 'nullable|email'
 		], [
 			'required' => 'The :attribute field is missing',
 			'date.after_or_equal' => 'The :attribute must be from :date',
 			'adult.min'	=> 'The :attribute must be at least :min',
-			'children'	=> 'The :attribute must be at least :min'
+			'children'	=> 'The :attribute must be at least :min',
+			'email'	=> 'The :attribute must be a valid email address'
 		]);
 		if ($validator->fails()) {
 			return redirect()->back()->withInput()->withErrors($validator);
