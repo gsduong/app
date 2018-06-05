@@ -49,7 +49,7 @@
                                 <i class="material-icons">date_range</i>
                             </span>
                             <div class="form-line">
-                                <input type="text" class="form-control" name="date" onkeydown="return false" onfocusout="updateLabel(this)" placeholder="Ex: 2018-06-01" id="date" value="{{ old('date') }}" required="true" min={{date('Y-m-d')}}>
+                                <input type="text" class="form-control" name="date" readonly="true" onfocusout="updateLabel(this)" placeholder="Ex: 2018-06-01" id="date" value="{{ old('date') }}" required="true" min={{date('Y-m-d')}}>
                             </div>
                         </div>
                         <label id="date-error" class="validation-error-label" for="date"><small>{{ $errors->first('date') }}</small></label>
@@ -61,7 +61,7 @@
                                 <i class="material-icons">access_time</i>
                             </span>
                             <div class="form-line">
-                                <input type="text" value="{{ old('time') }}" class="form-control" name="time" onkeydown="return false" onfocusout="updateLabel(this)" placeholder="Ex: 23:59" id="time" required="true">
+                                <input type="text" value="{{ old('time') }}" class="form-control" name="time" readonly="true" onfocusout="updateLabel(this)" placeholder="Ex: 23:59" id="time" required="true">
                             </div>
                         </div>
                         <label id="time-error" class="validation-error-label" for="time"><small>{{ $errors->first('time') }}</small></label>
