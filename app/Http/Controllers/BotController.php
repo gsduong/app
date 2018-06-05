@@ -68,13 +68,24 @@ class BotController extends Controller
 			$bot->welcome_message = "Chào mừng quý khách đến với " . $this->restaurant->name;
 			$bot->default_response = "Bạn có thể gõ trực tiếp: \"Menu\", \"Đặt bàn\", \"Order\", \"Chat với nhân viên\", \"Số điện thoại\", \"Địa chỉ\", \"Giờ mở cửa\"";
 
+			try {
+			  // Returns a `FacebookFacebookResponse` object
+			  $response = Facebook::post(
+			    '/me/messenger_profile?access_token='. $bot->access_token,
+			    array (
+			    	"whitelisted_domains" => array("https://booknoww.herokuapp.com", route('homepage'))
+			    ),
+			    $bot->access_token
+			  );
+			} catch(Exception $e) {
+				return redirect()->route('bot.index', $this->restaurant->slug)->withError($e->getMessage());
+			}
 			// set greeting message and get started button
 			try {
 			  // Returns a `FacebookFacebookResponse` object
 			  $response = Facebook::post(
 			    '/me/messenger_profile?access_token='. $bot->access_token,
 			    array (
-			    	"whitelisted_domains" => array("https://booknoww.herokuapp.com", route('homepage')),
 					"get_started" => array("payload" => "GET_STARTED_PAYLOAD"),
 					"greeting" => array(array("locale" => "default", "text" => $bot->welcome_message)),
 					"persistent_menu" => array(
