@@ -110,8 +110,11 @@ class Bot extends Model
             case 'confirmed':
                 $message = "Yêu cầu đặt bàn được tiếp nhận thành công! ". $reservation->restaurant->name . " hân hạnh được đón tiếp quý khách";
                 break;
-            case 'variable':
+            case 'canceled':
                 $message = $reservation->restaurant->name . " rất tiếc về yêu cầu đặt bàn bị huỷ! Xin cảm ơn quý khách đã sử dụng dịch vụ của " . $reservation->restaurant->name;
+                break;
+            default:
+                $message = "Cảm ơn quý khách đã sử dụng dịch vụ của " . $reservation->restaurant->name;
                 break;
         }
         $template_btn = [
