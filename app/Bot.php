@@ -3,7 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Facebook;
+use App\Restaurant;
+use App\Customer;
 class Bot extends Model
 {
     /**
@@ -54,5 +56,92 @@ class Bot extends Model
             "messenger_extensions" => "true",
             "webview_share_button" => "hide"
         );
+    }
+
+    public function sendTextMessage($recipient_id, $message)
+    {
+        $restaurant = $this->restaurant;
+        $page_id = $restaurant->fb_page_id;
+        $page_access_token = $this->access_token;
+        $message_data = [
+            "recipient" => [
+                "id" => $recipient_id
+            ],
+            "message" => [
+                "text" => $message
+            ]
+        ];
+        $ch = curl_init('https://graph.facebook.com/v2.6/me/messages?access_token=' . $page_access_token);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type: application/json"]);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($message_data));
+        curl_exec($ch);
+        file_put_contents("php://stderr", $page_id . " replied " . $recipient_id . " with message: " . $message);
+        return;
+    }
+
+    public function displaySenderAction($recipient_id) {
+        $restaurant = $this->restaurant;
+        $page_id = $restaurant->fb_page_id;
+        $page_access_token = $this->access_token;
+        $response = Facebook::post(
+        '/me/messages?access_token='. $page_access_token,
+        array(
+            "recipient" => array("id" => $recipient_id),
+            "sender_action" => "typing_on"
+        ),
+        $page_access_token
+        );
+        return;
+    } 
+
+    public function replyReservation(Reservation $reservation, Customer $customer) {
+        $page_id = $reservation->restaurant->fb_page_id;
+        $status = $reservation->status;
+        $page_access_token = $this->access_token;
+        $button = array();
+        switch ($status) {
+            case 'pending':
+                $message = $reservation->restaurant->name . " đã nhận được yêu cầu đặt bàn của quý khách. Chúng tôi sẽ liên lạc với quý khách trong thời gian sớm nhất";
+                break;
+            case 'confirmed':
+                $message = "Yêu cầu đặt bàn của quý khách đã được tiếp nhận thành công! ". $reservation->restaurant->name . " rất hân hạnh được đón tiếp quý khách";
+                break;
+            case 'variable':
+                $message = $reservation->restaurant->name . " rất tiếc về yêu cầu đặt bàn bị huỷ của quý khách! Xin cảm ơn quý khách đã sử dụng dịch vụ của " . $reservation->restaurant->name;
+                break;
+        }
+        $template_btn = [
+            "recipient" => [
+                "id" => $customer->app_scoped_id
+            ], 
+            "message" => [
+                "attachment" => [
+                    "type" => "template",
+                    "payload" => [
+                        "template_type" => "button",
+                        "text" => $message,
+                        "buttons" => [
+                            [
+                                "type" => "web_url",
+                                "url" => route('customer.reservation.review', ['restaurant_slug' => $reservation->restaurant->slug, 'reservation_id' => $reservation->id]),
+                                "title" => "Review",
+                                "webview_height_ratio" => "full",
+                                "messenger_extensions" => "true",
+                                "webview_share_button" => "hide"
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $response = Facebook::post(
+            '/me/messages?access_token='. $page_access_token,
+            $template_btn,
+            $page_access_token
+        );
+
     }
 }

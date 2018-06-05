@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Restaurant;
+use App\Reservation;
+use App\Customer;
 use Input;
 use Validator;
 class CustomerController extends Controller
@@ -120,7 +122,8 @@ class CustomerController extends Controller
 		$customer->save();
 
 		// Send message to customer via chatbot
-		
+		$this->restaurant->bot->displaySenderAction($customer->app_scoped_id);
+		$this->restaurant->bot->replyReservation($book, $customer);
 		return response()->view('info/order-success');
 	}
 }
