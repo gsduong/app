@@ -24,15 +24,9 @@
         </div>
     </div>
 <div class="row clearfix">
-    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12"></div>
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    <div class="col-xs-12">
         <div class="card">
-{{--             <div class="header" style="text-align: center;">
-                <h2>
-                    RESERVATIONS
-                </h2>
-            </div> --}}
-            <div class="body" style="max-height: calc(100vh - 173px); overflow-y: scroll;">
+            <div class="body">
             <form method="POST" action="{{route('reservation.create', ['restaurant_slug' => $restaurant->slug])}}">
                 @csrf
                 <div class="row clearfix">
@@ -149,7 +143,7 @@
                             </div>
                         </div>
                     @endif
-                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12">
+                    <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
                         <button type="submit" class="btn btn-block btn-lg btn-default waves-effect">BOOK</button>
                     </div>
                 </div>
@@ -157,7 +151,6 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12"></div>
 </div>
 
 </div>
