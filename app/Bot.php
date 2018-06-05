@@ -105,13 +105,13 @@ class Bot extends Model
         $message = "";
         switch ($status) {
             case 'pending':
-                $message = "Yêu cầu đặt bàn đã được tiếp nhận! " . $reservation->restaurant->name . " sẽ liên lạc lại với quý khách";
+                $message = "Yêu cầu đặt bàn đã được " . $reservation->restaurant->name . " tiếp nhận";
                 break;
             case 'confirmed':
-                $message = "Đặt bàn thành công! ". $reservation->restaurant->name . " hân hạnh được đón tiếp quý khách";
+                $message = "Đặt bàn thành công";
                 break;
             case 'canceled':
-                $message = "Huỷ đặt bàn thành công! Xin cảm ơn quý khách đã sử dụng " . $reservation->restaurant->name;
+                $message = "Huỷ đặt bàn thành công";
                 break;
             default:
                 $message = "Cảm ơn quý khách đã sử dụng dịch vụ của " . $reservation->restaurant->name;
@@ -125,17 +125,22 @@ class Bot extends Model
                 "attachment" => [
                     "type" => "template",
                     "payload" => [
-                        "template_type" => "button",
-                        "text" => $message,
-                        "buttons" => [
-                            [
-                                "type" => "web_url",
-                                "url" => route('customer.reservation.review', ['restaurant_slug' => $reservation->restaurant->slug, 'reservation_id' => $reservation->id]),
-                                "title" => "Review",
-                                "webview_height_ratio" => "full",
-                                "messenger_extensions" => "true",
-                                "webview_share_button" => "hide"
-                            ]
+                        "template_type" => "generic",
+                        "elements" => [
+                            array(
+                                "title" => $message,
+                                "image_url" => $reservation->restaurant->background_url ? $reservation->restaurant->background_url : $reservation->restaurant->avatar, 
+                                "buttons" => [
+                                    [
+                                        "type" => "web_url",
+                                        "url" => route('customer.reservation.review', ['restaurant_slug' => $reservation->restaurant->slug, 'reservation_id' => $reservation->id]),
+                                        "title" => "Xem lại",
+                                        "webview_height_ratio" => "full",
+                                        "messenger_extensions" => "true",
+                                        "webview_share_button" => "hide"
+                                    ]
+                                ]
+                            )
                         ]
                     ]
                 ]
