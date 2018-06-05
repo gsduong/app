@@ -89,6 +89,14 @@ class CustomerController extends Controller
 		$data = ['customer_id' => $customer->id, 'created_by_bot' => $created_by_bot, 'customer_name' => $customer_name, 'customer_phone' => $customer_phone, 'date' => $date, 'time' => $time, 'adult' => $adult, 'children' => $children, 'address_id' => $address_id, 'status' => $status, 'customer_requirement' => $customer_requirement];
 		$book = $this->restaurant->reservations()->create($data);
 		event(new \App\Events\ReservationUpdated($book));
+
+		// Update customer information
+		$customer->name = $customer_name;
+		$customer->phone = $customer_phone;
+		$customer->save();
+
+		// Send message to customer via chatbot
+		
 		return response()->view('info/order-success');
 	}
 }

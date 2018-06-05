@@ -40,9 +40,8 @@
                         <thead>
                             <tr >
                                 <th style="text-align: center;">#</th>
-                                <th style="text-align: center;">First Name</th>
-                                <th style="text-align: center;">Last Name</th>
-                                <th style="text-align: center;">PSID</th>
+                                <th style="text-align: center;">Name</th>
+                                <th style="text-align: center;">Phone</th>
                                 <th style="text-align: center;">Avatar</th>
                                 <th style="text-align: center;">Actions</th>
                             </tr>
@@ -51,11 +50,9 @@
                             @foreach($customers as $no => $item)
                             <tr>
                                 <th style="text-align: center; vertical-align: middle;">{{$no + 1}}</th>
-                                <td style="text-align: center; vertical-align: middle;">{{$item->first_name}}
+                                <td style="text-align: center; vertical-align: middle;">{{$item->getName()}}
                                 </td>
-                                <td style="text-align: center; vertical-align: middle;">{{$item->last_name}}
-                                </td>
-                                <td style="text-align: center; vertical-align: middle;">{{$item->app_scoped_id}}
+                                <td style="text-align: center; vertical-align: middle;">{{$item->phone}}
                                 </td>
                                 <td style="text-align: center; vertical-align: middle;">
                                     @if($item->profile_pic)
@@ -66,7 +63,7 @@
                                     N/A
                                     @endif
                                 </td>
-                                <td style="text-align: center; vertical-align: middle;"><a href="{{route('customer.reservation', ['restaurant_slug' => $restaurant->slug, 'psid' => $item->app_scoped_id])}}">Reservation</a>
+                                <td style="text-align: center; vertical-align: middle;">{{-- <a href="{{route('customer.reservation', ['restaurant_slug' => $restaurant->slug, 'psid' => $item->app_scoped_id])}}">Reservation</a> --}}
                                 </td>
                             </tr>
                             @endforeach
