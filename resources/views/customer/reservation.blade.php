@@ -25,7 +25,7 @@
                             </span>
                             <div class="form-line">
                             	<input type="hidden" name="customer_psid" value="{{$customer->app_scoped_id}}">
-                                <input type="text" name="name" id="name" onfocusout="updateLabel(this)" class="form-control" placeholder="{{$customer->getName() ? $customer->getName() : 'Please provide your name'}}" required="true" value="{{ $customer->getName() ? $customer->getName() : old('name') }}">
+                                <input type="text" name="name" id="name" onfocusout="updateLabel(this)" class="form-control" placeholder="Please provide your name" required="true" value="{{ $customer->getName() ? $customer->getName() : old('name') }}">
                             </div>
                         </div>
                         <label id="name-error" class="validation-error-label" for="name"><small>{{ $errors->first('name') }}</small></label>
@@ -37,7 +37,7 @@
                                 <i class="material-icons">phone</i>
                             </span>
                             <div class="form-line">
-                                <input type="text" name="phone" id="phone" onfocusout="updateLabel(this)" class="form-control" placeholder="{{$customer->phone ? $customer->phone : 'Please provide your phone number'}}" required="true" value="{{ $customer->phone ? $customer->phone : old('phone') }}">
+                                <input type="text" name="phone" id="phone" onfocusout="updateLabel(this)" class="form-control" placeholder="Please provide your phone number" required="true" value="{{ $customer->phone ? $customer->phone : old('phone') }}">
                             </div>
                         </div>
                         <label id="phone-error" class="validation-error-label" for="phone"><small>{{ $errors->first('phone') }}</small></label>
@@ -49,7 +49,7 @@
                                 <i class="material-icons">email</i>
                             </span>
                             <div class="form-line">
-                                <input type="email" value="{{ old('email') }}" onfocusout="updateLabel(this)" class="form-control" name="email" placeholder="Optional" id="email">
+                                <input type="email" value="{{ old('email') }}" onfocusout="updateLabel(this)" class="form-control" name="email" placeholder="Optional" id="email" value="{{ $customer->email ? $customer->email : old('email') }}">
                             </div>
                         </div>
                         <label id="email-error" class="validation-error-label" for="email"><small>{{ $errors->first('email') }}</small></label>
@@ -61,7 +61,7 @@
                                 <i class="material-icons">date_range</i>
                             </span>
                             <div class="form-line">
-                                <input class="form-control" name="date" readonly placeholder="Ex: 2018-06-01" id="date" value="{{ old('date') }}" required="true" min={{date('Y-m-d')}}>
+                                <input class="form-control" name="date" readonly onchange="updateLabel(this)" placeholder="Ex: 2018-06-01" id="date" value="{{ old('date') }}" required="true" min={{date('Y-m-d')}}>
                             </div>
                         </div>
                         <label id="date-error" class="validation-error-label" for="date"><small>{{ $errors->first('date') }}</small></label>
@@ -73,7 +73,7 @@
                                 <i class="material-icons">access_time</i>
                             </span>
                             <div class="form-line">
-                                <input value="{{ old('time') }}" class="form-control" name="time" readonly placeholder="Ex: 23:59" id="time" required="true">
+                                <input value="{{ old('time') }}" class="form-control" name="time" readonly onchange="updateLabel(this)" placeholder="Ex: 23:59" id="time" required="true">
                             </div>
                         </div>
                         <label id="time-error" class="validation-error-label" for="time"><small>{{ $errors->first('time') }}</small></label>
@@ -154,12 +154,14 @@
                 min: '{{date('Y-m-d')}}'
             })
             datePicker.on('selected', function (formatDate, now) {
-                console.log('selected date: ', formatDate, now)
-                date.value = formatDate
+                console.log('selected date: ', formatDate, now);
+                date.value = formatDate;
+                date.onchange();
             })
             datePicker.on('cleared', function () {
-                console.log('cleared date')
-                date.value = ''
+                console.log('cleared date');
+                date.value = '';
+                date.onchange();
             })
         }
         time.onclick = function() {
@@ -170,12 +172,14 @@
                 minuteStep: 1
             })
             timePicker.on('selected', function (formatTime, now) {
-                console.log('selected time: ', formatTime, now)
-                time.value = formatTime
+                console.log('selected time: ', formatTime, now);
+                time.value = formatTime;
+                time.onchange();
             })
             timePicker.on('cleared', function () {
-                console.log('cleared time')
-                time.value = ''
+                console.log('cleared time');
+                time.value = '';
+                time.onchange();
             })
         }
     </script>
