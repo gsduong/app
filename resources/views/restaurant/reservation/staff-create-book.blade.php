@@ -64,10 +64,16 @@
                             <b>Branch</b>
                             <div class="input-group" style="margin-bottom: 0;">
                                 <div class="demo-radio-button">
+                                    <div class="row">
                                     @foreach($restaurant->contacts as $no => $contact)
-                                    <input name="address_id" type="radio" id="address_{{$no + 1}}" {{$no == 0 ? 'checked' : ''}} value="{{$contact->id}}">
-                                    <label for="address_{{$no + 1}}">{{$contact->address}}</label>
+                                    <div class="col-xs-6" style="padding-left: 11px; margin-bottom: 5px;">
+                                        <input name="address_id" type="radio" id="address_{{$no + 1}}" {{$no == 0 ? 'checked' : ''}} value="{{$contact->id}}">
+                                        <label for="address_{{$no + 1}}">{{$contact->address}}</label>
+                                    </div>
+
                                     @endforeach
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
