@@ -88,7 +88,7 @@ class CustomerController extends Controller
 			'time'	=> 'required',
 			'adult'	=> 'required|min:1',
 			'children' => 'required|min:0',
-			'email'	=> 'email'
+			'email'	=> 'nullable|email'
 		], [
 			'required' => 'The :attribute field is missing',
 			'date.after_or_equal' => 'The :attribute must be from :date',
