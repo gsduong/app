@@ -12,7 +12,7 @@ class Customer extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'app_scoped_id', 'restaurant_id', 'profile_pic', 'first_name', 'last_name', 'phone', 'address'
+        'name', 'app_scoped_id', 'restaurant_id', 'profile_pic', 'first_name', 'last_name', 'phone', 'address', 'email'
     ];
     /**
      * Get the restaurant that owns the customer.

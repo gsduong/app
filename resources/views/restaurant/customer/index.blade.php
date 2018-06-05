@@ -42,6 +42,7 @@
                                 <th style="text-align: center;">#</th>
                                 <th style="text-align: center;">Name</th>
                                 <th style="text-align: center;">Phone</th>
+                                <th style="text-align: center;">Email</th>
                                 <th style="text-align: center;">Avatar</th>
                                 <th style="text-align: center;">Actions</th>
                             </tr>
@@ -53,6 +54,8 @@
                                 <td style="text-align: center; vertical-align: middle;">{{$item->getName()}}
                                 </td>
                                 <td style="text-align: center; vertical-align: middle;">{{$item->phone}}
+                                </td>
+                                <td style="text-align: center; vertical-align: middle;">{{$item->email}}
                                 </td>
                                 <td style="text-align: center; vertical-align: middle;">
                                     @if($item->profile_pic)

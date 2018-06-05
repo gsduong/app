@@ -62,12 +62,14 @@ class CustomerController extends Controller
 			'date'	=> 'required|after_or_equal:' . date('Y-m-d'),
 			'time'	=> 'required',
 			'adult'	=> 'required|min:1',
-			'children' => 'required|min:0'
+			'children' => 'required|min:0',
+			'email'	=> 'email'
 		], [
 			'required' => 'The :attribute field is missing',
 			'date.after_or_equal' => 'The :attribute must be from :date',
 			'adult.min'	=> 'The :attribute must be at least :min',
-			'children'	=> 'The :attribute must be at least :min'
+			'children'	=> 'The :attribute must be at least :min',
+			'email'	=> 'The :attribute must be a valid email'
 		]);
 		if ($validator->fails()) {
 			return redirect()->back()->withInput()->withErrors($validator);
@@ -85,14 +87,17 @@ class CustomerController extends Controller
 		$status = 'pending';
 		$creator_id = null;
 		$last_editor_id = null;
+		$email = $request->email;
 		$customer_requirement = $request->requirement;
-		$data = ['customer_id' => $customer->id, 'created_by_bot' => $created_by_bot, 'customer_name' => $customer_name, 'customer_phone' => $customer_phone, 'date' => $date, 'time' => $time, 'adult' => $adult, 'children' => $children, 'address_id' => $address_id, 'status' => $status, 'customer_requirement' => $customer_requirement];
+		$data = ['customer_id' => $customer->id, 'created_by_bot' => $created_by_bot, 'customer_name' => $customer_name, 'customer_phone' => $customer_phone, 'date' => $date, 'time' => $time, 'adult' => $adult, 'children' => $children, 'address_id' => $address_id, 'status' => $status, 'customer_requirement' => $customer_requirement, 'email' => $email];
 		$book = $this->restaurant->reservations()->create($data);
 		event(new \App\Events\ReservationUpdated($book));
 
 		// Update customer information
+		$customer->updateInformation();
 		$customer->name = $customer_name;
 		$customer->phone = $customer_phone;
+		$customer->email = $email;
 		$customer->save();
 
 		// Send message to customer via chatbot

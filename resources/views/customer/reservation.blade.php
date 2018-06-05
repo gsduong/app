@@ -42,6 +42,18 @@
                         </div>
                         <label id="phone-error" class="validation-error-label" for="phone"><small>{{ $errors->first('phone') }}</small></label>
                     </div>
+                    <div class="col-xs-12">
+                        <b>Email</b>
+                        <div class="input-group" style="margin-bottom: 0;">
+                            <span class="input-group-addon">
+                                <i class="material-icons">email</i>
+                            </span>
+                            <div class="form-line">
+                                <input type="email" value="{{ old('email') }}" onfocusout="updateLabel(this)" class="form-control" name="email" placeholder="Optional" id="email">
+                            </div>
+                        </div>
+                        <label id="email-error" class="validation-error-label" for="email"><small>{{ $errors->first('email') }}</small></label>
+                    </div>
                     <div class="col-xs-6">
                         <b>Date</b>
                         <div class="input-group" style="margin-bottom: 0;">
@@ -49,7 +61,7 @@
                                 <i class="material-icons">date_range</i>
                             </span>
                             <div class="form-line">
-                                <input type="text" class="form-control" name="date" readonly placeholder="Ex: 2018-06-01" id="date" value="{{ old('date') }}" required="true" min={{date('Y-m-d')}}>
+                                <input class="form-control" name="date" readonly placeholder="Ex: 2018-06-01" id="date" value="{{ old('date') }}" required="true" min={{date('Y-m-d')}}>
                             </div>
                         </div>
                         <label id="date-error" class="validation-error-label" for="date"><small>{{ $errors->first('date') }}</small></label>
@@ -61,7 +73,7 @@
                                 <i class="material-icons">access_time</i>
                             </span>
                             <div class="form-line">
-                                <input type="text" value="{{ old('time') }}" class="form-control" name="time" readonly placeholder="Ex: 23:59" id="time" required="true">
+                                <input value="{{ old('time') }}" class="form-control" name="time" readonly placeholder="Ex: 23:59" id="time" required="true">
                             </div>
                         </div>
                         <label id="time-error" class="validation-error-label" for="time"><small>{{ $errors->first('time') }}</small></label>
@@ -186,6 +198,14 @@
                 $flag = false;
             } else {
                 document.getElementById("phone-error").style.display = "none";
+            }
+            var email = document.getElementById("email");
+            if (!email.checkValidity()) {
+                document.getElementById("email-error").style.display = "block";
+                document.getElementById("email-error").innerHTML = email.validationMessage;
+                $flag = false;
+            } else {
+                document.getElementById("email-error").style.display = "none";
             }
             var adult = document.getElementById("adult");
             if (!adult.checkValidity()) {
