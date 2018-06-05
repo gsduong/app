@@ -81,7 +81,7 @@
                                     <label for="ship">Accept online order for this item</label>
                                     <div class="form-group">
                                         <div class="switch">
-                                            <label>No<input type="checkbox" name="ship"><span class="lever"></span>Yes</label>
+                                            <label>No<input type="checkbox" name="ship" checked><span class="lever"></span>Yes</label>
                                         </div>
                                     </div>
                                 </div>
