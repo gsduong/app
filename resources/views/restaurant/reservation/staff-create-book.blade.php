@@ -16,6 +16,7 @@
                 <ol class="breadcrumb restaurant-breadcrumb">
                     <li><a href="{{route('homepage')}}">Home</a></li>
                     <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>
+                    <li><a href="{{route('restaurant.show', $restaurant->slug)}}">{{$restaurant->name}}</a></li>
                     <li><a href="{{route('reservation.index', $restaurant->slug)}}">Reservations</a></li>
                     <li class="active">Create new reservation</li>
                 </ol>

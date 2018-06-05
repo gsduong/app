@@ -16,6 +16,7 @@
                 <ol class="breadcrumb restaurant-breadcrumb">
                     <li><a href="{{route('homepage')}}">Home</a></li>
                     <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>
+                    <li><a href="{{route('restaurant.show', $restaurant->slug)}}">{{$restaurant->name}}</a></li>
                     <li><a href="{{route('reservation.index', $restaurant->slug)}}">Reservations</a></li>
                     <li class="active">Edit reservation order</li>
                 </ol>
@@ -23,15 +24,9 @@
         </div>
     </div>
 <div class="row clearfix">
-    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12"></div>
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    <div class="col-xs-12">
         <div class="card">
-{{--             <div class="header" style="text-align: center;">
-                <h2>
-                    RESERVATIONS
-                </h2>
-            </div> --}}
-            <div class="body" style="max-height: calc(100vh - 173px); overflow-y: scroll;">
+            <div class="body">
             <form method="POST" action="{{route('reservation.update', ['restaurant_slug' => $restaurant->slug])}}">
                 @csrf
                 <div class="row clearfix">
@@ -83,12 +78,20 @@
                         <b>Status</b>
                         <div class="input-group" style="margin-bottom: 0;">
                             <div class="demo-radio-button">
-                                <input name="status" type="radio" id="status_1" value="pending" {{$reservation->status == 'pending' ? 'checked' : ''}}>
-                                <label for="status_1">Pending</label>
-                                <input name="status" type="radio" id="status_2" value="confirmed" {{$reservation->status == 'confirmed' ? 'checked' : ''}}>
-                                <label for="status_2">Confirmed</label>
-                                <input name="status" type="radio" id="status_3" value="canceled" {{$reservation->status == 'cancelled' ? 'checked' : ''}}>
-                                <label for="status_3">Canceled</label>
+                                <div class="row">
+                                    <div class="col-xs-6" style="padding-left: 11px; margin-bottom: 5px;">
+                                        <input name="status" type="radio" id="status_1" value="pending" {{$reservation->status == 'pending' ? 'checked' : ''}}>
+                                        <label for="status_1">Pending</label>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <input name="status" type="radio" id="status_2" value="confirmed" {{$reservation->status == 'confirmed' ? 'checked' : ''}}>
+                                        <label for="status_2">Confirmed</label>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <input name="status" type="radio" id="status_3" value="canceled" {{$reservation->status == 'cancelled' ? 'checked' : ''}}>
+                                        <label for="status_3">Canceled</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -116,7 +119,7 @@
                         </div>
                         <label id="phone-error" class="validation-error-label" for="phone"><small>{{ $errors->first('phone') }}</small></label>
                     </div>
-                    <div class="col-xs-12">
+                    <div class="col-xs-6">
                         <b>Email</b>
                         <div class="input-group" style="margin-bottom: 0;">
                             <span class="input-group-addon">
@@ -162,7 +165,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12">
+                    <div class="col-xs-6">
                         <button type="submit" class="btn btn-block btn-lg btn-success waves-effect">UPDATE</button>
                     </div>
                 </div>
@@ -170,7 +173,6 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12"></div>
 </div>
 
 </div>
