@@ -41,7 +41,7 @@ class CustomerController extends Controller
 	}
 
 	public function review($restaurant_slug, $reservation_id) {
-		$reservation = $this->restaurant->reservations->find($reservation_id)->first();
+		$reservation = $this->restaurant->reservations->find($reservation_id);
 		if (!$reservation) {
 			return response()->view('errors/404');
 		}
@@ -49,11 +49,11 @@ class CustomerController extends Controller
 	}
 
 	public function cancel_reservation($restaurant_slug, $reservation_id) {
-		$reservation = $this->restaurant->reservations->find($reservation_id)->first();
-		$customer = $reservation->customer;
+		$reservation = $this->restaurant->reservations->find($reservation_id);
 		if (!$reservation) {
 			return response()->view('errors/404');
 		}
+		$customer = $reservation->customer;
 		$reservation->status = 'canceled';
 		$reservation->save();
 		event(new \App\Events\ReservationUpdated($reservation));
