@@ -30,7 +30,7 @@
             <form method="POST" action="{{route('reservation.update', ['restaurant_slug' => $restaurant->slug])}}">
                 @csrf
                 <div class="row clearfix">
-                    <div class="col-xs-6">
+                    <div class="col-xs-4">
                         <b>Date</b>
                         <div class="input-group" style="margin-bottom: 0;">
                             <span class="input-group-addon">
@@ -43,7 +43,7 @@
                         </div>
                         <label id="date-error" class="validation-error-label" for="date"><small>{{ $errors->first('date') }}</small></label>
                     </div>
-                    <div class="col-xs-6">
+                    <div class="col-xs-4">
                         <b>Time</b>
                         <div class="input-group" style="margin-bottom: 0;">
                             <span class="input-group-addon">
@@ -54,6 +54,76 @@
                             </div>
                         </div>
                         <label id="time-error" class="validation-error-label" for="time"><small>{{ $errors->first('time') }}</small></label>
+                    </div>
+                    <div class="col-xs-4">
+                        <b>Name</b>
+                        <div class="input-group" style="margin-bottom: 0;">
+                            <span class="input-group-addon">
+                                <i class="material-icons">person</i>
+                            </span>
+                            <div class="form-line">
+                                <input type="text" name="name" class="form-control" placeholder="Please provide your name" required="true" value="{{ $reservation->customer_name }}">
+                            </div>
+                        </div>
+                        <label id="name-error" class="validation-error-label" for="name"><small>{{ $errors->first('name') }}</small></label>
+                    </div>
+                    <div class="col-xs-4">
+                        <b>Phone</b>
+                        <div class="input-group" style="margin-bottom: 0;">
+                            <span class="input-group-addon">
+                                <i class="material-icons">phone</i>
+                            </span>
+                            <div class="form-line">
+                                <input type="text" name="phone" class="form-control" placeholder="Please provide your phone number" required="true" value="{{ $reservation->customer_phone }}">
+                            </div>
+                        </div>
+                        <label id="phone-error" class="validation-error-label" for="phone"><small>{{ $errors->first('phone') }}</small></label>
+                    </div>
+                    <div class="col-xs-4">
+                        <b>Email</b>
+                        <div class="input-group" style="margin-bottom: 0;">
+                            <span class="input-group-addon">
+                                <i class="material-icons">email</i>
+                            </span>
+                            <div class="form-line">
+                                <input type="text" name="email" class="form-control" placeholder="Optional" value="{{ $reservation->email }}">
+                            </div>
+                        </div>
+                        <label id="email-error" class="validation-error-label" for="email"><small>{{ $errors->first('email') }}</small></label>
+                    </div>
+                    <div class="col-xs-4">
+                        <b>Adults</b>
+                        <div class="input-group" style="margin-bottom: 0;">
+                            <span class="input-group-addon">
+                                <i class="material-icons">people</i>
+                            </span>
+                            <div class="form-line">
+                                <input type="number" name="adult" class="form-control" placeholder="Number of adults" required="true" min="1" value="{{ $reservation->adult }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <b>Children</b>
+                        <div class="input-group" style="margin-bottom: 0;">
+                            <span class="input-group-addon">
+                                <i class="material-icons">child_care</i>
+                            </span>
+                            <div class="form-line">
+                                <input type="number" name="children" class="form-control" placeholder="Number of children" value="{{ $reservation->children }}" min="0">
+                            </div>
+                        </div>
+                        <label id="children-error" class="validation-error-label" for="children"><small>{{ $errors->first('children') }}</small></label>
+                    </div>
+                    <div class="col-xs-12">
+                        <b>Requirements</b>
+                        <div class="input-group" style="margin-bottom: 0;">
+                            <span class="input-group-addon">
+                                <i class="material-icons">event_note</i>
+                            </span>
+                            <div class="form-line">
+                                <input type="text" name="requirement" class="form-control" placeholder="Your additional requirement" value="{{ $reservation->customer_requirement }}">
+                            </div>
+                        </div>
                     </div>
                     @if($restaurant->contacts->count() > 0)
                         <div class="col-xs-12">
@@ -83,11 +153,11 @@
                                         <input name="status" type="radio" id="status_1" value="pending" {{$reservation->status == 'pending' ? 'checked' : ''}}>
                                         <label for="status_1">Pending</label>
                                     </div>
-                                    <div class="col-xs-6">
+                                    <div class="col-xs-6" style="padding-left: 11px; margin-bottom: 5px;">
                                         <input name="status" type="radio" id="status_2" value="confirmed" {{$reservation->status == 'confirmed' ? 'checked' : ''}}>
                                         <label for="status_2">Confirmed</label>
                                     </div>
-                                    <div class="col-xs-6">
+                                    <div class="col-xs-6" style="padding-left: 11px; margin-bottom: 5px;">
                                         <input name="status" type="radio" id="status_3" value="canceled" {{$reservation->status == 'cancelled' ? 'checked' : ''}}>
                                         <label for="status_3">Canceled</label>
                                     </div>
@@ -95,77 +165,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-6">
-                        <b>Name</b>
-                        <div class="input-group" style="margin-bottom: 0;">
-                            <span class="input-group-addon">
-                                <i class="material-icons">person</i>
-                            </span>
-                            <div class="form-line">
-                                <input type="text" name="name" class="form-control" placeholder="Please provide your name" required="true" value="{{ $reservation->customer_name }}">
-                            </div>
-                        </div>
-                        <label id="name-error" class="validation-error-label" for="name"><small>{{ $errors->first('name') }}</small></label>
-                    </div>
-                    <div class="col-xs-6">
-                        <b>Phone</b>
-                        <div class="input-group" style="margin-bottom: 0;">
-                            <span class="input-group-addon">
-                                <i class="material-icons">phone</i>
-                            </span>
-                            <div class="form-line">
-                                <input type="text" name="phone" class="form-control" placeholder="Please provide your phone number" required="true" value="{{ $reservation->customer_phone }}">
-                            </div>
-                        </div>
-                        <label id="phone-error" class="validation-error-label" for="phone"><small>{{ $errors->first('phone') }}</small></label>
-                    </div>
-                    <div class="col-xs-6">
-                        <b>Email</b>
-                        <div class="input-group" style="margin-bottom: 0;">
-                            <span class="input-group-addon">
-                                <i class="material-icons">email</i>
-                            </span>
-                            <div class="form-line">
-                                <input type="text" name="email" class="form-control" placeholder="Optional" value="{{ $reservation->email }}">
-                            </div>
-                        </div>
-                        <label id="email-error" class="validation-error-label" for="email"><small>{{ $errors->first('email') }}</small></label>
-                    </div>
-                    <div class="col-xs-6">
-                        <b>Adults</b>
-                        <div class="input-group" style="margin-bottom: 0;">
-                            <span class="input-group-addon">
-                                <i class="material-icons">people</i>
-                            </span>
-                            <div class="form-line">
-                                <input type="number" name="adult" class="form-control" placeholder="Number of adults" required="true" min="1" value="{{ $reservation->adult }}">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-6">
-                        <b>Children</b>
-                        <div class="input-group" style="margin-bottom: 0;">
-                            <span class="input-group-addon">
-                                <i class="material-icons">child_care</i>
-                            </span>
-                            <div class="form-line">
-                                <input type="number" name="children" class="form-control" placeholder="Number of children" value="{{ $reservation->children }}" min="0">
-                            </div>
-                        </div>
-                        <label id="children-error" class="validation-error-label" for="children"><small>{{ $errors->first('children') }}</small></label>
-                    </div>
-                    <div class="col-xs-12">
-                        <b>Requirements</b>
-                        <div class="input-group" style="margin-bottom: 0;">
-                            <span class="input-group-addon">
-                                <i class="material-icons">event_note</i>
-                            </span>
-                            <div class="form-line">
-                                <input type="text" name="requirement" class="form-control" placeholder="Your additional requirement" value="{{ $reservation->customer_requirement }}">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-6">
+                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12">
                         <button type="submit" class="btn btn-block btn-lg btn-success waves-effect">UPDATE</button>
                     </div>
                 </div>
