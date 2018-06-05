@@ -129,7 +129,6 @@ class Bot extends Model
                         "elements" => [
                             array(
                                 "title" => $message,
-                                "image_url" => $reservation->restaurant->background_url ? $reservation->restaurant->background_url : $reservation->restaurant->avatar, 
                                 "buttons" => [
                                     [
                                         "type" => "web_url",
