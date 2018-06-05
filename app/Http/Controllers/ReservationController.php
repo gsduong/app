@@ -47,13 +47,10 @@ class ReservationController extends Controller
 			$reservations->whereDate('date', Input::get('date'));
 		}
 		if (!Input::get('status') && !Input::get('date') && !Input::get('phone') && !Input::get('name')) {
-			$tz = 'Asia/Ho_Chi_Minh';
-			$timestamp = time();
-			$dt = new DateTime("now", new DateTimeZone($tz)); //first argument "must" be a string
-			$dt->setTimestamp($timestamp); //adjust the object to correct timestamp
-			$reservations->whereDate('date', $dt->format('Y-m-d'));
+			$reservations = $reservations->where('status', 'pending');
+			$reservations = $reservations->where('status', 'confirmed');
 			$reservations = $reservations->orderBy('date', 'desc')->orderBy('time', 'asc')->paginate(5);
-			return view('restaurant/reservation/index', ['restaurant' => $this->restaurant, 'reservations' => $reservations, 'today' => $dt->format('Y-m-d')]);
+			return view('restaurant/reservation/index', ['restaurant' => $this->restaurant, 'reservations' => $reservations]);
 		}
 		$reservations = $reservations->orderBy('date', 'desc')->orderBy('time', 'asc')->paginate(5);
 		return view('restaurant/reservation/index', ['restaurant' => $this->restaurant, 'reservations' => $reservations]);
