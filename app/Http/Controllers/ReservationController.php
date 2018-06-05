@@ -46,12 +46,6 @@ class ReservationController extends Controller
 		if (Input::get('date')) {
 			$reservations->whereDate('date', Input::get('date'));
 		}
-		if (!Input::get('status') && !Input::get('date') && !Input::get('phone') && !Input::get('name')) {
-			$reservations = $reservations->where('status', '=', 'pending');
-			$reservations = $reservations->where('status', '=', 'confirmed');
-			$reservations = $reservations->orderBy('date', 'desc')->orderBy('time', 'asc')->paginate(5);
-			return view('restaurant/reservation/index', ['restaurant' => $this->restaurant, 'reservations' => $reservations]);
-		}
 		$reservations = $reservations->orderBy('date', 'desc')->orderBy('time', 'asc')->paginate(5);
 		return view('restaurant/reservation/index', ['restaurant' => $this->restaurant, 'reservations' => $reservations]);
 	}
