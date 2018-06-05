@@ -83,10 +83,12 @@ class BotController extends Controller
 							"composer_input_disabled" => false, // disable = true means your bot can only be interacted with via the persistent menu, postbacks, buttons, and webviews
 							"call_to_actions" => array(
 								array(
-									// Menu
+									"type" => "web_url",
+									"url" => route('customer.menu.view', ['restaurant_slug' => $this->restaurant->slug]),
 									"title" => "Menu",
-									"type" => "postback",
-									"payload" => "MENU_PAYLOAD"
+									"webview_height_ratio" => "full",
+									"messenger_extensions" => "true",
+									"webview_share_button" => "hide"
 								),
 								array(
 									"title" => "Yêu cầu",
