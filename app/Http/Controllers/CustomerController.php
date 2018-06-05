@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Restaurant;
 use Input;
+use Validator;
 class CustomerController extends Controller
 {
 	private $customer;
@@ -47,5 +48,47 @@ class CustomerController extends Controller
 		}
 		$customers = $customers->orderBy('created_at', 'desc')->paginate(5);
 		return view('restaurant/customer/index', ['restaurant' => $this->restaurant, 'customers' => $customers]);
+	}
+
+	public function create_reservation(Request $request) {
+		$psid = $request->customer_psid;
+		$customer = $this->restaurant->customers->where('app_scoped_id', '=', $psid)->first();
+		if (!$customer) {
+			return response()->view('errors/404');
+		}
+		$validator = Validator::make($request->all(), [
+			'name'	=> 'required',
+			'phone'	=> 'required',
+			'date'	=> 'required|after_or_equal:' . date('Y-m-d'),
+			'time'	=> 'required',
+			'adult'	=> 'required|min:1',
+			'children' => 'required|min:0'
+		], [
+			'required' => 'The :attribute field is missing',
+			'date.after_or_equal' => 'The :attribute must be from :date',
+			'adult.min'	=> 'The :attribute must be at least :min',
+			'children'	=> 'The :attribute must be at least :min'
+		]);
+		if ($validator->fails()) {
+			return redirect()->back()->withInput()->withErrors($validator);
+		}
+		// created_by_bot
+		$customer_id = $psid;
+		$created_by_bot = 1;
+		$customer_name = $request->name;
+		$customer_phone = $request->phone;
+		$date = $request->date;
+		$time = $request->time;
+		$adult = $request->adult;
+		$children = $request->children;
+		$address_id = $request->address_id;
+		$status = 'pending';
+		$creator_id = null;
+		$last_editor_id = null;
+		$customer_requirement = $request->requirement;
+		$data = ['customer_id' => $customer->id, 'created_by_bot' => $created_by_bot, 'customer_name' => $customer_name, 'customer_phone' => $customer_phone, 'date' => $date, 'time' => $time, 'adult' => $adult, 'children' => $children, 'address_id' => $address_id, 'status' => $status, 'customer_requirement' => $customer_requirement];
+		$book = $this->restaurant->reservations()->create($data);
+		event(new \App\Events\ReservationUpdated($book));
+		return response()->view('info/order-success');
 	}
 }

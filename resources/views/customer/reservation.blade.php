@@ -14,7 +14,7 @@
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" style="padding: 0;">
         <div class="card">
             <div class="body">
-            <form method="POST" action="{{-- {{route('reservation.create', ['restaurant_slug' => $restaurant->slug])}} --}}">
+            <form method="POST" autocomplete="off" action="{{route('customer.reservation.create', ['restaurant_slug' => $restaurant->slug])}}" id="reservation-form">
                 @csrf
                 <div class="row clearfix">
                     <div class="col-xs-12">
@@ -24,7 +24,8 @@
                                 <i class="material-icons">person</i>
                             </span>
                             <div class="form-line">
-                                <input type="text" name="name" id="name" class="form-control" placeholder="Please provide your name" required="true" value="{{ old('name') }}">
+                            	<input type="hidden" name="customer_psid" value="{{$customer->app_scoped_id}}">
+                                <input type="text" name="name" id="name" onfocusout="updateLabel(this)" class="form-control" placeholder="{{$customer->getName() ? $customer->getName() : 'Please provide your name'}}" required="true" value="{{ $customer->getName() ? $customer->getName() : old('name') }}">
                             </div>
                         </div>
                         <label id="name-error" class="validation-error-label" for="name"><small>{{ $errors->first('name') }}</small></label>
@@ -36,7 +37,7 @@
                                 <i class="material-icons">phone</i>
                             </span>
                             <div class="form-line">
-                                <input type="text" name="phone" id="phone" class="form-control" placeholder="Please provide your phone number" required="true" value="{{ old('phone') }}">
+                                <input type="text" name="phone" id="phone" onfocusout="updateLabel(this)" class="form-control" placeholder="{{$customer->phone ? $customer->phone : 'Please provide your phone number'}}" required="true" value="{{ $customer->phone ? $customer->phone : old('phone') }}">
                             </div>
                         </div>
                         <label id="phone-error" class="validation-error-label" for="phone"><small>{{ $errors->first('phone') }}</small></label>
@@ -48,7 +49,7 @@
                                 <i class="material-icons">date_range</i>
                             </span>
                             <div class="form-line">
-                                <input type="text" class="form-control" name="date" placeholder="Ex: 2018-06-01" id="date" value="{{ old('date') }}" required="true" min={{date('Y-m-d')}}>
+                                <input type="text" class="form-control" name="date" onfocusout="updateLabel(this)" placeholder="Ex: 2018-06-01" id="date" value="{{ old('date') }}" required="true" min={{date('Y-m-d')}}>
                             </div>
                         </div>
                         <label id="date-error" class="validation-error-label" for="date"><small>{{ $errors->first('date') }}</small></label>
@@ -60,7 +61,7 @@
                                 <i class="material-icons">access_time</i>
                             </span>
                             <div class="form-line">
-                                <input type="text" value="{{ old('time') }}" class="form-control" name="time" placeholder="Ex: 23:59" id="time" required="true">
+                                <input type="text" value="{{ old('time') }}" class="form-control" name="time" onfocusout="updateLabel(this)" placeholder="Ex: 23:59" id="time" required="true">
                             </div>
                         </div>
                         <label id="time-error" class="validation-error-label" for="time"><small>{{ $errors->first('time') }}</small></label>
@@ -91,7 +92,7 @@
                                 <i class="material-icons">people</i>
                             </span>
                             <div class="form-line">
-                                <input type="number" id="adult" name="adult" class="form-control" placeholder="Adults" required="true" min="1" value="{{ old('adult') }}">
+                                <input type="number" id="adult" onfocusout="updateLabel(this)" name="adult" class="form-control" placeholder="Adults" required="true" min="1" value="{{ old('adult') }}">
                             </div>
                         </div>
                         <label id="adult-error" class="validation-error-label" for="adult"><small>{{ $errors->first('adult') }}</small></label>
@@ -103,7 +104,7 @@
                                 <i class="material-icons">child_care</i>
                             </span>
                             <div class="form-line">
-                                <input type="number" id="children" name="children" class="form-control" placeholder="Children" value="{{ old('children') }}" min="0">
+                                <input type="number" id="children" name="children" onfocusout="updateLabel(this)" required class="form-control" placeholder="Children" value="{{ old('children')}}" min="0">
                             </div>
                         </div>
                         <label id="children-error" class="validation-error-label" for="children"><small>{{ $errors->first('children') }}</small></label>
@@ -120,7 +121,7 @@
                         </div>
                     </div>
                     <div class="col-xs-12">
-                        <button type="submit" class="btn btn-block btn-lg btn-success waves-effect" onclick="formValidate()">BOOK</button>
+                        <button type="button" class="btn btn-block btn-lg btn-success waves-effect" onclick="formValidate()">BOOK</button>
                     </div>
                 </div>
             </form>
@@ -169,6 +170,7 @@
     <script>
         function formValidate(){
             $flag = true;
+            var form = document.getElementById("reservation-form");
             var name = document.getElementById("name");
             if (!name.checkValidity()) {
                 document.getElementById("name-error").style.display = "block";
@@ -202,22 +204,42 @@
                 document.getElementById("children-error").style.display = "none";
             }
             var date = document.getElementById("date");
-            if (!date.checkValidity()) {
+            if (!date.checkValidity() || !Date.parse(date.value) || Date.parse(date.value) < Date.parse(formatDate(new Date()))) {
+            	console.log("Picked: " + date.value + " - " + "Current: " + formatDate(new Date()))
                 document.getElementById("date-error").style.display = "block";
-                document.getElementById("date-error").innerHTML = date.validationMessage;
+                document.getElementById("date-error").innerHTML = date.validationMessage || "Please pick date again.";
                 $flag = false;
             } else {
                 document.getElementById("date-error").style.display = "none";
             }
             var time = document.getElementById("time");
-            if (!time.checkValidity()) {
+            if (!time.checkValidity() || !Date.parse('1970-01-01T' + time.value)) {
                 document.getElementById("time-error").style.display = "block";
-                document.getElementById("time-error").innerHTML = time.validationMessage;
+                document.getElementById("time-error").innerHTML = time.validationMessage || "Please pick time again.";
                 $flag = false;
             } else {
                 document.getElementById("time-error").style.display = "none";
             }
+            if ($flag) {
+            	form.submit();
+            }
             return $flag;
         }
+        function updateLabel(selectedInput) {
+        	if (selectedInput.value) {
+        		selectedInput.parentElement.parentElement.nextElementSibling.style.display = "none";
+        	}
+        }
+		function formatDate(date) {
+		    var d = new Date(date),
+		        month = '' + (d.getMonth() + 1),
+		        day = '' + d.getDate(),
+		        year = d.getFullYear();
+
+		    if (month.length < 2) month = '0' + month;
+		    if (day.length < 2) day = '0' + day;
+
+		    return [year, month, day].join('-');
+		}
     </script>
 @endsection

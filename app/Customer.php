@@ -12,7 +12,7 @@ class Customer extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'app_scoped_id', 'restaurant_id', 'profile_pic', 'first_name', 'last_name'
+        'name', 'app_scoped_id', 'restaurant_id', 'profile_pic', 'first_name', 'last_name', 'phone', 'address'
     ];
     /**
      * Get the restaurant that owns the customer.
@@ -48,5 +48,13 @@ class Customer extends Model
             }
             $this->save();
         }
+    }
+
+    public function getName(){
+      $name = "";
+      if (!$this->attributes['name']) {
+        return $name . $this->attributes['first_name'] . " " . $this->attributes['last_name'];
+      }
+      else return $this->attributes['name'];
     }
 }
