@@ -158,7 +158,7 @@
                                         <label for="status_2">Confirmed</label>
                                     </div>
                                     <div class="col-xs-6" style="padding-left: 11px; margin-bottom: 5px;">
-                                        <input name="status" type="radio" id="status_3" value="canceled" {{$reservation->status == 'cancelled' ? 'checked' : ''}}>
+                                        <input name="status" type="radio" id="status_3" value="canceled" {{$reservation->status == 'canceled' ? 'checked' : ''}}>
                                         <label for="status_3">Canceled</label>
                                     </div>
                                 </div>
