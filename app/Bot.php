@@ -29,9 +29,12 @@ class Bot extends Model
         $buttons = array();
         if ($this->menu) {
             array_push($buttons, array(
-                "type" => "postback",
+                "type" => "web_url",
+                "url" => route('customer.menu.view', ['restaurant_slug' => $this->restaurant->slug]),
                 "title" => "Menu",
-                "payload" => "MENU_PAYLOAD"
+                "webview_height_ratio" => "full",
+                "messenger_extensions" => "true",
+                "webview_share_button" => "hide"
             ));
         }
         if ($this->booking) {
