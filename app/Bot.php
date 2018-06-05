@@ -102,6 +102,7 @@ class Bot extends Model
         $status = $reservation->status;
         $page_access_token = $this->access_token;
         $button = array();
+        $message = "";
         switch ($status) {
             case 'pending':
                 $message = $reservation->restaurant->name . " đã nhận được yêu cầu đặt bàn và sẽ liên lạc với quý khách trong thời gian sớm nhất";
