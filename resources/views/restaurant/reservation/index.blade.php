@@ -98,10 +98,10 @@
                                     @endif
                                 </td>
                                 <td style="text-align: center; vertical-align: middle;">
-{{--                                     <a href="{{route('reservation.delete', ['restaurant_slug' => $restaurant->slug, 'reservation_id' => $item->id])}}" class="btn btn-default btn-circle waves-effect waves-circle waves-float" onclick="return confirm('Are you sure you want to delete this item?');">
+                                    <a href="{{route('reservation.delete', ['restaurant_slug' => $restaurant->slug, 'reservation_id' => $item->id])}}" class="btn btn-default btn-circle waves-effect waves-circle waves-float" onclick="return confirm('Are you sure you want to delete this item?');">
                                         <i class="material-icons">delete</i>
                                     </a>
-                                    &nbsp; --}}
+                                    &nbsp;
                                     <a href="{{route('reservation.show-form-edit', ['restaurant_slug' => $restaurant->slug, 'reservation_id' => $item->id])}}" class="btn btn-default btn-circle waves-effect waves-circle waves-float">
                                         <i class="material-icons">edit</i>
                                     </a>
