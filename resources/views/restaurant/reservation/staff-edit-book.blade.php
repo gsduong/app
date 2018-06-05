@@ -117,10 +117,10 @@
                                 <i class="material-icons">email</i>
                             </span>
                             <div class="form-line">
-                                <input type="text" name="email" class="form-control" placeholder="Please provide your phone number" value="{{ $reservation->customer->email }}">
+                                <input type="text" name="email" class="form-control" placeholder="Optional" value="{{ $reservation->email }}">
                             </div>
                         </div>
-                        <label id="email-error" class="validation-error-label" for="phone"><small>{{ $errors->first('email') }}</small></label>
+                        <label id="email-error" class="validation-error-label" for="email"><small>{{ $errors->first('email') }}</small></label>
                     </div>
                     <div class="col-xs-6">
                         <b>Adults</b>

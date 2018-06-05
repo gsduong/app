@@ -61,12 +61,14 @@ class ReservationController extends Controller
 			'date'	=> 'required|after_or_equal:' . date('Y-m-d'),
 			'time'	=> 'required',
 			'adult'	=> 'required|min:1',
-			'children' => 'required|min:0'
+			'children' => 'required|min:0',
+			'email' => 'nullable|email'
 		], [
 			'required' => 'The :attribute field is missing',
 			'date.after_or_equal' => 'The :attribute must be from :date',
 			'adult.min'	=> 'The :attribute must be at least :min',
-			'children'	=> 'The :attribute must be at least :min'
+			'children'	=> 'The :attribute must be at least :min',
+			'email' => 'The :attribute must be a valid email address'
 		]);
 		if ($validator->fails()) {
 			return redirect()->back()->withInput()->withErrors($validator);
@@ -83,7 +85,7 @@ class ReservationController extends Controller
 		$creator_id = $this->user->id;
 		$last_editor_id = $this->user->id;
 		$customer_requirement = $request->requirement;
-		$data = ['customer_name' => $customer_name, 'customer_phone' => $customer_phone, 'date' => $date, 'time' => $time, 'adult' => $adult, 'children' => $children, 'address_id' => $address_id, 'status' => $status, 'creator_id' => $creator_id, 'last_editor_id' => $last_editor_id, 'customer_requirement' => $customer_requirement];
+		$data = ['customer_name' => $customer_name, 'customer_phone' => $customer_phone, 'date' => $date, 'time' => $time, 'adult' => $adult, 'children' => $children, 'address_id' => $address_id, 'status' => $status, 'creator_id' => $creator_id, 'last_editor_id' => $last_editor_id, 'customer_requirement' => $customer_requirement, 'email' => $request->email];
 		$book = $this->restaurant->reservations()->create($data);
 		event(new \App\Events\ReservationUpdated($book));
 		return redirect()->route('reservation.index', $restaurant_slug);
@@ -130,7 +132,7 @@ class ReservationController extends Controller
 		$status= $request->status;
 		$last_editor_id = $this->user->id;
 		$customer_requirement = $request->requirement;
-		$data = ['customer_name' => $customer_name, 'customer_phone' => $customer_phone, 'date' => $date, 'time' => $time, 'adult' => $adult, 'children' => $children, 'address_id' => $address_id, 'status' => $status, 'last_editor_id' => $last_editor_id, 'customer_requirement' => $customer_requirement];
+		$data = ['customer_name' => $customer_name, 'customer_phone' => $customer_phone, 'date' => $date, 'time' => $time, 'adult' => $adult, 'children' => $children, 'address_id' => $address_id, 'status' => $status, 'last_editor_id' => $last_editor_id, 'customer_requirement' => $customer_requirement, 'email' => $request->email];
 		$this->restaurant->reservations->find($request->id)->update($data);
 		$book = $this->restaurant->reservations->find($request->id);
 		event(new \App\Events\ReservationUpdated($book));

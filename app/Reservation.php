@@ -12,7 +12,7 @@ class Reservation extends Model
      * @var array
      */
     protected $fillable = [
-        'date', 'time', 'customer_id', 'creator_id', 'customer_phone', 'customer_name', 'customer_requirement', 'creator_id', 'last_editor_id', 'status', 'restaurant_id', 'adult', 'children', 'address_id', 'created_by_bot'
+        'date', 'time', 'customer_id', 'creator_id', 'customer_phone', 'customer_name', 'customer_requirement', 'creator_id', 'last_editor_id', 'status', 'restaurant_id', 'adult', 'children', 'address_id', 'created_by_bot', 'email'
     ];
 
     /**
