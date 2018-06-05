@@ -104,13 +104,13 @@ class Bot extends Model
         $button = array();
         switch ($status) {
             case 'pending':
-                $message = $reservation->restaurant->name . " đã nhận được yêu cầu đặt bàn của quý khách. Chúng tôi sẽ liên lạc với quý khách trong thời gian sớm nhất";
+                $message = $reservation->restaurant->name . " đã nhận được yêu cầu đặt bàn và sẽ liên lạc với quý khách trong thời gian sớm nhất";
                 break;
             case 'confirmed':
-                $message = "Yêu cầu đặt bàn của quý khách đã được tiếp nhận thành công! ". $reservation->restaurant->name . " rất hân hạnh được đón tiếp quý khách";
+                $message = "Yêu cầu đặt bàn được tiếp nhận thành công! ". $reservation->restaurant->name . " hân hạnh được đón tiếp quý khách";
                 break;
             case 'variable':
-                $message = $reservation->restaurant->name . " rất tiếc về yêu cầu đặt bàn bị huỷ của quý khách! Xin cảm ơn quý khách đã sử dụng dịch vụ của " . $reservation->restaurant->name;
+                $message = $reservation->restaurant->name . " rất tiếc về yêu cầu đặt bàn bị huỷ! Xin cảm ơn quý khách đã sử dụng dịch vụ của " . $reservation->restaurant->name;
                 break;
         }
         $template_btn = [

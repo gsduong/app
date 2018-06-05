@@ -132,6 +132,12 @@ class ReservationController extends Controller
 		$this->restaurant->reservations->find($request->id)->update($data);
 		$book = $this->restaurant->reservations->find($request->id);
 		event(new \App\Events\ReservationUpdated($book));
+		if ($book->created_by_bot) {
+			// Send message to customer via chatbot
+			$customer = $book->customer;
+			$this->restaurant->bot->displaySenderAction($customer->app_scoped_id);
+			$this->restaurant->bot->replyReservation($book, $customer);
+		}
 		return redirect()->route('reservation.index', $restaurant_slug);
 	}
 

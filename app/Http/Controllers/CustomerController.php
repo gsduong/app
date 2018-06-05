@@ -50,12 +50,16 @@ class CustomerController extends Controller
 
 	public function cancel_reservation($restaurant_slug, $reservation_id) {
 		$reservation = $this->restaurant->reservations->find($reservation_id)->first();
+		$customer = $reservation->customer;
 		if (!$reservation) {
 			return response()->view('errors/404');
 		}
 		$reservation->status = 'canceled';
 		$reservation->save();
 		event(new \App\Events\ReservationUpdated($reservation));
+		// Send message to customer via chatbot
+		$this->restaurant->bot->displaySenderAction($customer->app_scoped_id);
+		$this->restaurant->bot->replyReservation($reservation, $customer);
 		return response()->view('info/reservation-canceled');
 	}
 
