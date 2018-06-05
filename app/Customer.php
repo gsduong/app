@@ -57,4 +57,8 @@ class Customer extends Model
       }
       else return $this->attributes['name'];
     }
+
+    public function reservations () {
+      return $this->hasMany('App\Reservation', 'customer_id');
+    }
 }

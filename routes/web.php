@@ -89,4 +89,6 @@ Route::post("/webhook", "WebhookController@receive")->name('webhook');
 
 Route::get('customer/{restaurant_slug}/create-order.html', ['as' => 'customer.show-form-create-order', 'uses' => 'CustomerController@showFormCreateOrder']);
 Route::get('customer/{restaurant_slug}/reservation-{psid}.html', ['as' => 'customer.reservation', 'uses' => 'CustomerController@showFormCreateReservation']);
+Route::get('customer/{restaurant_slug}/reservations/review-{reservation_id}.html', ['as' => 'customer.reservation.review', 'uses' => 'CustomerController@review']);
+Route::get('customer/{restaurant_slug}/reservations/cancel-{reservation_id}.html', ['as' => 'customer.reservation.cancel', 'uses' => 'CustomerController@cancel_reservation']);
 Route::post('customer/{restaurant_slug}/reservation-create', ['as' => 'customer.reservation.create', 'uses' => 'CustomerController@create_reservation']);

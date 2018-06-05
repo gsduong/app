@@ -106,6 +106,7 @@
                                         <i class="material-icons">edit</i>
                                     </a>
                                     &nbsp;
+                                    <a href="{{route('customer.reservation.review', ['restaurant_slug' => $restaurant->slug, 'reservation_id' => $item->id])}}">View</a>
                                 </td>
                             </tr>
                             @endforeach

@@ -61,4 +61,8 @@ class Reservation extends Model
             return User::find($this->creator_id);
         }
     }
+
+    public function customer () {
+        return $this->belongsTo('App\Customer', 'customer_id');
+    }
 }

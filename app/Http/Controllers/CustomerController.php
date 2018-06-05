@@ -35,7 +35,26 @@ class CustomerController extends Controller
 		if (!$customer) {
 			return response()->view('errors/404');
 		}
-		return view('customer.reservation', ['restaurant' => $this->restaurant, 'customer' => $customer]);
+		return view('customer/reservation-create', ['restaurant' => $this->restaurant, 'customer' => $customer]);
+	}
+
+	public function review($restaurant_slug, $reservation_id) {
+		$reservation = $this->restaurant->reservations->find($reservation_id)->first();
+		if (!$reservation) {
+			return response()->view('errors/404');
+		}
+		return view('customer/reservation-review', ['restaurant' => $this->restaurant, 'reservation' => $reservation]);
+	}
+
+	public function cancel_reservation($restaurant_slug, $reservation_id) {
+		$reservation = $this->restaurant->reservations->find($reservation_id)->first();
+		if (!$reservation) {
+			return response()->view('errors/404');
+		}
+		$reservation->status = 'canceled';
+		$reservation->save();
+		event(new \App\Events\ReservationUpdated($reservation));
+		return response()->view('info/reservation-canceled');
 	}
 
 	public function index(){
