@@ -49,7 +49,7 @@
                                 <i class="material-icons">email</i>
                             </span>
                             <div class="form-line">
-                                <input type="email" value="{{ old('email') }}" onfocusout="updateLabel(this)" class="form-control" name="email" placeholder="Optional" id="email" value="{{ $customer->email ? $customer->email : old('email') }}">
+                                <input type="email" onfocusout="updateLabel(this)" class="form-control" name="email" placeholder="Optional" id="email" value="{{ $customer->email ? $customer->email : old('email') }}">
                             </div>
                         </div>
                         <label id="email-error" class="validation-error-label" for="email"><small>{{ $errors->first('email') }}</small></label>
