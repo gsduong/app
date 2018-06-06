@@ -31,6 +31,24 @@ class CustomerController extends Controller
 	public function showFormCreateOrder () {
 		return view('customer.new-order', ['restaurant' => $this->restaurant]);
 	}
+	public function showOrderCart (Request $request) {
+		// $items = $request->items;
+		$quantity = $request->quantity;
+		if (!$quantity) {
+			return response()->view('info/cart-fail', ['restaurant' => $this->restaurant]);
+		}
+		foreach ($quantity as $key => $value) {
+			if (!is_numeric($value) || !$value) {
+				unset($quantity[$key]);
+			}
+		}
+		if (count($quantity) == 0) {
+			return response()->view('info/cart-fail', ['restaurant' => $this->restaurant]);
+		}
+		$items = $this->restaurant->items->whereIn('id', array_keys($quantity));
+
+		return response()->view('customer/checkout', ['items' => $items, 'quantity' => $quantity, 'restaurant' => $this->restaurant]);
+	}
 
 	public function showFormCreateReservation($restaurant_slug, $psid) {
 		$customer = $this->restaurant->customers->where('app_scoped_id', '=', $psid)->first();

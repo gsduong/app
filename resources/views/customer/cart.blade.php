@@ -1,7 +1,7 @@
 @extends('customer.index')
 
 @section('title')
-    {{$restaurant->name}} - Order
+    {{$restaurant->name}} - Cart
 @endsection
 
 @section('extra-css')
@@ -57,13 +57,13 @@
                                                         <div class="input-group">
                                                             <input type="hidden" name="items[]" value="{{$item->id}}">
                                                             <span class="input-group-btn">
-                                                                <button type="button" class="quantity-btn" disabled="disabled" data-type="minus" data-field="quantity[{{$item->id}}]" data-price={{$item->price}}>
+                                                                <button type="button" class="quantity-btn" data-type="minus" data-field="quantity[{{$item->id}}]" data-price="{{$item->price}}">
                                                                     <i class="material-icons">remove</i>
                                                                 </button>
                                                             </span>
                                                             <input readonly name="quantity[{{$item->id}}]" class="form-control input-number" type="text" style="border: 1px solid #D3D3D3; border-left: none; border-right: none; height: 29px; text-align: center;" value="0">
                                                             <span class="input-group-btn">
-                                                                <button type="button" class="quantity-btn" data-type="plus" data-field="quantity[{{$item->id}}]" data-price={{$item->price}}>
+                                                                <button type="button" class="quantity-btn" data-type="plus" data-field="quantity[{{$item->id}}]" data-price="{{$item->price}}">
                                                                     <i class="material-icons">add</i>
                                                                 </button>
                                                             </span> 
@@ -75,6 +75,9 @@
                                     </div>
                                     @endif
                                 @endforeach
+                                </div>
+                                <div class="row">
+                                    
                                 </div>
                             @else
                             <div class="row">

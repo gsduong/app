@@ -137,4 +137,12 @@ class Restaurant extends Model
     {
         return $this->hasMany('App\Customer', 'restaurant_id');
     }
+
+    /**
+     * Get all of the items for the restaurant.
+     */
+    public function items()
+    {
+        return $this->hasManyThrough('App\Item', 'App\Category', 'restaurant_id', 'category_id', 'id', 'id');
+    }
 }

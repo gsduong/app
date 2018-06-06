@@ -39,13 +39,20 @@
                 padding: 20px;
             }
         </style>
+        {{ Html::style('bsbmd/plugins/bootstrap/css/bootstrap.css') }}
+        {{ Html::style('bsbmd/css/style.css') }}
         {{ Html::style('css/customer.css')}}
     </head>
     <body>
         <div class="flex-center position-ref full-height">
             <div class="content">
-                <div class="title rainbow">
-                    @yield('message')
+                <div class="row">
+                    <div class="title rainbow">
+                        @yield('message')
+                    </div>
+                </div>
+                <div class="row" style="text-align: center;">
+                    @yield('content')
                 </div>
             </div>
         </div>

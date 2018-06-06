@@ -1,7 +1,7 @@
 @extends('customer.index')
 
 @section('title')
-    {{$restaurant->name}} - Order
+    {{$restaurant->name}} - Checkout
 @endsection
 
 @section('extra-css')
@@ -13,28 +13,33 @@
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
+                <div class="header" style="text-align: center;">
+                    <h2>
+                        <small><a href="{{route('customer.show-form-create-order', $restaurant->slug)}}">Back to Menu</a></small>
+                    </h2>
+                </div>
                 <div class="body">
-                    @if($restaurant->categories->count())
+                    @if($items->count())
                     <!-- Nav tabs -->
-                    <form method="POST" id="form" action="{{route('customer.show-order-cart', $restaurant->slug)}}">
+                    <form method="POST" id="form" action="{{-- {{route('customer.show-order-cart', $restaurant->slug)}} --}}">
                         @csrf
-                    <ul class="nav nav-tabs tab-nav-right" role="tablist">
+{{--                     <ul class="nav nav-tabs tab-nav-right" role="tablist">
                         @foreach($restaurant->categories as $no => $category)
                             @if($category->items->count() > 0)
                             <li role="presentation" class="{{$no == 0 ? 'active' : ''}}"><a href="#{{$category->slug}}" data-toggle="tab" aria-expanded="true">{{strtoupper($category->name)}} ({{$category->items->where('ship', 1)->count()}})</a></li>
                             @endif
                         @endforeach
-                    </ul>
+                    </ul> --}}
 
                     <!-- Tab panes -->
                     <div class="tab-content">
                         
-                        @foreach($restaurant->categories as $no => $category)
-                        @if($category->items->count() > 0)
-                        <div role="tabpanel" class="tab-pane fade {{$no == 0 ? 'active' : ''}} in" id="{{$category->slug}}">
-                            @if($category->items->count())
+{{--                         @foreach($restaurant->categories as $no => $category)
+                        @if($category->items->count() > 0) --}}
+                        <div role="tabpanel" class="tab-pane fade active in">
+                            @if($items->count())
                                 <div class="row">
-                                @foreach($category->items as $idx => $item)
+                                @foreach($items as $idx => $item)
                                     @if($item->ship)
                                     <div class="col-sm-3 col-md-2">
                                         <div class="thumbnail">
@@ -54,22 +59,23 @@
                                                 {{-- <label for="name">Quantity</label> --}}
                                                 <div class="row">
                                                     <div class="col-xs-12" style="margin-bottom: 0;">
-                                                        <div class="input-group">
+                                                        <div class="input-group" style="margin-bottom: 5px;">
                                                             <input type="hidden" name="items[]" value="{{$item->id}}">
                                                             <span class="input-group-btn">
-                                                                <button type="button" class="quantity-btn" disabled="disabled" data-type="minus" data-field="quantity[{{$item->id}}]" data-price={{$item->price}}>
+                                                                <button type="button" class="quantity-btn" data-type="minus" data-field="quantity[{{$item->id}}]" data-price="{{$item->price}}">
                                                                     <i class="material-icons">remove</i>
                                                                 </button>
                                                             </span>
-                                                            <input readonly name="quantity[{{$item->id}}]" class="form-control input-number" type="text" style="border: 1px solid #D3D3D3; border-left: none; border-right: none; height: 29px; text-align: center;" value="0">
+                                                            <input readonly name="quantity[{{$item->id}}]" class="form-control input-number" type="text" style="border: 1px solid #D3D3D3; border-left: none; border-right: none; height: 29px; text-align: center;" value="{{$quantity[$item->id]}}">
                                                             <span class="input-group-btn">
-                                                                <button type="button" class="quantity-btn" data-type="plus" data-field="quantity[{{$item->id}}]" data-price={{$item->price}}>
+                                                                <button type="button" class="quantity-btn" data-type="plus" data-field="quantity[{{$item->id}}]" data-price="{{$item->price}}">
                                                                     <i class="material-icons">add</i>
                                                                 </button>
                                                             </span> 
                                                         </div>  
                                                     </div>
                                                 </div>
+                                                <p>Price: <span class="label label-danger" style="vertical-align: middle;" id="total-{{$item->id}}">Total</span></p>
                                             </div>
                                         </div>
                                     </div>
@@ -84,8 +90,8 @@
                             </div>
                             @endif
                         </div>
-                        @endif
-                        @endforeach
+{{--                         @endif
+                        @endforeach --}}
                         
                     </div>
                     </form>
@@ -98,9 +104,8 @@
                     @endif
                 </div>
             </div>
-            <button onclick="topFunction()" id="topBtn" title="Go to top"><i class="material-icons">arrow_upward</i></button>
-            <button onclick="resetForm()" id="clearBtn" title="Clear all"><i class="material-icons">clear</i></button>
-            <button type="button" onclick="submitForm()" id="orderBtn" title="Submit"><i class="material-icons">shopping_cart</i></button>
+            <button onclick="topFunction()" id="topBtn" title="Go to top" style="margin-left: 5px;"><i class="material-icons">arrow_upward</i></button>
+            <button type="button" onclick="submitForm()" id="orderBtn" title="Submit" style="margin-left: -75px;"><i class="material-icons">shopping_cart</i></button>
         </div>
     </div>
 </div>
@@ -108,14 +113,23 @@
 
 @section('extra-script')
 <script>
+$(document).ready(function() {
+    var buttons = $("button.quantity-btn[data-type=minus]");
+    buttons.each(function() {
+        var spanPrice = $(this).parent().parent().parent().parent().next().children();
+        var qty = $(this).parent().next().val();
+        var price = parseInt($(this).attr('data-price')) * parseInt(qty);
+        var spanPrice = $(this).parent().parent().parent().parent().next().children();
+        spanPrice.text(price + " đ");
+    });
+});
 $(".quantity-btn").on("click", function() {
 
   var $button = $(this);
   var oldValue = $button.parent().parent().find("input.input-number").val();
-
+  var spanPrice = $button.parent().parent().parent().parent().next().children();
   if ($button.attr('data-type') == "plus") {
       var newVal = (parseInt(oldValue) || 0) + 1;
-
     } else {
    // Don't allow decrementing below zero
     if (parseInt(oldValue) > 0) {
@@ -129,8 +143,9 @@ $(".quantity-btn").on("click", function() {
   } else {
     $(this).parent().parent().find("button.quantity-btn[data-type=minus]").removeAttr('disabled');
   }
+  var itemsPrice = parseInt($button.attr('data-price')) * newVal;
   $button.parent().parent().find("input.input-number").val(newVal);
-
+  spanPrice.text(itemsPrice + " đ");
 });
 </script>
 <script>
