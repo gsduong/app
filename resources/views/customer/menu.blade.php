@@ -33,7 +33,7 @@
                             @if($category->items->count())
                                 <div class="row">
                                 @foreach($category->items as $idx => $item)
-                                    <div class="col-sm-3 col-md-2">
+                                    <div class="col-sm-3 col-md-3 col-lg-3 col-xs-12">
                                         <div class="thumbnail">
                                             <div class="image">
                                                 <a href="{{$item->image_url}}" data-lightbox="image-{{$item->id}}" data-title="{{$item->name}}"><img src="{{$item->image_url}}" alt="{{$item->name}}"></a>
@@ -41,7 +41,11 @@
                                             {{-- <img src="{{$item->image_url}}"> --}}
                                             <div class="caption">
                                                 <h4>{{$item->name}}</h4>
-                                                <p><span class="label label-success">{{$item->money()}} đ</span></p>
+                                                <p><span class="label label-success">{{$item->money()}} đ</span>
+                                                    @if($item->ship)
+                                                        <i class="material-icons col-red pull-right" title="Nhận ship">local_shipping</i>
+                                                    @endif
+                                                </p>
                                                 <p>
                                                     {{$item->description}}
                                                 </p>
@@ -74,7 +78,7 @@
                     @endif
                 </div>
             </div>
-            <button onclick="topFunction()" id="topBtn" title="Go to top" style="margin-right: -35px !important;"><i class="material-icons">arrow_upward</i></button>
+            <button onclick="topFunction()" id="topBtn" title="Go to top" style="margin-left: -35px !important;"><i class="material-icons">arrow_upward</i></button>
         </div>
     </div>
 </div>

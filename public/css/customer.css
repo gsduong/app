@@ -19,7 +19,7 @@ section.content {
     position: fixed; /* Fixed/sticky position */
 	bottom: 20px;
     left: 50%; /* Place the button 15px from the right */
-    margin-right: -110px;
+    margin-left: 40px;
     z-index: 99; /* Make sure it does not overlap */
     border: none; /* Remove borders */
     outline: none; /* Remove outline */
@@ -29,10 +29,6 @@ section.content {
     padding: 15px; /* Some padding */
     border-radius: 10px;
     font-size: 18px; /* Increase font size */
-}
-
-#topBtn:hover {
-    background-color: #555; /* Add a dark-grey background on hover */
 }
 
 #clearBtn {
@@ -53,9 +49,6 @@ section.content {
 	border-radius: 10px;
 	font-size: 18px; /* Increase font size */
 }
-#clearBtn:hover {
-    background-color: #555; /* Add a dark-grey background on hover */
-}
 
 #orderBtn {
 	text-align: center;
@@ -74,9 +67,7 @@ section.content {
 	border-radius: 10px; /* Rounded corners */
 	font-size: 18px; /* Increase font size */
 }
-#orderBtn:hover {
-    background-color: #555; /* Add a dark-grey background on hover */
-}
+
 .date-picker-days i {
 	padding: 0 !important;
 }
@@ -124,4 +115,24 @@ body {
 	65%{color: green;}
 	85%{color: blue;}
 	0%{color: orange;}	
+}
+
+#total-price {
+	text-align: center;
+	position: fixed;
+	bottom: 100px;
+	left: 50%;
+	width: 100px;
+	margin-left: -50px;
+	z-index: 99; /* Make sure it does not overlap */
+	border: none; /* Remove borders */
+	outline: none; /* Remove outline */
+	background-color: red; /* Set a background color */
+	color: white; /* Text color */
+	cursor: pointer; /* Add a mouse pointer on hover */
+	border-radius: 15px;
+	font-size: 15px; /* Increase font size */
+}
+#total-price:after {
+	content: " đ";
 }

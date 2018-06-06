@@ -21,27 +21,17 @@
                 <div class="body">
                     @if($items->count())
                     <!-- Nav tabs -->
-                    <form method="POST" id="form" action="{{-- {{route('customer.show-order-cart', $restaurant->slug)}} --}}">
+                    <form method="POST" id="form" action="{{route('customer.create-order', $restaurant->slug)}}">
                         @csrf
-{{--                     <ul class="nav nav-tabs tab-nav-right" role="tablist">
-                        @foreach($restaurant->categories as $no => $category)
-                            @if($category->items->count() > 0)
-                            <li role="presentation" class="{{$no == 0 ? 'active' : ''}}"><a href="#{{$category->slug}}" data-toggle="tab" aria-expanded="true">{{strtoupper($category->name)}} ({{$category->items->where('ship', 1)->count()}})</a></li>
-                            @endif
-                        @endforeach
-                    </ul> --}}
 
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        
-{{--                         @foreach($restaurant->categories as $no => $category)
-                        @if($category->items->count() > 0) --}}
                         <div role="tabpanel" class="tab-pane fade active in">
                             @if($items->count())
                                 <div class="row">
                                 @foreach($items as $idx => $item)
                                     @if($item->ship)
-                                    <div class="col-sm-3 col-md-2">
+                                    <div class="col-sm-3 col-md-3 col-lg-3 col-xs-12">
                                         <div class="thumbnail">
                                             <div class="image">
                                                 <a href="{{$item->image_url}}" data-lightbox="image-{{$item->id}}" data-title="{{$item->name}}"><img src="{{$item->image_url}}" alt="{{$item->name}}"></a>
@@ -49,7 +39,11 @@
                                             {{-- <img src="{{$item->image_url}}"> --}}
                                             <div class="caption">
                                                 <h4>{{$item->name}}</h4>
-                                                <p><span class="label label-success">{{$item->money()}} đ</span></p>
+                                                <p><span class="label label-success">{{$item->money()}} đ</span>
+                                                    @if($item->ship)
+                                                        <i class="material-icons col-red pull-right" title="Nhận ship">local_shipping</i>
+                                                    @endif
+                                                </p>
                                                 <p>
                                                     {{$item->description}}
                                                 </p>
@@ -105,7 +99,8 @@
                 </div>
             </div>
             <button onclick="topFunction()" id="topBtn" title="Go to top" style="margin-left: 5px;"><i class="material-icons">arrow_upward</i></button>
-            <button type="button" onclick="submitForm()" id="orderBtn" title="Submit" style="margin-left: -75px;"><i class="material-icons">shopping_cart</i></button>
+            <button type="button" onclick="submitForm()" id="orderBtn" title="Submit" style="margin-left: -75px;"><i class="material-icons">check</i></button>
+            <span class="label label-danger" id="total-price"></span>
         </div>
     </div>
 </div>
@@ -115,25 +110,32 @@
 <script>
 $(document).ready(function() {
     var buttons = $("button.quantity-btn[data-type=minus]");
+    var totalPrice = 0;
     buttons.each(function() {
         var spanPrice = $(this).parent().parent().parent().parent().next().children();
         var qty = $(this).parent().next().val();
         var price = parseInt($(this).attr('data-price')) * parseInt(qty);
         var spanPrice = $(this).parent().parent().parent().parent().next().children();
         spanPrice.text(price + " đ");
+        totalPrice += price;
     });
+    $("#total-price").text(totalPrice);
 });
 $(".quantity-btn").on("click", function() {
 
   var $button = $(this);
+  var spanTotalPrice = $("#total-price");
+  var totalPrice = spanTotalPrice.text();
   var oldValue = $button.parent().parent().find("input.input-number").val();
   var spanPrice = $button.parent().parent().parent().parent().next().children();
   if ($button.attr('data-type') == "plus") {
       var newVal = (parseInt(oldValue) || 0) + 1;
+      totalPrice = parseInt(totalPrice) + 1 * parseInt($button.attr("data-price"));
     } else {
    // Don't allow decrementing below zero
     if (parseInt(oldValue) > 0) {
       var newVal = (parseInt(oldValue) || 1) - 1;
+      totalPrice = parseInt(totalPrice) - 1 * parseInt($button.attr("data-price"));
     } else {
       newVal = 0;
     }
@@ -146,6 +148,7 @@ $(".quantity-btn").on("click", function() {
   var itemsPrice = parseInt($button.attr('data-price')) * newVal;
   $button.parent().parent().find("input.input-number").val(newVal);
   spanPrice.text(itemsPrice + " đ");
+  spanTotalPrice.text(totalPrice);
 });
 </script>
 <script>

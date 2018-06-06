@@ -44,7 +44,11 @@
                                             {{-- <img src="{{$item->image_url}}"> --}}
                                             <div class="caption">
                                                 <h4>{{$item->name}}</h4>
-                                                <p><span class="label label-success">{{$item->money()}} đ</span></p>
+                                                <p><span class="label label-success">{{$item->money()}} đ</span>
+                                                    @if($item->ship)
+                                                        <i class="material-icons col-red pull-right" title="Nhận ship">local_shipping</i>
+                                                    @endif
+                                                </p>
                                                 <p>
                                                     {{$item->description}}
                                                 </p>
@@ -57,7 +61,7 @@
                                                         <div class="input-group">
                                                             <input type="hidden" name="items[]" value="{{$item->id}}">
                                                             <span class="input-group-btn">
-                                                                <button type="button" class="quantity-btn" disabled="disabled" data-type="minus" data-field="quantity[{{$item->id}}]" data-price={{$item->price}}>
+                                                                <button type="button" class="quantity-btn" data-type="minus" data-field="quantity[{{$item->id}}]" data-price={{$item->price}}>
                                                                     <i class="material-icons">remove</i>
                                                                 </button>
                                                             </span>
@@ -98,7 +102,7 @@
                     @endif
                 </div>
             </div>
-            <button onclick="topFunction()" id="topBtn" title="Go to top"><i class="material-icons">arrow_upward</i></button>
+            <button onclick="topFunction()" id="topBtn" title="Go to top" style="margin-left: 40px;"><i class="material-icons">arrow_upward</i></button>
             <button onclick="resetForm()" id="clearBtn" title="Clear all"><i class="material-icons">clear</i></button>
             <button type="button" onclick="submitForm()" id="orderBtn" title="Submit"><i class="material-icons">shopping_cart</i></button>
         </div>
