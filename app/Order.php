@@ -12,7 +12,7 @@ class Order extends Model
      * @var array
      */
     protected $fillable = [
-        'customer_id', 'restaurant_id', 'customer_phone', 'customer_address', 'customer_note',  'total', 'last_editor_id', 'creator_id', 'created_by_bot', 'status'
+        'customer_id', 'restaurant_id', 'customer_phone', 'customer_address', 'customer_note',  'total', 'last_editor_id', 'creator_id', 'created_by_bot', 'status', 'branch_id', 'customer_name'
     ];
 
     public function items()

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Restaurant;
 use App\Reservation;
 use App\Customer;
+use App\Order;
 use Input;
 use Validator;
 class CustomerController extends Controller
@@ -28,14 +29,22 @@ class CustomerController extends Controller
 			return $next($request);
 		});
 	}
-	public function showFormCreateOrder () {
-		return view('customer/new-order', ['restaurant' => $this->restaurant]);
+	public function showFormCreateOrder ($restaurant_slug, $customer_psid) {
+		$customer = $this->restaurant->customers->where('app_scoped_id', '=', $customer_psid)->first();
+		if (!$customer) {
+			return response()->view('errors/404');
+		}
+		return view('customer/new-order', ['restaurant' => $this->restaurant, 'customer' => $customer]);
 	}
-	public function showOrderCart (Request $request) {
+	public function showOrderCart (Request $request, $restaurant_slug, $customer_psid) {
+		$customer = $this->restaurant->customers->where('app_scoped_id', '=', $customer_psid)->first();
+		if (!$customer) {
+			return response()->view('errors/404');
+		}
 		// $items = $request->items;
 		$quantity = $request->quantity;
 		if (!$quantity) {
-			return response()->view('info/cart-fail', ['restaurant' => $this->restaurant]);
+			return response()->view('info/cart-fail', ['restaurant' => $this->restaurant, 'customer' => $customer]);
 		}
 		foreach ($quantity as $key => $value) {
 			if (!is_numeric($value) || !$value) {
@@ -43,17 +52,33 @@ class CustomerController extends Controller
 			}
 		}
 		if (count($quantity) == 0) {
-			return response()->view('info/cart-fail', ['restaurant' => $this->restaurant]);
+			return response()->view('info/cart-fail', ['restaurant' => $this->restaurant, 'customer' => $customer]);
 		}
 		$items = $this->restaurant->items->whereIn('id', array_keys($quantity));
 
-		return response()->view('customer/checkout', ['items' => $items, 'quantity' => $quantity, 'restaurant' => $this->restaurant]);
+		return response()->view('customer/checkout', ['items' => $items, 'quantity' => $quantity, 'restaurant' => $this->restaurant, 'customer' => $customer]);
 	}
 
-	public function createOrder(Request $request){
+	public function createOrder(Request $request, $restaurant_slug, $customer_psid){
+		$customer = $this->restaurant->customers->where('app_scoped_id', '=', $customer_psid)->first();
+		if (!$customer) {
+			return response()->view('errors/404');
+		}
+		$validator = Validator::make($request->all(), [
+			'name'	=> 'required',
+			'phone'	=> 'required',
+			'address'	=> 'required',
+			'email' => 'nullable|email'
+		], [
+			'required' => 'The :attribute field is missing',
+			'email' => 'The :attribute must be a valid email address'
+		]);
+		if ($validator->fails()) {
+			return redirect()->back()->withInput()->withErrors($validator);
+		}
 		$quantity = $request->quantity;
 		if (!$quantity) {
-			return response()->view('info/cart-fail', ['restaurant' => $this->restaurant]);
+			return response()->view('info/cart-fail', ['restaurant' => $this->restaurant, 'customer' => $customer]);
 		}
 		foreach ($quantity as $key => $value) {
 			if (!is_numeric($value) || !$value) {
@@ -61,9 +86,31 @@ class CustomerController extends Controller
 			}
 		}
 		if (count($quantity) == 0) {
-			return response()->view('info/cart-fail', ['restaurant' => $this->restaurant]);
+			return response()->view('info/cart-fail', ['restaurant' => $this->restaurant, 'customer' => $customer]);
 		}
-		dd($request);
+		// update user info
+		$customer->name = $request->name;
+		$customer->phone = $request->phone;
+		$customer->email = $request->email;
+		$customer->address = $request->address;
+		$customer->save();
+
+		// now create order
+		$total = 0;
+		foreach ($quantity as $key => $value) {
+			$total += $this->restaurant->items->find($key)->price * (int) $value;
+		}
+		$order = new Order;
+		$order->restaurant_id = $this->restaurant->id;
+		$order->customer_id = $customer->id;
+		$order->customer_phone = $request->phone;
+		$order->customer_address = $request->address;
+		$order->customer_note = $request->requirement;
+		$order->created_by_bot = 1;
+		$order->total = $total;
+		$order->branch_id = $request->address_id;
+		// $order->save();
+		dd($order);
 	}
 
 	public function showFormCreateReservation($restaurant_slug, $psid) {

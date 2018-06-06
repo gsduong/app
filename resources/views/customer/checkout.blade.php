@@ -15,13 +15,13 @@
             <div class="card">
                 <div class="header" style="text-align: center;">
                     <h2>
-                        <small><a href="{{route('customer.show-form-create-order', $restaurant->slug)}}">Back to Menu</a></small>
+                        <small><a href="{{route('customer.show-form-create-order', ['restaurant_slug' => $restaurant->slug, 'customer_psid' => $customer->app_scoped_id])}}">Back to Menu</a></small>
                     </h2>
                 </div>
                 <div class="body">
                     @if($items->count())
                     <!-- Nav tabs -->
-                    <form method="POST" id="form" action="{{route('customer.create-order', $restaurant->slug)}}">
+                    <form method="POST" id="form" action="{{route('customer.create-order', ['restaurant_slug' => $restaurant->slug, 'customer_psid' => $customer->app_scoped_id])}}">
                         @csrf
 
                     <!-- Tab panes -->
@@ -75,6 +75,93 @@
                                     </div>
                                     @endif
                                 @endforeach
+                                    <div class="col-sm-3 col-md-3 col-lg-3 col-xs-12">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                        <b>Name</b>
+                                                        <div class="input-group" style="margin-bottom: 0;">
+                                                            <span class="input-group-addon">
+                                                                <i class="material-icons">person</i>
+                                                            </span>
+                                                            <div class="form-line">
+                                                                <input type="text" name="name" id="name" onfocusout="updateLabel(this)" class="form-control" placeholder="Please provide your name" required="true" value="{{ $customer->getName() ? $customer->getName() : old('name') }}">
+                                                            </div>
+                                                        </div>
+                                                        <label id="name-error" class="validation-error-label" for="name"><small>{{ $errors->first('name') }}</small></label>
+                                                    </div>
+                                                    <div class="col-xs-12">
+                                                        <b>Phone</b>
+                                                        <div class="input-group" style="margin-bottom: 0;">
+                                                            <span class="input-group-addon">
+                                                                <i class="material-icons">phone</i>
+                                                            </span>
+                                                            <div class="form-line">
+                                                                <input type="text" name="phone" id="phone" onfocusout="updateLabel(this)" class="form-control" placeholder="Please provide your phone number" required="true" value="{{ $customer->phone ? $customer->phone : old('phone') }}">
+                                                            </div>
+                                                        </div>
+                                                        <label id="phone-error" class="validation-error-label" for="phone"><small>{{ $errors->first('phone') }}</small></label>
+                                                    </div>
+                                                    <div class="col-xs-12">
+                                                        <b>Address</b>
+                                                        <div class="input-group" style="margin-bottom: 0;">
+                                                            <span class="input-group-addon">
+                                                                <i class="material-icons">location_on</i>
+                                                            </span>
+                                                            <div class="form-line">
+                                                                <input type="text" onfocusout="updateLabel(this)" required class="form-control" name="address" placeholder="Please provide your address" id="address" value="{{ $customer->address ? $customer->address : old('address') }}">
+                                                            </div>
+                                                        </div>
+                                                        <label id="address-error" class="validation-error-label" for="address"><small>{{ $errors->first('address') }}</small></label>
+                                                    </div>
+                                                    <div class="col-xs-12">
+                                                        <b>Email</b>
+                                                        <div class="input-group" style="margin-bottom: 0;">
+                                                            <span class="input-group-addon">
+                                                                <i class="material-icons">email</i>
+                                                            </span>
+                                                            <div class="form-line">
+                                                                <input type="email" onfocusout="updateLabel(this)" class="form-control" name="email" placeholder="Optional" id="email" value="{{ $customer->email ? $customer->email : old('email') }}">
+                                                            </div>
+                                                        </div>
+                                                        <label id="email-error" class="validation-error-label" for="email"><small>{{ $errors->first('email') }}</small></label>
+                                                    </div>
+                                                    @if($restaurant->contacts->count() > 0)
+                                                        <div class="col-xs-12">
+                                                            <b>Branch</b>
+                                                            <div class="input-group" style="margin-bottom: 0;">
+                                                                <div class="demo-radio-button">
+                                                                    <div class="row">
+                                                                    @foreach($restaurant->contacts as $no => $contact)
+                                                                    <div class="col-xs-6" style="padding-left: 11px; margin-bottom: 5px;">
+                                                                        <input name="address_id" type="radio" id="address_{{$no + 1}}" {{$no == 0 ? 'checked' : ''}} value="{{$contact->id}}">
+                                                                        <label for="address_{{$no + 1}}">{{$contact->address}}</label>
+                                                                    </div>
+
+                                                                    @endforeach
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                    <div class="col-xs-12">
+                                                        <b>Note</b>
+                                                        <div class="input-group" style="margin-bottom: 0;">
+                                                            <span class="input-group-addon">
+                                                                <i class="material-icons">event_note</i>
+                                                            </span>
+                                                            <div class="form-line">
+                                                                <input type="text" class="form-control" name="requirement" placeholder="Optional" value="{{ old('requirement') }}">
+                                                            </div>
+                                                        </div>
+                                                       {{--  <label id="email-error" class="validation-error-label" for="email"><small>{{ $errors->first('email') }}</small></label> --}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             @else
                             <div class="row">
@@ -99,7 +186,7 @@
                 </div>
             </div>
             <button onclick="topFunction()" id="topBtn" title="Go to top" style="margin-left: 5px;"><i class="material-icons">arrow_upward</i></button>
-            <button type="button" onclick="submitForm()" id="orderBtn" title="Submit" style="margin-left: -75px;"><i class="material-icons">check</i></button>
+            <button type="button" onclick="formValidate()" id="orderBtn" title="Submit" style="margin-left: -75px;"><i class="material-icons">check</i></button>
             <span class="label label-danger" id="total-price"></span>
         </div>
     </div>
@@ -167,6 +254,53 @@ $(".quantity-btn").on("click", function() {
     }
     function updateSubmitBtn(){
         var form = document.getElementById("form");
+    }
+</script>
+<script>
+    function formValidate(){
+        $flag = true;
+        var form = document.getElementById("form");
+        var name = document.getElementById("name");
+        if (!name.checkValidity()) {
+            document.getElementById("name-error").style.display = "block";
+            document.getElementById("name-error").innerHTML = name.validationMessage;
+            $flag = false;
+        } else {
+            document.getElementById("name-error").style.display = "none";
+        }
+        var phone = document.getElementById("phone");
+        if (!phone.checkValidity()) {
+            document.getElementById("phone-error").style.display = "block";
+            document.getElementById("phone-error").innerHTML = phone.validationMessage;
+            $flag = false;
+        } else {
+            document.getElementById("phone-error").style.display = "none";
+        }
+        var email = document.getElementById("email");
+        if (!email.checkValidity()) {
+            document.getElementById("email-error").style.display = "block";
+            document.getElementById("email-error").innerHTML = email.validationMessage;
+            $flag = false;
+        } else {
+            document.getElementById("email-error").style.display = "none";
+        }
+        var address = document.getElementById("address");
+        if (!address.checkValidity()) {
+            document.getElementById("address-error").style.display = "block";
+            document.getElementById("address-error").innerHTML = address.validationMessage;
+            $flag = false;
+        } else {
+            document.getElementById("address-error").style.display = "none";
+        }
+        if ($flag) {
+            form.submit();
+        }
+        return $flag;
+    }
+    function updateLabel(selectedInput) {
+        if (selectedInput.value) {
+            selectedInput.parentElement.parentElement.nextElementSibling.style.display = "none";
+        }
     }
 </script>
 @endsection

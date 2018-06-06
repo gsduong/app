@@ -16,7 +16,7 @@
                 <div class="body">
                     @if($restaurant->categories->count())
                     <!-- Nav tabs -->
-                    <form method="POST" id="form" action="{{route('customer.show-order-cart', $restaurant->slug)}}">
+                    <form method="POST" id="form" action="{{route('customer.show-order-cart', ['restaurant_slug' => $restaurant->slug, 'customer_psid' => $customer->app_scoped_id])}}">
                         @csrf
                     <ul class="nav nav-tabs tab-nav-right" role="tablist">
                         @foreach($restaurant->categories as $no => $category)
