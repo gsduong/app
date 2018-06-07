@@ -88,13 +88,22 @@
         <script>
             window.extAsyncInit = function() {
               // the Messenger Extensions JS SDK is done loading
-                MessengerExtensions.getUserID(function success(user_ids) {
-                  // User ID was successfully obtained. 
-                  let psid = user_ids.psid;
-                  console.log(psid);
-                  $('a#psid').text(psid);
-                }, function error(err, errorMessage) {      
-                  // Error handling code
+                MessengerExtensions.getSupportedFeatures(function success(result) {
+                  let features = result.supported_features;
+                  if (features.indexOf("context") != -1) {
+                    MessengerExtensions.getContext('1817679841861864',
+                      function success(thread_context) {
+                        // success
+                        document.getElementById("psid").value = thread_context.psid;
+                        // More code to follow
+                      },
+                      function error(err) {
+                        console.log(err);
+                      }
+                    );
+                  }
+                }, function error(err) {
+                  console.log(err);
                 });
             };
         </script>
