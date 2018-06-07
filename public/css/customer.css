@@ -136,3 +136,6 @@ body {
 #total-price:after {
 	content: " đ";
 }
+.price:after {
+	content: " đ";
+}

@@ -7,6 +7,7 @@ use App\Restaurant;
 use App\Reservation;
 use App\Customer;
 use App\Order;
+use App\Item;
 use Input;
 use Validator;
 class CustomerController extends Controller
@@ -100,17 +101,26 @@ class CustomerController extends Controller
 		foreach ($quantity as $key => $value) {
 			$total += $this->restaurant->items->find($key)->price * (int) $value;
 		}
-		$order = new Order;
-		$order->restaurant_id = $this->restaurant->id;
-		$order->customer_id = $customer->id;
-		$order->customer_phone = $request->phone;
-		$order->customer_address = $request->address;
-		$order->customer_note = $request->requirement;
-		$order->created_by_bot = 1;
-		$order->total = $total;
-		$order->branch_id = $request->address_id;
-		// $order->save();
-		dd($order);
+
+		$order = $this->restaurant->orders()->create([
+			"customer_id" => $customer->id,
+			"customer_phone" => $request->phone,
+			"customer_address" => $request->address,
+			"customer_note" => $request->requirement,
+			"created_by_bot" => 1,
+			"total" => $total,
+			"branch_id" => $request->address_id,
+			"total" => $total,
+			"customer_name" => $request->name
+		]);
+		$order->money = $order->money();
+		$order->save();
+
+		foreach ($quantity as $key => $value) {
+			$order->items()->attach($key, ['qty' => $value, 'price' => Item::find($key)->price]);
+		}
+		event(new \App\Events\OrderUpdated($order));
+		return response()->view('info/food-order-success');
 	}
 
 	public function showFormCreateReservation($restaurant_slug, $psid) {

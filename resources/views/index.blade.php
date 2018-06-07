@@ -71,6 +71,7 @@
                 });
             </script>
             @foreach(auth()->user()->restaurants as $restaurant)
+                {{-- subscribe for reservations --}}
                 <script>
                     // Event for reservations
                     var channel = pusher.subscribe('reservation.restaurant.' + '{{$restaurant->id}}');
@@ -180,6 +181,124 @@
                             else {
                                 $('#requirement-' + data.reservation.id).empty();
                                 $('#requirement-' + data.reservation.id).text('N/A');
+                            }
+                        }
+                    });
+                </script>
+                {{-- subscribe for reservations --}}
+                <script>
+                    // Event for reservations
+                    var channel = pusher.subscribe('order.restaurant.' + '{{$restaurant->id}}');
+                    channel.bind('App\\Events\\OrderUpdated', function(data) {
+                        console.log(data.order);
+                        var ordersWrapper   = $('#dropdown-orders-' + data.restaurant.fb_page_id);
+                        if (ordersWrapper.length) {
+                            var ordersToggle    = ordersWrapper.find('a[data-toggle]');
+                            var ordersCountElem = ordersToggle.find('span[data-count]');
+                            var ordersCount; // parseInt(ordersCountElem.data('count'));
+                            var orders          = ordersWrapper.find('ul#dropdown-menu-orders');
+                            var existingOrders = orders.html();
+                            if (data.order.status === 'pending') {
+                                // insert new to pending list
+                                var notification_item = orders.find('li#order-' + data.order.id);
+                                if (notification_item.length) {
+                                    toastr.options.timeOut = 6000; // How long the toast will display without user interaction
+                                    toastr.options.extendedTimeOut = 8000; // How long the toast will display after a user hovers over it
+                                    toastr.success('<a href="' + data.link + '">New food order for ' + data.restaurant.name + '</a>');
+                                } else {
+                                    var newNotificationHtml;
+                                    if (data.order.created_by_bot == 1) {
+                                        newNotificationHtml = `
+                                        <li id="order-` + data.order.id + `">
+                                            <a href="` + data.link + `" class=" waves-effect waves-block">
+                                                <div class="icon-circle bg-light-green">
+                                                    <img src="{{asset('bot-icon.png')}}" width="36" height="36" alt="Bot" style="border-radius: 50%;">
+                                                </div>
+                                                <div class="menu-info">
+                                                    <h4>` + `New food order` + `</h4>
+                                                    <p>
+                                                        <i class="material-icons">access_time</i>` + data.order.updated_at + `
+                                                    </p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        `;
+                                    } else {
+                                        newNotificationHtml = `
+                                        <li id="order-` + data.order.id + `">
+                                            <a href="` + data.link + `" class=" waves-effect waves-block">
+                                                <div class="icon-circle bg-light-green">
+                                                    <img src="` + data.last_editor.avatar + `" width="36" height="36" alt="` +data.last_editor.name + `" style="border-radius: 50%;">
+                                                </div>
+                                                <div class="menu-info">
+                                                    <h4>` + `New food order` + `</h4>
+                                                    <p>
+                                                        <i class="material-icons">access_time</i>` + data.order.updated_at + `
+                                                    </p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        `;
+                                    }
+                                    // ordersCountElem = reservationsToggle.find('span[data-count]');
+                                    
+                                    orders.html(newNotificationHtml + existingOrders);
+                                    ordersCount     = parseInt(ordersCountElem.attr('data-count'));
+                                    ordersCount += 1;
+                                    ordersCountElem.attr('data-count', ordersCount);
+                                    ordersCountElem.text(ordersCount);
+                                    toastr.options.timeOut = 6000; // How long the toast will display without user interaction
+                                    toastr.options.extendedTimeOut = 8000; // How long the toast will display after a user hovers over it
+                                    toastr.success('<a href="' + data.link + '">New food order for ' + data.restaurant.name + '</a>');
+                                }
+                            } else {
+                                // delete the pending item from the current list - if any
+                                var notification_item = orders.find('li#order-' + data.order.id);
+                                if (notification_item.length) {
+                                    notification_item.remove();
+                                    // ordersCountElem = reservationsToggle.find('span[data-count]');
+                                    ordersCount     = parseInt(ordersCountElem.attr('data-count'));
+                                    ordersCount -= 1;
+                                    ordersCountElem.attr('data-count', ordersCount);
+                                    ordersCountElem.text(ordersCount);
+                                }
+                                toastr.options.timeOut = 6000; // How long the toast will display without user interaction
+                                toastr.options.extendedTimeOut = 8000; // How long the toast will display after a user hovers over it
+                                toastr.success('A food order for ' + data.restaurant.name + ' has been processed');
+                            }
+                            $('#order-name-' + data.order.id).text(data.order.customer_name);
+                            $('#order-phone-' + data.order.id).text(data.order.customer_phone);
+                            $('#order-address-' + data.order.id).text(data.order.customer_address);
+                            $('#order-total-' + data.order.id).text(data.order.money);
+                            $('#order-status-' + data.order.id).text(data.order.status);
+                            switch (data.order.status) {
+                                case 'pending':
+                                    $('#order-status-' + data.order.id).attr('class', 'label bg-yellow');
+                                    break;
+                                case 'confirmed':
+                                    $('#order-status-' + data.order.id).attr('class', 'label label-primary');
+                                    break;
+                                case 'delivering':
+                                    $('#order-status-' + data.order.id).attr('class', 'label label-warning');
+                                    break;            
+                                case 'delivered':
+                                    $('#order-status-' + data.order.id).attr('class', 'label label-success');
+                                    break; 
+                                case 'canceled':
+                                    $('#order-status-' + data.order.id).attr('class', 'label bg-red');
+                                    break;
+                            }
+                            if (data.order.customer_note) {
+                                var note = `
+                                    <a class="btn btn-default btn-circle waves-effect waves-circle waves-float" href="`+ `{{asset('note-md.png')}}` +`" data-lightbox="image-` + data.order.id + `" data-title="` + data.oder.customer_note +`">
+                                        <i class="material-icons">event_note</i>
+                                    </a>
+                                `;
+                                $('#order-note-' + data.order.id).html(note);
+                            }
+                            else {
+                                $('#order-note-' + data.order.id).empty();
+                                $('#order-note-' + data.order.id).text('N/A');
                             }
                         }
                     });

@@ -25,7 +25,7 @@
                     <!-- Notifications -->
                     <li class="dropdown" id="dropdown-reservations-{{$restaurant->fb_page_id}}">
                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                            <i class="material-icons">notifications</i>
+                            <i class="material-icons">event_note</i>
                             <span class="label-count" data-count="{{$restaurant->pending_reservations()->count()}}">
                                 @if(isset($restaurant) && $restaurant->pending_reservations()->count())
                                 {{$restaurant->pending_reservations()->count()}}
@@ -74,80 +74,53 @@
                     </li>
                     <!-- #END# Notifications -->
                     <!-- Tasks -->
-                    <li class="dropdown">
+                    <li class="dropdown" id="dropdown-orders-{{$restaurant->fb_page_id}}">
                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                            <i class="material-icons">flag</i>
-                            <span class="label-count">9</span>
+                            <i class="material-icons">local_shipping</i>
+                            <span class="label-count" data-count="{{$restaurant->pending_orders()->count()}}">
+                                @if(isset($restaurant) && $restaurant->pending_orders()->count())
+                                {{$restaurant->pending_orders()->count()}}
+                                @endif
+                            </span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="header">TASKS</li>
+                            <li class="header">ORDERS</li>
                             <li class="body">
-                                <ul class="menu tasks">
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <h4>
-                                                Footer display issue
-                                                <small>32%</small>
-                                            </h4>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-pink" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 32%">
+                                <ul class="menu" id="dropdown-menu-orders">
+                                    @if(isset($restaurant) && $restaurant->orders()->count())
+                                    @foreach($restaurant->pending_orders() as $no => $order)
+                                        <li id="order-{{$order->id}}" style="display: {{$no > 5 ? 'none' : 'block'}};">
+                                            <a href="{{-- {{route('order.show-form-edit', ['restaurant_slug' => $restaurant->slug, 'reservation_id' => $order->id])}} --}}" class=" waves-effect waves-block">
+                                                <div class="icon-circle bg-light-green">
+                                                    @if($order->created_by_bot)
+                                                    <img src="{{asset('bot-icon.png')}}" width="36" height="36" alt="Bot" style="border-radius: 50%;">
+                                                    @else
+                                                    <img src="{{$order->last_editor()->avatar}}" width="36" height="36" alt="Bot" style="border-radius: 50%;">
+                                                    @endif
                                                 </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <h4>
-                                                Make new buttons
-                                                <small>45%</small>
-                                            </h4>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-cyan" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+                                                <div class="menu-info">
+                                                    <h4>
+                                                        @if($order->created_by_bot)
+                                                        New food order via BOT
+                                                        @else
+                                                        New food order by staff
+                                                        @endif
+                                                    </h4>
+                                                    <p>
+                                                        <i class="material-icons">access_time</i> {{$order->updated_at}}
+                                                    </p>
                                                 </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <h4>
-                                                Create new dashboard
-                                                <small>54%</small>
-                                            </h4>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-teal" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 54%">
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <h4>
-                                                Solve transition issue
-                                                <small>65%</small>
-                                            </h4>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-orange" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 65%">
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <h4>
-                                                Answer GitHub questions
-                                                <small>92%</small>
-                                            </h4>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 92%">
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                    @endif
                                 </ul>
                             </li>
+                            @if(isset($restaurant))
                             <li class="footer">
-                                <a href="javascript:void(0);">View All Tasks</a>
+                                <a href="{{route('order.index', $restaurant->slug)}}">View All Food Orders</a>
                             </li>
+                            @endif
                         </ul>
                     </li>
                     <!-- #END# Tasks -->

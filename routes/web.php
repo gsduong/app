@@ -73,7 +73,11 @@ Route::get('r/{restaurant_slug}/discounts/edit{discount_id}.html', ['as' => 'dis
 // order
 Route::get('r/{restaurant_slug}/orders.html', ['as' => 'order.index', 'uses' => 'OrderController@index']);
 Route::get('r/{restaurant_slug}/orders/create.html', ['as' => 'order.show-form-create', 'uses' => 'OrderController@showFormCreate']);
-Route::post('r/{restaurant_slug}/orders/create', ['as' => 'order.create', 'uses' => 'ReservationController@create']);
+Route::get('r/{restaurant_slug}/orders/edit/{order_id}.html', ['as' => 'order.show-form-edit', 'uses' => 'OrderController@showFormEdit']);
+Route::post('r/{restaurant_slug}/orders/create', ['as' => 'order.create', 'uses' => 'OrderController@create']);
+Route::post('r/{restaurant_slug}/orders/{order_id}/confirm', ['as' => 'order.confirm', 'uses' => 'OrderController@confirmOrder']);
+Route::post('r/{restaurant_slug}/orders/{order_id}/deliver', ['as' => 'order.deliver', 'uses' => 'OrderController@deliverOrder']);
+Route::get('r/{restaurant_slug}/orders/{order_id}/cancel', ['as' => 'order.cancel', 'uses' => 'OrderController@cancelOrder']);
 
 // CRM
 Route::get('r/{restaurant_slug}/customers/index.html', ['as' => 'customer.index', 'uses' => 'CustomerController@index']);
