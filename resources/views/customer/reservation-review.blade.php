@@ -80,7 +80,7 @@
                                     <div class="row">
                                     @foreach($restaurant->contacts as $no => $contact)
                                     <div class="col-xs-12" style="padding-left: 11px; margin-bottom: 5px; display: {{$reservation->address_id == $contact->id ? 'block' : 'none'}};">
-                                        <input name="address_id" type="radio" id="address_{{$no + 1}}" {{$no == 0 ? 'checked' : ''}} value="{{$contact->id}}">
+                                        <input name="address_id" type="radio" id="address_{{$no + 1}}" {{$reservation->address_id == $contact->id ? 'checked' : ''}} value="{{$contact->id}}">
                                         <label for="address_{{$no + 1}}">{{$contact->address}}</label>
                                     </div>
 

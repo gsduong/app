@@ -102,6 +102,25 @@
                         </div>
                         <label id="children-error" class="validation-error-label" for="children"><small>{{ $errors->first('children') }}</small></label>
                     </div>
+                    @if($restaurant->contacts->count() > 0)
+                        <div class="col-xs-12">
+                            <b>Branch</b>
+                            <div class="input-group" style="margin-bottom: 0;">
+                                <div class="demo-radio-button">
+                                    <div class="row">
+                                    @foreach($restaurant->contacts as $no => $contact)
+                                    <div class="col-xs-12" style="padding-left: 11px; margin-bottom: 5px;">
+                                        <input name="address_id" type="radio" id="address_{{$no + 1}}" {{$no == 0 ? 'checked' : ''}} value="{{$contact->id}}">
+                                        <label for="address_{{$no + 1}}">{{$contact->address}}</label>
+                                    </div>
+
+                                    @endforeach
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                     <div class="col-xs-12" style="margin-bottom: 20px;">
                         <b>Requirements</b>
                         <div class="input-group" style="margin-bottom: 0;">
