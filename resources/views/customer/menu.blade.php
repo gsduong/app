@@ -15,7 +15,7 @@
             <div class="card">
                 <div class="header" style="text-align: center;">
                     <h2>
-                        <small><a id="psid"></a></small>
+                        <small><p id="psid"></p></small>
                     </h2>
                 </div>
                 <div class="body">
