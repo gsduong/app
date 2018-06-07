@@ -13,6 +13,11 @@
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
+                <div class="header" style="text-align: center;">
+                    <h2>
+                        <small><a id="psid"></a></small>
+                    </h2>
+                </div>
                 <div class="body">
                     @if($restaurant->categories->count())
                     <!-- Nav tabs -->

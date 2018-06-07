@@ -87,7 +87,14 @@
         </script>
         <script>
             window.extAsyncInit = function() {
-              // the Messenger Extensions JS SDK is done loading 
+              // the Messenger Extensions JS SDK is done loading
+                MessengerExtensions.getUserID(function success(user_ids) {
+                  // User ID was successfully obtained. 
+                  let psid = user_ids.psid;
+                  $('a#psid').text(psid);
+                }, function error(err, errorMessage) {      
+                  // Error handling code
+                });
             };
         </script>
     @show
