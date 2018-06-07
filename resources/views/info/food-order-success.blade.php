@@ -2,4 +2,7 @@
 
 @section('title', 'ORDER')
 
-@section('message', 'Thank you for making food order with us. We will contact you shortly')
+@section('message')
+<p>Thank you for making food order with us</p>
+<p>We will contact you shortly</p>
+@endsection

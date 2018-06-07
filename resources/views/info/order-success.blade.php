@@ -1,5 +1,8 @@
 @extends('info.layout')
 
-@section('title', 'RESERVATION')
+@section('title', 'ORDER')
 
-@section('message', 'Thank you for making reservation with us. We will contact you shortly')
+@section('message')
+<p>Thank you for making reservation with us</p>
+<p>We will contact you shortly</p>
+@endsection
