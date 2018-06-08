@@ -195,4 +195,40 @@ class Bot extends Model
             $page_access_token
         );
     }
+
+    public function replyOrderPostback($recipient_id) {
+        $page_id = $this->restaurant->fb_page_id;
+        $page_access_token = $this->access_token;
+        $button = array();
+        // $message = "Mời bạn đặt bàn với " . $this->restaurant->name;
+        $template_btn = [
+            "recipient" => [
+                "id" => $recipient_id
+            ], 
+            "message" => [
+                "attachment" => [
+                    "type" => "template",
+                    "payload" => [
+                        "template_type" => "button",
+                        "text" => "Mời quý khách order",
+                        "buttons" => [
+                            [
+                                "type" => "web_url",
+                                "url" => route('customer.show-form-create-order', ['restaurant_slug' => $this->restaurant->slug, 'customer_psid' => $recipient_id]),
+                                "title" => "Start Order",
+                                "webview_height_ratio" => "full",
+                                "messenger_extensions" => "true",
+                                "webview_share_button" => "hide"
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $response = Facebook::post(
+            '/me/messages?access_token='. $page_access_token,
+            $template_btn,
+            $page_access_token
+        );
+    }
 }
