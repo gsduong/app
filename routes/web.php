@@ -92,7 +92,7 @@ Route::get("/webhook", "WebhookController@verify");
 Route::post("/webhook", "WebhookController@receive")->name('webhook');
 
 // customer - order
-Route::get('{restaurant_slug}/customer/order/create.html', ['as' => 'customer.show-form-create-order', 'uses' => 'CustomerController@showFormCreateOrder']);
+Route::get('{restaurant_slug}/customer/{customer_psid}/order/create.html', ['as' => 'customer.show-form-create-order', 'uses' => 'CustomerController@showFormCreateOrder']);
 Route::post('{restaurant_slug}/customer/{customer_psid}/order/cart.html', ['as' => 'customer.show-order-cart', 'uses' => 'CustomerController@showOrderCart']);
 Route::post('{restaurant_slug}/customer/{customer_psid}/order/create', ['as' => 'customer.create-order', 'uses' => 'CustomerController@createOrder']);
 
