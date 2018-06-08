@@ -135,6 +135,21 @@ class WebhookController extends Controller
                     file_put_contents("php://stderr", $e->getMessage());
                 }
                 break;
+            case 'BOOKING_PAYLOAD':
+                try {
+                    $restaurant->customers()->firstOrCreate(['app_scoped_id' => $senderId]);
+                    $customer = $restaurant->customers->where('app_scoped_id', $senderId)->first();
+                    $customer->updateInformation();
+                    file_put_contents("php://stderr", 'Successfully created new customer!');
+                } catch (Exception $e) {
+                    file_put_contents("php://stderr", $e->getMessage());
+                }
+                try {
+                    $restaurant->bot->replyReservationPostback($senderId);
+                } catch (Exception $e) {
+                    file_put_contents("php://stderr", $e->getMessage());
+                }
+                break;
             default:
                 $this->sendTextMessage($page_id, $senderId, $payload);
                 break;
