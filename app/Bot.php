@@ -169,21 +169,16 @@ class Bot extends Model
                 "attachment" => [
                     "type" => "template",
                     "payload" => [
-                        "template_type" => "generic",
-                        "elements" => [
-                            array(
-                                "title" => $message,
-                                "buttons" => [
-                                    [
-                                        "type" => "web_url",
-                                        "url" => route('customer.reservation', ['restaurant_slug' => $this->restaurant->slug, 'psid' => $recipient_id]),
-                                        "title" => "Đặt bàn",
-                                        "webview_height_ratio" => "full",
-                                        "messenger_extensions" => "true",
-                                        "webview_share_button" => "hide"
-                                    ]
-                                ]
-                            )
+                        "template_type" => "button",
+                        "buttons" => [
+                            [
+                                "type" => "web_url",
+                                "url" => route('customer.reservation', ['restaurant_slug' => $this->restaurant->slug, 'psid' => $recipient_id]),
+                                "title" => "Đặt bàn",
+                                "webview_height_ratio" => "full",
+                                "messenger_extensions" => "true",
+                                "webview_share_button" => "hide"
+                            ]
                         ]
                     ]
                 ]
@@ -210,12 +205,11 @@ class Bot extends Model
                     "type" => "template",
                     "payload" => [
                         "template_type" => "button",
-                        "text" => "Mời quý khách order",
                         "buttons" => [
                             [
                                 "type" => "web_url",
                                 "url" => route('customer.show-form-create-order', ['restaurant_slug' => $this->restaurant->slug, 'customer_psid' => $recipient_id]),
-                                "title" => "Start Order",
+                                "title" => "Order Now",
                                 "webview_height_ratio" => "full",
                                 "messenger_extensions" => "true",
                                 "webview_share_button" => "hide"
