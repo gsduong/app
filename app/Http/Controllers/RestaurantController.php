@@ -219,6 +219,9 @@ class RestaurantController extends Controller
         } catch(\Exception $e) {
             file_put_contents("php://stderr", $e->getMessage());
         }
+        if (!$response) {
+            return;
+        }
         $result = $response->getGraphObject()->asArray();
         if ($result) {
             if(array_key_exists("access_token", $result)) {

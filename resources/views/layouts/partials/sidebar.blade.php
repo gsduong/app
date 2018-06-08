@@ -50,7 +50,7 @@
                             <span>Discounts</span>
                         </a>
                     </li>
-                    <li {{ strpos(url()->current(), 'bot') ? 'class=active':''}}>
+                    <li {{ strpos(url()->current(), '/bot/') ? 'class=active':''}}>
                         <a href="{{route('bot.index', $restaurant->slug)}}">
                             <i class="material-icons">chat</i>
                             <span>Chatbot</span>
