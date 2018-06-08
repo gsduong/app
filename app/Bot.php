@@ -160,7 +160,7 @@ class Bot extends Model
         $page_id = $this->restaurant->fb_page_id;
         $page_access_token = $this->access_token;
         $button = array();
-        $message = "Mời bạn đặt bàn :\)";
+        $message = "Mời bạn đặt bàn";
         $template_btn = [
             "recipient" => [
                 "id" => $recipient_id
@@ -200,7 +200,7 @@ class Bot extends Model
         $page_id = $this->restaurant->fb_page_id;
         $page_access_token = $this->access_token;
         $button = array();
-        $message = "Mời bạn gọi đồ :\)";
+        $message = "Mời bạn gọi đồ";
         $template_btn = [
             "recipient" => [
                 "id" => $recipient_id
