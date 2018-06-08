@@ -96,7 +96,7 @@
                     MessengerExtensions.getContext('1817679841861864',
                       function success(thread_context) {
                         // success
-                        document.getElementById("psid").innerHTML = thread_context.psid;
+                        document.getElementById("psid").value = thread_context.psid;
                         // More code to follow
                         document.getElementById("form-psid").submit();
                       },
