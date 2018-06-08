@@ -36,7 +36,7 @@
 </head>
 
 <body class="theme-green">
-    <script>
+{{--     <script>
         (function(d, s, id){
           var js, fjs = d.getElementsByTagName(s)[0];
           if (d.getElementById(id)) {return;}
@@ -44,7 +44,7 @@
           js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
           fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'Messenger'));
-    </script>
+    </script> --}}
     <section class="content">
         @yield('content')
     </section>
@@ -85,7 +85,7 @@
             document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
         }
         </script>
-        <script>
+{{--         <script>
             window.extAsyncInit = function() {
               // the Messenger Extensions JS SDK is done loading
                 MessengerExtensions.getSupportedFeatures(function success(result) {
@@ -106,7 +106,7 @@
                   console.log(err);
                 });
             };
-        </script>
+        </script> --}}
     @show
 </body>
 

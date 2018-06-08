@@ -30,10 +30,11 @@ class CustomerController extends Controller
 			return $next($request);
 		});
 	}
-	public function showFormCreateOrder ($restaurant_slug, $customer_psid) {
+	public function showFormCreateOrder ($restaurant_slug) {
+		$customer_psid = Input::get('psid');
 		$customer = $this->restaurant->customers->where('app_scoped_id', '=', $customer_psid)->first();
 		if (!$customer) {
-			return response()->view('errors/404');
+			return response()->view('customer/waiting', ['restaurant' => $this->restaurant, 'route' => route('customer.show-form-create-order', $this->restaurant->slug)]);
 		}
 		return view('customer/new-order', ['restaurant' => $this->restaurant, 'customer' => $customer]);
 	}

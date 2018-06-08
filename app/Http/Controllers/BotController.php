@@ -113,9 +113,12 @@ class BotController extends Controller
 										),
 										array(
 											// Order
-											"title" => "Order",
-											"type" => "postback",
-											"payload" => "ORDER_PAYLOAD"
+											"type" => "web_url",
+											"url" => route('customer.show-form-create-order', $this->restaurant->slug),
+											"title" => "Food Order",
+											"webview_height_ratio" => "full",
+											"messenger_extensions" => "true",
+											"webview_share_button" => "hide"
 										)
 									)
 								),
