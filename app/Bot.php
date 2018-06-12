@@ -235,4 +235,24 @@ class Bot extends Model
             $page_access_token
         );
     }
+
+    public function replyChatWithStaff($recipient_id) {
+        if ($this->chat_with_staff) {
+            $this->sendTextMessage($recipient_id, "Quý khách vui lòng chờ trong giây lát. Nhân viên của chúng tôi sẽ liên hệ với quý khách trong thời gian sớm nhất. Xin cảm ơn!");
+        }
+        else {
+            $this->sendTextMessage($recipient_id, $this->msg_chat_with_staff);
+        }
+    }
+
+    public function replyWithContact($recipient_id) {
+        if ($this->restaurant->contacts->count() > 0 ) {
+            foreach ($this->restaurant->contacts as $key => $contact) {
+                $this->sendTextMessage($recipient_id, $contact->toString());
+            }
+        }
+        else {
+            return;
+        }
+    }
 }

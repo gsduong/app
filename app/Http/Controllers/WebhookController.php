@@ -144,7 +144,10 @@ class WebhookController extends Controller
                 } catch (Exception $e) {
                     file_put_contents("php://stderr", $e->getMessage());
                 }
-                try {
+                if (!$restaurant->bot->booking) {
+                    $this->sendTextMessage($page_id, $senderId, $restaurant->bot->msg_booking);
+                }
+                else try {
                     $restaurant->bot->replyReservationPostback($senderId);
                 } catch (Exception $e) {
                     file_put_contents("php://stderr", $e->getMessage());
@@ -159,11 +162,35 @@ class WebhookController extends Controller
                 } catch (Exception $e) {
                     file_put_contents("php://stderr", $e->getMessage());
                 }
-                try {
+                if (!$restaurant->bot->order) {
+                    $this->sendTextMessage($page_id, $senderId, $restaurant->bot->msg_order);
+                } else try {
                     $restaurant->bot->replyOrderPostback($senderId);
                 } catch (Exception $e) {
                     file_put_contents("php://stderr", $e->getMessage());
                 }
+                break;
+            case 'STAFF_PAYLOAD':
+                try {
+                    $restaurant->customers()->firstOrCreate(['app_scoped_id' => $senderId]);
+                    $customer = $restaurant->customers->where('app_scoped_id', $senderId)->first();
+                    $customer->updateInformation();
+                    file_put_contents("php://stderr", 'Successfully created new customer!');
+                } catch (Exception $e) {
+                    file_put_contents("php://stderr", $e->getMessage());
+                }
+                $restaurant->bot->replyChatWithStaff($recipientId);
+                break;
+            case 'CONTACT_PAYLOAD':
+                try {
+                    $restaurant->customers()->firstOrCreate(['app_scoped_id' => $senderId]);
+                    $customer = $restaurant->customers->where('app_scoped_id', $senderId)->first();
+                    $customer->updateInformation();
+                    file_put_contents("php://stderr", 'Successfully created new customer!');
+                } catch (Exception $e) {
+                    file_put_contents("php://stderr", $e->getMessage());
+                }
+                $restaurant->bot->replyWithContact($recipientId);
                 break;
             default:
                 $this->sendTextMessage($page_id, $senderId, $payload);

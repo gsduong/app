@@ -22,4 +22,8 @@ class ContactInfo extends Model
     {
         return $this->belongsTo('App\Restaurant', 'restaurant_id');
     }
+
+    public function toString() {
+        return $this->name . ": " . $this->address . ", " . $this->phone;
+    }
 }
