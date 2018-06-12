@@ -295,4 +295,35 @@ class Bot extends Model
             $this->sendTextMessage($recipient_id, "Hiện tại nhà hàng chưa cập nhật thông tin liên hệ. Xin cảm ơn quý khách!");
         }
     }
+
+    public function replyAddress($recipient_id) {
+        if ($this->address) {
+            foreach ($this->restaurant->contacts as $key => $contact) {
+                $this->sendTextMessage($recipient_id, $contact->toString());
+            }
+        }
+        else {
+            $this->sendTextMessage($recipient_id, $this->msg_address);
+        }
+    }
+    public function replyPhone($recipient_id) {
+        if ($this->phone) {
+            foreach ($this->restaurant->contacts as $key => $contact) {
+                $this->sendTextMessage($recipient_id, $contact->toString());
+            }
+        }
+        else {
+            $this->sendTextMessage($recipient_id, $this->msg_phone_number);
+        }
+    }
+    public function replyHours($recipient_id) {
+        if ($this->opening_hour) {
+            foreach ($this->restaurant->contacts as $key => $contact) {
+                $this->sendTextMessage($recipient_id, $contact->name . ": " . $contact->opening_time . " - " . $contact->closing_time);
+            }
+        }
+        else {
+            $this->sendTextMessage($recipient_id, $this->msg_opening_hour);
+        }
+    }
 }

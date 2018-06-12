@@ -99,7 +99,18 @@ class WebhookController extends Controller
                             case 'thank_you':
                                 $this->sendDefaultResponse($page_id, $senderId, "Xin cảm ơn quý khách!");
                                 break;
-                            
+                            case 'chat_with_staff':
+                                $restaurant->bot->replyChatWithStaff($senderId);
+                                break;
+                            case 'ask_address':
+                                $restaurant->bot->replyAddress($senderId);
+                                break;
+                            case 'ask_opening_hour':
+                                $restaurant->bot->replyHours($senderId);
+                                break;
+                            case 'ask_phone_number':
+                                $restaurant->bot->replyPhone($senderId);
+                                break;
                             default:
                                 $this->sendDefaultResponse($page_id, $senderId, "Bạn có thể gõ \"Menu\", \"Đặt bàn\", \"Chat với nhân viên\"");
                                 break;
