@@ -44,7 +44,6 @@
                                 <th style="text-align: center;">Phone</th>
                                 <th style="text-align: center;">Email</th>
                                 <th style="text-align: center;">Avatar</th>
-                                <th style="text-align: center;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -65,8 +64,6 @@
                                     @else
                                     N/A
                                     @endif
-                                </td>
-                                <td style="text-align: center; vertical-align: middle;"><a href="{{route('customer.reservation', ['restaurant_slug' => $restaurant->slug, 'psid' => $item->app_scoped_id])}}">Reservation</a>
                                 </td>
                             </tr>
                             @endforeach
