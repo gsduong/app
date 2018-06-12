@@ -196,6 +196,46 @@ class Bot extends Model
         );
     }
 
+    public function replyMenuOrderPostback($recipient_id) {
+        $page_id = $this->restaurant->fb_page_id;
+        $page_access_token = $this->access_token;
+        $button = array();
+        $message = "Mời bạn xem menu và đặt đồ ăn online";
+        $template_btn = [
+            "recipient" => [
+                "id" => $recipient_id
+            ], 
+            "message" => [
+                "attachment" => [
+                    "type" => "template",
+                    "payload" => [
+                        "template_type" => "generic",
+                        "elements" => [
+                            array(
+                                "title" => $message,
+                                "buttons" => [
+                                    [
+                                        "type" => "web_url",
+                                        "url" => route('customer.show-form-create-order', ['restaurant_slug' => $this->restaurant->slug, 'customer_psid' => $recipient_id]),
+                                        "title" => "Menu",
+                                        "webview_height_ratio" => "full",
+                                        "messenger_extensions" => "true",
+                                        "webview_share_button" => "hide"
+                                    ]
+                                ]
+                            )
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $response = Facebook::post(
+            '/me/messages?access_token='. $page_access_token,
+            $template_btn,
+            $page_access_token
+        );
+    }
+
     public function replyOrderPostback($recipient_id) {
         $page_id = $this->restaurant->fb_page_id;
         $page_access_token = $this->access_token;

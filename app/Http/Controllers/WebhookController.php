@@ -87,9 +87,21 @@ class WebhookController extends Controller
                             case 'booking':
                                 $restaurant->bot->replyReservationPostback($senderId);
                                 break;
+                            case 'ask_menu':
+                                $restaurant->bot->replyMenuOrderPostback($senderId);
+                                break;
+                            case 'greeting':
+                                $this->sendDefaultResponse($page_id, $senderId, "Xin chào quý khách!");
+                                break;
+                            case 'goodbye':
+                                $this->sendDefaultResponse($page_id, $senderId, "Xin chào tạm biệt quý khách và hẹn gặp lại!");
+                                break;
+                            case 'thank_you':
+                                $this->sendDefaultResponse($page_id, $senderId, "Xin cảm ơn quý khách!");
+                                break;
                             
                             default:
-                                # code...
+                                $this->sendDefaultResponse($page_id, $senderId, "Bạn có thể gõ \"Menu\", \"Đặt bàn\", \"Chat với nhân viên\"");
                                 break;
                         }
                     }

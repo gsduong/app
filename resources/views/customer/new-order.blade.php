@@ -35,7 +35,7 @@
                             @if($category->items->count())
                                 <div class="row">
                                 @foreach($category->items as $idx => $item)
-                                    @if($item->ship)
+                                    {{-- @if($item->ship) --}}
                                     <div class="col-sm-3 col-md-2">
                                         <div class="thumbnail">
                                             <div class="image">
@@ -56,6 +56,7 @@
                                                 <p><small><a href="{{$item->item_url}}" target="_blank">{{$item->item_url}}</a></small></p>
                                                 @endif
                                                 {{-- <label for="name">Quantity</label> --}}
+                                                @if($item->ship)
                                                 <div class="row">
                                                     <div class="col-xs-12" style="margin-bottom: 0;">
                                                         <div class="input-group">
@@ -74,10 +75,11 @@
                                                         </div>  
                                                     </div>
                                                 </div>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
-                                    @endif
+                                    {{-- @endif --}}
                                 @endforeach
                                 </div>
                             @else
