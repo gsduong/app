@@ -307,7 +307,7 @@ class Bot extends Model
         }
     }
     public function replyPhone($recipient_id) {
-        if ($this->phone) {
+        if ($this->phone_number) {
             foreach ($this->restaurant->contacts as $key => $contact) {
                 $this->sendTextMessage($recipient_id, $contact->toString());
             }
