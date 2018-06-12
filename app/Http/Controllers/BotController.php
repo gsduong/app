@@ -207,4 +207,77 @@ class BotController extends Controller
 		$customer = $this->restaurant->customers()->firstOrCreate(['app_scoped_id' => "1855048967935590"]);
 		$customer->updateInformation();
 	}
+
+	public function update (Request $request) {
+		if (isset($request->activate)) {
+			$activate = $request->activate ? 1 : 0;
+			if (!$activate) {
+				try {
+				  // Returns a `FacebookFacebookResponse` object
+				  $response = Facebook::delete(
+				    '/'. $this->restaurant->fb_page_id . '/subscribed_apps',
+				    array (
+				      'access_token' => $this->restaurant->fb_page_access_token
+				    ),
+				    $this->restaurant->fb_page_access_token
+				  );
+				} catch(Exception $e) {
+					return redirect()->route('bot.index', $this->restaurant->slug)->withError($e->getMessage());
+				}
+				$graphNode = $response->getGraphNode();
+				if ($graphNode['success']) {
+					$this->restaurant->bot->active = 0;
+					$this->restaurant->bot->save();
+					
+				}
+			}
+		}
+
+		if (isset($request->activate_menu)) {
+			$activate_menu = $request->activate_menu ? 1 : 0;
+			$this->restaurant->bot->menu = $activate_menu;
+			$this->restaurant->bot->msg_menu = $request->msg_menu;
+			$this->restaurant->bot->save();
+		}
+		if (isset($request->activate_booking)) {
+			$activate_booking = $request->activate_booking ? 1 : 0;
+			$this->restaurant->bot->booking = $activate_booking;
+			$this->restaurant->bot->msg_booking = $request->msg_booking;
+			$this->restaurant->bot->save();
+		}
+
+		if (isset($request->activate_order)) {
+			$activate_order = $request->activate_order ? 1 : 0;
+			$this->restaurant->bot->order = $activate_order;
+			$this->restaurant->bot->msg_order = $request->msg_order;
+			$this->restaurant->bot->save();
+		}
+
+		if (isset($request->activate_chat_with_staff)) {
+			$activate_chat_with_staff = $request->activate_chat_with_staff ? 1 : 0;
+			$this->restaurant->bot->chat_with_staff = $activate_chat_with_staff;
+			$this->restaurant->bot->msg_chat_with_staff = $request->msg_chat_with_staff;
+			$this->restaurant->bot->save();
+		}
+		if (isset($request->address)) {
+			$activate_address = $request->address ? 1 : 0;
+			$this->restaurant->bot->address = $activate_address;
+			$this->restaurant->bot->msg_address = $request->msg_address;
+			$this->restaurant->bot->save();
+		}
+		if (isset($request->phone)) {
+			$phone = $request->phone ? 1 : 0;
+			$this->restaurant->bot->phone_number = $phone;
+			$this->restaurant->bot->msg_phone_number = $request->msg_phone_number;
+			$this->restaurant->bot->save();
+		}
+		if (isset($request->opening_hour)) {
+			$opening_hour = $request->opening_hour ? 1 : 0;
+			$this->restaurant->bot->opening_hour = $opening_hour;
+			$this->restaurant->bot->msg_opening_hour = $request->msg_opening_hour;
+			$this->restaurant->bot->save();
+		}
+
+		return redirect()->route('bot.index', $this->restaurant->slug)->withSuccess('Bot updated');
+	}
 }

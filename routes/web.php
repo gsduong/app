@@ -85,6 +85,7 @@ Route::get('r/{restaurant_slug}/customers/index.html', ['as' => 'customer.index'
 // Bot
 Route::get('r/{restaurant_slug}/bot/index.html', ['as' => 'bot.index', 'uses' => 'BotController@index']);
 Route::get('r/{restaurant_slug}/bot/create', ['as' => 'bot.create', 'uses' => 'BotController@create']);
+Route::post('r/{restaurant_slug}/bot/update', ['as' => 'bot.update', 'uses' => 'BotController@update']);
 Route::get('r/{restaurant_slug}/bot/delete', ['as' => 'bot.delete', 'uses' => 'BotController@delete']);
 Route::get('r/{restaurant_slug}/bot/test', ['as' => 'bot.test', 'uses' => 'BotController@test']);
 
