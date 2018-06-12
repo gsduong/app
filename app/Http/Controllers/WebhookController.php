@@ -77,7 +77,22 @@ class WebhookController extends Controller
             }
 
             if ($messageText) {
-                    $this->sendTextMessage($page_id, $senderId, "We received: " . $messageText);
+                    $response = $this->handleText($messageText);
+                    if ($response->score < 0.5) {
+                        $this->sendDefaultResponse($page_id, $senderId, "Bạn có thể gõ \"Menu\", \"Đặt bàn\", \"Chat với nhân viên\"");
+                    }
+                    else {
+                        $restaurant = Restaurant::where('fb_page_id', '=', $page_id)->first();
+                        switch ($response->predicted_label) {
+                            case 'booking':
+                                $restaurant->bot->replyReservationPostback($senderId);
+                                break;
+                            
+                            default:
+                                # code...
+                                break;
+                        }
+                    }
                     return;
             } else if ($messageAttachments) {
                     $this->sendTextMessage($page_id, $senderId, "Message with attachment received!");
@@ -281,5 +296,23 @@ class WebhookController extends Controller
             file_put_contents("php://stderr", $e->getMessage());
         }
         return;
+    }
+
+    public function handleText($message) {
+        $data = array("message" => $message);                                                                    
+        $data_string = json_encode($data);                                                                                   
+                                                                                                                             
+        $ch = curl_init('https://booknow-nlp.herokuapp.com/predict');                                                                      
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+            'Content-Type: application/json',                                                                                
+            'Content-Length: ' . strlen($data_string))                                                                       
+        );                                                                                                                   
+                                                                                                                             
+        $result = curl_exec($ch);
+        $json = json_decode($result);
+        return $json;
     }
 }
