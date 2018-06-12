@@ -252,7 +252,7 @@ class Bot extends Model
             }
         }
         else {
-            return;
+            $this->sendTextMessage($recipient_id, "Hiện tại nhà hàng chưa cập nhật thông tin liên hệ. Xin cảm ơn quý khách!");
         }
     }
 }
