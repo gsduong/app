@@ -179,7 +179,7 @@ class WebhookController extends Controller
                 } catch (Exception $e) {
                     file_put_contents("php://stderr", $e->getMessage());
                 }
-                $restaurant->bot->replyChatWithStaff($recipientId);
+                $restaurant->bot->replyChatWithStaff($senderId);
                 break;
             case 'CONTACT_PAYLOAD':
                 try {
@@ -190,7 +190,7 @@ class WebhookController extends Controller
                 } catch (Exception $e) {
                     file_put_contents("php://stderr", $e->getMessage());
                 }
-                $restaurant->bot->replyWithContact($recipientId);
+                $restaurant->bot->replyWithContact($senderId);
                 break;
             default:
                 $this->sendTextMessage($page_id, $senderId, $payload);
