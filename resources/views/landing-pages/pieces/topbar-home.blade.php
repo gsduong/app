@@ -17,20 +17,20 @@
                 <li>
                     <a href="{{ route('login') }}">
                         <i class="fa fa-facebook-square"></i>
-                        Sign In
+                        Đăng nhập
                     </a>
                 </li>
                 @else
                 <li>
                     <a href="{{ route('restaurant.index') }}">
                         <i class="fa fa-arrow-right"></i>
-                        Your Restaurants
+                        Nhà hàng của bạn
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('logout') }}">
                         <i class="fa fa-facebook-square"></i>
-                        Sign Out
+                        Đăng xuất
                     </a>
                 </li>
                 @endguest
