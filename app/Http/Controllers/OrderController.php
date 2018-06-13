@@ -45,7 +45,7 @@ class OrderController extends Controller
 		if (Input::get('date')) {
 			$orders->whereDate('created_at', Input::get('date'));
 		}
-		$orders = $orders->orderBy('created_at', 'asc')->paginate(5);
+		$orders = $orders->orderBy('created_at', 'desc')->paginate(5);
 		return view('restaurant/order/index', ['restaurant' => $this->restaurant, 'orders' => $orders]);
 	}
 
