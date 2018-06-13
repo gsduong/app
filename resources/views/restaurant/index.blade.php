@@ -1,7 +1,7 @@
 @extends('restaurant.master')
 
 @section('title')
-	Restaurants Management
+	Quản lý nhà hàng
 @endsection
 
 @section('extra-css')
@@ -17,8 +17,8 @@
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                     <div class="block-header">
                         <ol class="breadcrumb">
-                            <li><a href="{{route('homepage')}}">Home</a></li>
-                            <li class="active">Restaurants</li>
+                            <li><a href="{{route('homepage')}}">Trang chủ</a></li>
+                            <li class="active">Nhà hàng của tôi</li>
                         </ol>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <a href="{{route('restaurant.select-page')}}" title="Add new restaurant" style="text-decoration: none;">
                             <div class="card transparent_class" style="margin-bottom: 10px; border: 5px #D3D3D3 dashed; border-radius: 5px; text-align: center;">
-                                <p class="vertical-align-custom">Add new restaurant from your facebook pages</p>
+                                <p class="vertical-align-custom">Tạo mới nhà hàng từ Facebook Page của bạn</p>
                             </div>
                         </a>
                     </div>

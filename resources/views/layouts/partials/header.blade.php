@@ -33,7 +33,7 @@
                             </span>
                         </a>
                         <ul class="dropdown-menu list-group" id="dropdown-reservations-wrapper">
-                            <li class="header">RESERVATIONS</li>
+                            <li class="header">ĐƠN ĐẶT BÀN</li>
                             <li class="body">
                                 <ul class="menu" id="dropdown-menu-reservations">
                                     @if(isset($restaurant) && $restaurant->pending_reservations()->count())
@@ -50,9 +50,9 @@
                                                 <div class="menu-info">
                                                     <h4>
                                                         @if($book->created_by_bot)
-                                                        New reservation order via BOT
+                                                        Đơn đặt bàn qua chatbot
                                                         @else
-                                                        New reservation order by staff
+                                                        Đơn đặt bàn trực tiếp
                                                         @endif
                                                     </h4>
                                                     <p>
@@ -67,7 +67,7 @@
                             </li>
                             @if(isset($restaurant))
                             <li class="footer">
-                                <a href="{{route('reservation.index', $restaurant->slug)}}">View All Reservation Orders</a>
+                                <a href="{{route('reservation.index', $restaurant->slug)}}">Xem tất cả đơn đặt bàn</a>
                             </li>
                             @endif
                         </ul>
@@ -84,7 +84,7 @@
                             </span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="header">ORDERS</li>
+                            <li class="header">ĐƠN HÀNG SHIP ĐỒ</li>
                             <li class="body">
                                 <ul class="menu" id="dropdown-menu-orders">
                                     @if(isset($restaurant) && $restaurant->orders()->count())
@@ -101,9 +101,9 @@
                                                 <div class="menu-info">
                                                     <h4>
                                                         @if($order->created_by_bot)
-                                                        New food order via BOT
+                                                        Đơn hàng ship đồ ăn khởi tạo bởi chatbot
                                                         @else
-                                                        New food order by staff
+                                                        Đơn hàng ship đồ ăn tạo bởi nhân viên
                                                         @endif
                                                     </h4>
                                                     <p>
@@ -118,7 +118,7 @@
                             </li>
                             @if(isset($restaurant))
                             <li class="footer">
-                                <a href="{{route('order.index', $restaurant->slug)}}">View All Food Orders</a>
+                                <a href="{{route('order.index', $restaurant->slug)}}">Xem tất cả đơn hàng</a>
                             </li>
                             @endif
                         </ul>

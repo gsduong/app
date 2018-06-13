@@ -11,7 +11,7 @@
                     <li>
                         <a href="{{ route('logout') }}" style="min-height: 30px; margin-bottom: 5px; margin-top: 10px;">
                             <div class="image">
-                                <img src="{{auth()->user()->avatar}}" width="36" height="36" alt="{{auth()->user()->name}}" style="border-radius: 50% !important;"> Sign Out
+                                <img src="{{auth()->user()->avatar}}" width="36" height="36" alt="{{auth()->user()->name}}" style="border-radius: 50% !important;"> Đăng xuất
                             </div>
                         </a>
                     <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="material-icons">more_vert</i></a></li>

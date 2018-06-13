@@ -12,11 +12,11 @@
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="javascript:void(0);"><i class="material-icons">settings</i>Settings</a></li>
+                            {{-- <li><a href="javascript:void(0);"><i class="material-icons">settings</i>Settings</a></li> --}}
                             {{-- <li role="seperator" class="divider"></li> --}}
-                            <li><a href="{{route('staff.index', $restaurant->slug)}}"><i class="material-icons">face</i>Staffs</a></li>
+                            <li><a href="{{route('staff.index', $restaurant->slug)}}"><i class="material-icons">face</i>Nhân viên</a></li>
                             <li role="seperator" class="divider"></li>
-                            <li><a href="{{route('logout')}}"><i class="material-icons">exit_to_app</i>Sign Out</a></li>
+                            <li><a href="{{route('logout')}}"><i class="material-icons">exit_to_app</i>Đăng xuất</a></li>
                         </ul>
                     </div>
                 </div>
@@ -35,13 +35,13 @@
                     <li {{ strpos(url()->current(), 'reservation') ? 'class=active':''}}>
                         <a href="{{route('reservation.index', $restaurant->slug)}}">
                             <i class="material-icons">date_range</i>
-                            <span>Reservation</span>
+                            <span>Đơn đặt bàn</span>
                         </a>
                     </li>
                     <li {{ strpos(url()->current(), 'order') ? 'class=active':''}}>
                         <a href="{{route('order.index', $restaurant->slug)}}">
                             <i class="material-icons">shopping_cart</i>
-                            <span>Orders</span>
+                            <span>Đơn hàng ship đồ ăn</span>
                         </a>
                     </li>
 {{--                     <li {{ strpos(url()->current(), 'discount') ? 'class=active':''}}>
@@ -53,7 +53,7 @@
                     <li {{ strpos(url()->current(), '/bot/') ? 'class=active':''}}>
                         <a href="{{route('bot.index', $restaurant->slug)}}">
                             <i class="material-icons">chat</i>
-                            <span>Chatbot</span>
+                            <span>Cài đặt chatbot</span>
                         </a>
                     </li>
                     <li {{ strpos(url()->current(), 'customer') ? 'class=active':''}}>
@@ -65,7 +65,7 @@
                     <li {{ strpos(url()->current(), 'contact') ? 'class=active':''}}>
                         <a href="{{route('contact.index', $restaurant->slug)}}">
                             <i class="material-icons">contact_phone</i>
-                            <span>Contact Information</span>
+                            <span>Thông tin liên hệ</span>
                         </a>
                     </li>
                 </ul>
