@@ -150,6 +150,7 @@ return [
         SammyK\LaravelFacebookSdk\LaravelFacebookSdkServiceProvider::class,
         JD\Cloudder\CloudderServiceProvider::class,
         Shivella\Bitly\BitlyServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -219,6 +220,7 @@ return [
         'Cloudder' => JD\Cloudder\Facades\Cloudder::class,
         'Bitly' => Shivella\Bitly\Facade\Bitly::class,
         'Input'     => Illuminate\Support\Facades\Input::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

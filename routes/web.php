@@ -81,6 +81,7 @@ Route::get('r/{restaurant_slug}/orders/{order_id}/cancel', ['as' => 'order.cance
 
 // CRM
 Route::get('r/{restaurant_slug}/customers/index.html', ['as' => 'customer.index', 'uses' => 'CustomerController@index']);
+Route::get('r/{restaurant_slug}/customers/download.html', ['as' => 'customer.export', 'uses' => 'CustomerController@export']);
 
 // Bot
 Route::get('r/{restaurant_slug}/bot/index.html', ['as' => 'bot.index', 'uses' => 'BotController@index']);

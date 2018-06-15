@@ -10,6 +10,7 @@ use App\Order;
 use App\Item;
 use Input;
 use Validator;
+use Excel;
 class CustomerController extends Controller
 {
 	private $customer;
@@ -224,5 +225,9 @@ class CustomerController extends Controller
 
 	public function showMenu() {
 		return view('customer/menu', ['restaurant' => $this->restaurant]);
+	}
+
+	public function export() {
+		return Excel::download(new \App\Exports\CustomersExport($this->restaurant->id), 'customers.xlsx');
 	}
 }

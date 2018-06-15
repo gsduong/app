@@ -16,6 +16,13 @@ class FrameHeadersMiddleware
     public function handle($request, Closure $next)
     {
         $response = $next($request);
+        if ($response instanceof \Symfony\Component\HttpFoundation\BinaryFileResponse) {
+            $response->headers->set('Access-Control-Allow-Origin' , '*');
+            $response->headers->set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT, DELETE');
+            $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization, X-Requested-With, Application');
+            return $response;
+        }
+
         $response->header('X-Frame-Options', 'ALLOW FROM https://www.messenger.com/');
         $response->header('X-Frame-Options', 'ALLOW FROM https://www.facebook.com/');
         return $response;

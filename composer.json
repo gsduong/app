@@ -15,6 +15,7 @@
         "laravel/socialite": "^3.0",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.6",
+        "maatwebsite/excel": "^3.0",
         "pusher/pusher-php-server": "^3.0",
         "sammyk/laravel-facebook-sdk": "^3.5",
         "shivella/laravel-bitly": "^1.0"
