@@ -15,7 +15,7 @@
             <div class="card">
                 <div class="header" style="text-align: center;">
                     <h2>
-                        <small><a {{-- href="{{route('customer.show-form-create-order', ['restaurant_slug' => $restaurant->slug, 'customer_psid' => $customer->app_scoped_id])}}" --}}>Food order for {{$restaurant->name}}</a></small>
+                        <small><a {{-- href="{{route('customer.show-form-create-order', ['restaurant_slug' => $restaurant->slug, 'customer_psid' => $customer->app_scoped_id])}}" --}}>Đơn hàng ship đồ ăn - {{$restaurant->name}}</a></small>
                     </h2>
                 </div>
                 <div class="body">
@@ -76,7 +76,7 @@
                                             <div class="col-xs-12">
                                                 <div class="row">
                                                     <div class="col-xs-12">
-                                                        <b>Name</b>
+                                                        <b>Tên khách hàng</b>
                                                         <div class="input-group" style="margin-bottom: 0;">
                                                             <span class="input-group-addon">
                                                                 <i class="material-icons">person</i>
@@ -87,7 +87,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-xs-12">
-                                                        <b>Phone</b>
+                                                        <b>Số điện thoại</b>
                                                         <div class="input-group" style="margin-bottom: 0;">
                                                             <span class="input-group-addon">
                                                                 <i class="material-icons">phone</i>
@@ -98,7 +98,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-xs-12">
-                                                        <b>Address</b>
+                                                        <b>Địa chỉ giao hàng</b>
                                                         <div class="input-group" style="margin-bottom: 0;">
                                                             <span class="input-group-addon">
                                                                 <i class="material-icons">location_on</i>
@@ -110,7 +110,7 @@
                                                     </div>
                                                     @if($restaurant->contacts->count() > 0)
                                                         <div class="col-xs-6">
-                                                            <b>Branch</b>
+                                                            <b>Chi nhánh</b>
                                                             <div class="input-group" style="margin-bottom: 0;">
                                                                 <div class="demo-radio-button">
                                                                     <div class="row">
@@ -128,29 +128,29 @@
                                                         </div>
                                                     @endif
                                                     <div class="col-xs-6">
-                                                        <b>Status</b>
+                                                        <b>Trạng thái</b>
                                                         <div class="input-group" style="margin-bottom: 0;">
                                                             <div class="demo-radio-button">
                                                                 <div class="row">
                                                                     <div class="col-xs-6 col-sm-12" style="padding-left: 11px; margin-bottom: 5px; display: {{$order->status == 'pending' ? 'block' : 'none'}};" >
                                                                         <input name="status" type="radio" id="pending" {{$order->status == "pending" ? 'checked' : ''}}>
-                                                                        <label for="pending">Pending</label>
+                                                                        <label for="pending">Chờ duyệt</label>
                                                                     </div>
                                                                     <div class="col-xs-6 col-sm-12" style="padding-left: 11px; margin-bottom: 5px; display: {{$order->status == "confirmed" ? 'block' : 'none'}};" >
                                                                         <input name="status" type="radio" id="confirmed" {{$order->status == "confirmed" ? 'checked' : ''}}>
-                                                                        <label for="confirmed">Confirmed</label>
+                                                                        <label for="confirmed">Xác nhận</label>
                                                                     </div>
                                                                     <div class="col-xs-6 col-sm-12" style="padding-left: 11px; margin-bottom: 5px; display: {{$order->status == "delivering" ? 'block' : 'none'}};" >
                                                                         <input name="status" type="radio" id="delivering" {{$order->status == "delivering" ? 'checked' : ''}}>
-                                                                        <label for="delivering">Delivering</label>
+                                                                        <label for="delivering">Đang giao hàng</label>
                                                                     </div>
                                                                     <div class="col-xs-6 col-sm-12" style="padding-left: 11px; margin-bottom: 5px; display: {{$order->status == "delivered" ? 'block' : 'none'}};" >
                                                                         <input name="status" type="radio" id="delivered" {{$order->status == "delivered" ? 'checked' : ''}}>
-                                                                        <label for="delivered">Delivered</label>
+                                                                        <label for="delivered">Đã giao hàng thành công</label>
                                                                     </div>
                                                                     <div class="col-xs-6 col-sm-12" style="padding-left: 11px; margin-bottom: 5px; display: {{$order->status == "canceled" ? 'block' : 'none'}};" >
                                                                         <input name="status" type="radio" id="canceled" {{$order->status == "canceled" ? 'checked' : ''}}>
-                                                                        <label for="delivered">Canceled</label>
+                                                                        <label for="delivered">Huỷ</label>
                                                                     </div>
                                                                 </div>
 
@@ -176,7 +176,7 @@
                             @else
                             <div class="row">
                                 <div class="col-xs-12" style="text-align: center;">
-                                    No item found
+                                    Không có item nào
                                 </div>
                             </div>
                             @endif
@@ -194,7 +194,7 @@
                     @else
                         <div class="row">
                             <div class="col-xs-12" style="text-align: center;">
-                                No category found
+                                Menu tạm thời chưa được cập nhật
                             </div>
                         </div>
                     @endif

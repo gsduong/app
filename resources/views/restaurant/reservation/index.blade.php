@@ -1,7 +1,7 @@
 @extends('index')
 
 @section('title')
-  Reservation for {{$restaurant->name}}
+  Đơn đặt bàn của {{$restaurant->name}}
 @endsection
 
 @section('extra-css')
@@ -14,10 +14,10 @@
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
             <div class="block-header">
                 <ol class="breadcrumb restaurant-breadcrumb">
-                    <li><a href="{{route('homepage')}}">Home</a></li>
-                    <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>
+                    <li><a href="{{route('homepage')}}">Trang chủ</a></li>
+                    <li><a href="{{route('restaurant.index')}}">Nhà hàng của tôi</a></li>
                     <li><a href="{{route('restaurant.show', $restaurant->slug)}}">{{$restaurant->name}}</a></li>
-                    <li class="active">Reservation</li>
+                    <li class="active">Đơn đặt bàn</li>
                 </ol>
             </div>
         </div>
@@ -30,8 +30,8 @@
             <div class="card">
                 <div class="header">
                         <h2>
-                            Reservation
-                            <small>Easily manage your restaurant's reservation</small>
+                            Đơn đặt bàn
+                            <small>Quản lý đơn đặt bàn cho nhà hàng của bạn</small>
                         </h2>
                     <ul class="header-dropdown m-r--5">
                         <li class="dropdown">
@@ -48,17 +48,17 @@
                         <thead>
                             <tr >
                                 <th style="text-align: center;">#</th>
-                                <th style="text-align: center;">Date</th>
-                                <th style="text-align: center;">Time</th>
-                                <th style="text-align: center;">Name</th>
-                                <th style="text-align: center;">Phone</th>
-                                <th style="text-align: center;"># Adult</th>
-                                <th style="text-align: center;"># Children</th>
-                                <th style="text-align: center;">Status</th>
-                                <th style="text-align: center;">Note</th>
-                                <th style="text-align: center;">Created by</th>
-                                <th style="text-align: center;">Last Edit</th>
-                                <th style="text-align: center;">Edit</th>
+                                <th style="text-align: center;">Ngày</th>
+                                <th style="text-align: center;">Thời gian</th>
+                                <th style="text-align: center;">Tên</th>
+                                <th style="text-align: center;">SĐT</th>
+                                <th style="text-align: center;">Số người lớn</th>
+                                <th style="text-align: center;">Số trẻ em</th>
+                                <th style="text-align: center;">Trạng thái</th>
+                                <th style="text-align: center;">Ghi chú</th>
+                                <th style="text-align: center;">Tạo bởi</th>
+                                <th style="text-align: center;">Lần cuối chỉnh sửa bởi</th>
+                                <th style="text-align: center;">Tuỳ chọn</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -77,7 +77,7 @@
                                     <a class="btn btn-default btn-circle waves-effect waves-circle waves-float" href="{{asset('note-md.png')}}" data-lightbox="image-{{$item->id}}" data-title="{{$item->customer_requirement}}"><i class="material-icons">event_note</i></a>
                                 </td>
                                 @else
-                                <td style="text-align: center; vertical-align: middle;" id="requirement-{{$item->id}}">N/A</td>
+                                <td style="text-align: center; vertical-align: middle;" id="requirement-{{$item->id}}">Không có</td>
                                 @endif
                                 <td style="text-align: center; vertical-align: middle;">
                                     @if($item->created_by_bot)
@@ -98,7 +98,7 @@
                                     @endif
                                 </td>
                                 <td style="text-align: center; vertical-align: middle;">
-                                    <a href="{{route('reservation.delete', ['restaurant_slug' => $restaurant->slug, 'reservation_id' => $item->id])}}" class="btn btn-default btn-circle waves-effect waves-circle waves-float" onclick="return confirm('Are you sure you want to delete this item?');">
+                                    <a href="{{route('reservation.delete', ['restaurant_slug' => $restaurant->slug, 'reservation_id' => $item->id])}}" class="btn btn-default btn-circle waves-effect waves-circle waves-float" onclick="return confirm('Bạn muốn xoá đơn đặt bàn này?');">
                                         <i class="material-icons">delete</i>
                                     </a>
                                     &nbsp;
@@ -111,7 +111,7 @@
                         </tbody>
                     </table>
                     @else
-                    No reservation found
+                    Không có đơn đặt bàn nào
                     @endif
                 </div>
             </div>
@@ -125,7 +125,7 @@
                                 <i class="material-icons">date_range</i>
                             </span>
                             <div class="form-line no-border-bottom" style="box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);border: 1px !important; border-radius: 10px;">
-                                <input type="date" class="form-control" name="date" value="{{isset($today) ? $today : Input::get('date')}}" style="padding-left: 5px; border-radius: 10px;" placeholder="Date">
+                                <input type="date" class="form-control" name="date" value="{{isset($today) ? $today : Input::get('date')}}" style="padding-left: 5px; border-radius: 10px;" placeholder="Ngày">
                             </div>
                         </div>
                     </div>
@@ -133,29 +133,29 @@
                         <div class="input-group" style="margin-bottom: 0;">
                             <select name="status" class="form-line no-border-bottom" style="height: 35px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); border: 1px !important; border-radius: 15px; margin-bottom: 5px;">
                                 <option value="" disabled selected>Status</option>
-                                <option value="pending" {{Input::get('status') == 'pending' ? 'selected' : ''}}>Pending</option>
-                                <option value="confirmed" {{Input::get('status') == 'confirmed' ? 'selected' : ''}}>Confirmed</option>
-                                <option value="canceled" {{Input::get('status') == 'canceled' ? 'selected' : ''}}>Canceled</option>
+                                <option value="pending" {{Input::get('status') == 'pending' ? 'selected' : ''}}>Chờ duyệt</option>
+                                <option value="confirmed" {{Input::get('status') == 'confirmed' ? 'selected' : ''}}>Đặt bàn thành công</option>
+                                <option value="canceled" {{Input::get('status') == 'canceled' ? 'selected' : ''}}>Đã huỷ</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                         <div class="input-group" style="margin-bottom: 0;">
                             <div class="form-line no-border-bottom" style="box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);border: 1px !important; border-radius: 10px;">
-                                <input type="text" class="form-control" name="name" value="{{Input::get('name')}}" placeholder=" Name" style="padding-left: 15px; border-radius: 10px;">
+                                <input type="text" class="form-control" name="name" value="{{Input::get('name')}}" placeholder="Tên" style="padding-left: 15px; border-radius: 10px;">
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                         <div class="input-group" style="margin-bottom: 0;">
                             <div class="form-line no-border-bottom" style="box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);border: 1px !important; border-radius: 10px;">
-                                <input type="text" class="form-control" name="phone" placeholder="Phone" value="{{Input::get('phone')}}" style="padding-left: 15px; border-radius: 10px;">
+                                <input type="text" class="form-control" name="phone" placeholder="SĐT" value="{{Input::get('phone')}}" style="padding-left: 15px; border-radius: 10px;">
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-1 col-md-1 col-sm-6 col-xs-6"><button type="submit" class="btn btn-default waves-effect" style="border-radius: 10px;">Filter</button>
+                    <div class="col-lg-1 col-md-1 col-sm-6 col-xs-6"><button type="submit" class="btn btn-default waves-effect" style="border-radius: 10px;">Lọc</button>
                     </div>
-                    <div class="col-lg-1 col-md-1 col-sm-6 col-xs-6"><a href="{{route('reservation.index', $restaurant->slug)}}" class="btn btn-default waves-effect" style="border-radius: 10px;">Clear</a>
+                    <div class="col-lg-1 col-md-1 col-sm-6 col-xs-6"><a href="{{route('reservation.index', $restaurant->slug)}}" class="btn btn-default waves-effect" style="border-radius: 10px;">Xoá lọc</a>
                     </div>
                 </div>                
             </form>

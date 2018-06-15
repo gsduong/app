@@ -1,7 +1,7 @@
 @extends('index')
 
 @section('title')
-  Staff Management for {{$restaurant->name}}
+  Thành viên của {{$restaurant->name}}
 @endsection
 
 @section('extra-css')
@@ -14,10 +14,10 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="block-header">
                 <ol class="breadcrumb">
-                    <li><a href="{{route('homepage')}}">Home</a></li>
-                    <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>
+                    <li><a href="{{route('homepage')}}">Trang chủ</a></li>
+                    <li><a href="{{route('restaurant.index')}}">Nhà hàng của tôi</a></li>
                     <li><a href="{{route('restaurant.show', $restaurant->slug)}}">{{$restaurant->name}}</a></li>
-                    <li class="active">Members</li>
+                    <li class="active">Thành viên</li>
                 </ol>
             </div>
         </div>
@@ -27,8 +27,8 @@
             <div class="card">
                 <div class="header">
                     <h2>
-                        Members of {{$restaurant->name}}
-                        <small>You can manage roles with your <a href="{{'https://www.facebook.com/' . $restaurant->fb_page_id. '/settings/?tab=admin_roles'}}" target="_blank">Facebook Page Settings</a></small>
+                        Nhân viên của {{$restaurant->name}}
+                        <small>Bạn có thể quản lí vai trò của nhân viên nhà hàng thông qua <a href="{{'https://www.facebook.com/' . $restaurant->fb_page_id. '/settings/?tab=admin_roles'}}" target="_blank">Facebook Page Settings</a></small>
                     </h2>
                     <ul class="header-dropdown m-r--5">
                         <li class="dropdown">
@@ -36,13 +36,13 @@
                                 <i class="material-icons">more_vert</i>
                             </a>
                             <ul class="dropdown-menu pull-right">
-                                <li><a href="{{'https://www.facebook.com/' . $restaurant->fb_page_id. '/settings/?tab=admin_roles'}}" class=" waves-effect waves-block" target="_blank">Goto Facebook Page</a></li>
+                                <li><a href="{{'https://www.facebook.com/' . $restaurant->fb_page_id. '/settings/?tab=admin_roles'}}" class=" waves-effect waves-block" target="_blank">Đi tới Facebook Page</a></li>
                             </ul>
                         </li>
                     </ul>
                 </div>
                 <div class="body">
-                    <h2 class="card-inside-title">User</h2>
+                    <h2 class="card-inside-title">Thành viên</h2>
                     <div class="row clearfix">
                         <div class="col-sm-12">
                             <div class="form-group">
@@ -52,7 +52,7 @@
                             </div>
                         </div>
                     </div>
-                    <h2 class="card-inside-title">Admins</h2>
+                    <h2 class="card-inside-title">Quản trị viên</h2>
                     <div class="row clearfix">
                         <div class="col-sm-12">
                             <div class="form-group">
@@ -66,7 +66,7 @@
                             </div>
                         </div>
                     </div>
-                    <h2 class="card-inside-title">Staffs</h2>
+                    <h2 class="card-inside-title">Nhân viên</h2>
                     <div class="row clearfix">
                         <div class="col-sm-12">
                             <div class="form-group">

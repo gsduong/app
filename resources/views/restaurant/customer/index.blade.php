@@ -1,7 +1,7 @@
 @extends('index')
 
 @section('title')
-  Customer Relationships
+  Quan hệ khách hàng
 @endsection
 
 @section('extra-css')
@@ -14,10 +14,10 @@
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
             <div class="block-header">
                 <ol class="breadcrumb restaurant-breadcrumb">
-                    <li><a href="{{route('homepage')}}">Home</a></li>
-                    <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>
+                    <li><a href="{{route('homepage')}}">Trang chủ</a></li>
+                    <li><a href="{{route('restaurant.index')}}">Nhà hàng của tôi</a></li>
                     <li><a href="{{route('restaurant.show', $restaurant->slug)}}">{{$restaurant->name}}</a></li>
-                    <li class="active">Customer Relationships</li>
+                    <li class="active">Chăm sóc quan hệ khách hàng</li>
                 </ol>
             </div>
         </div>
@@ -30,8 +30,8 @@
             <div class="card">
                 <div class="header">
                         <h2>
-                            CRM
-                            <small>Easily manage your customer relationships</small>
+                            Chăm sóc quan hệ khách hàng
+                            <small>Danh sách khách hàng đã gửi tin nhắn qua inbox của Facebook Page</small>
                         </h2>
                 </div>
                 <div class="body table-responsive">
@@ -40,10 +40,10 @@
                         <thead>
                             <tr >
                                 <th style="text-align: center;">#</th>
-                                <th style="text-align: center;">Name</th>
-                                <th style="text-align: center;">Phone</th>
+                                <th style="text-align: center;">Tên khách hàng</th>
+                                <th style="text-align: center;">SĐT</th>
                                 <th style="text-align: center;">Email</th>
-                                <th style="text-align: center;">Avatar</th>
+                                {{-- <th style="text-align: center;">Avatar</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -56,7 +56,7 @@
                                 </td>
                                 <td style="text-align: center; vertical-align: middle;">{{$item->email}}
                                 </td>
-                                <td style="text-align: center; vertical-align: middle;">
+{{--                                 <td style="text-align: center; vertical-align: middle;">
                                     @if($item->profile_pic)
                                     <div class="image">
                                         <img src="{{$item->profile_pic}}" width="36" height="36" title="{{$item->first_name}} {{$item->last_name}}" alt="{{$item->first_name}} {{$item->last_name}}" style="border-radius: 50% !important;" id="image-{{$item->id}}">
@@ -64,13 +64,13 @@
                                     @else
                                     N/A
                                     @endif
-                                </td>
+                                </td> --}}
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
                     @else
-                    No customer found
+                    Empty
                     @endif
                 </div>
             </div>
@@ -92,9 +92,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-1 col-md-1 col-sm-6 col-xs-6"><button type="submit" class="btn btn-default waves-effect" style="border-radius: 10px;">Filter</button>
+                    <div class="col-lg-1 col-md-1 col-sm-6 col-xs-6"><button type="submit" class="btn btn-default waves-effect" style="border-radius: 10px;">Lọc</button>
                     </div>
-                    <div class="col-lg-1 col-md-1 col-sm-6 col-xs-6"><a href="{{route('customer.index', $restaurant->slug)}}" class="btn btn-default waves-effect" style="border-radius: 10px;">Clear</a>
+                    <div class="col-lg-1 col-md-1 col-sm-6 col-xs-6"><a href="{{route('customer.index', $restaurant->slug)}}" class="btn btn-default waves-effect" style="border-radius: 10px;">Xoá lọc</a>
                     </div>
                 </div>                
             </form>

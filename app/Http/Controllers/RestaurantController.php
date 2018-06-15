@@ -122,6 +122,7 @@ class RestaurantController extends Controller
         }
         $this->updatePageAccessToken($slug);
         $restaurant->update_users();
+        return redirect()->route('category.index', $restaurant->slug);
         return view('restaurant/restaurant', ['restaurant' => $restaurant]);
     }
 

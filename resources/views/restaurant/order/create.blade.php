@@ -1,7 +1,7 @@
 @extends('index')
 
 @section('title')
-	Create new online food and drink order for {{$restaurant->name}}
+	Tạo mới đơn hàng order giúp khách hàng - {{$restaurant->name}}
 @endsection
 
 @section('extra-css')
@@ -14,10 +14,11 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="block-header">
                 <ol class="breadcrumb restaurant-breadcrumb">
-                    <li><a href="{{route('homepage')}}">Home</a></li>
-                    <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>
-                    <li><a href="{{route('reservation.index', $restaurant->slug)}}">Reservations</a></li>
-                    <li class="active">Create new order</li>
+                    <li><a href="{{route('homepage')}}">Trang chủ</a></li>
+                    <li><a href="{{route('restaurant.index')}}">Nhà hàng của tôi</a></li>
+                    <li><a href="{{route('restaurant.show', $restaurant->slug)}}">{{$restaurant->name}}</a></li>
+                    <li><a href="{{route('reservation.index', $restaurant->slug)}}">Đơn hàng order</a></li>
+                    <li class="active">Tạo mới</li>
                 </ol>
             </div>
         </div>
@@ -28,7 +29,7 @@
                 <div class="header">
                     <h2>
                         {{$restaurant->name}}
-                        <small>Create new order for {{$restaurant->name}}</small>
+                        <small>Tạo mới đơn hàng order - {{$restaurant->name}}</small>
                     </h2>
                 </div>
                     <div class="body">

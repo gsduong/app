@@ -59,7 +59,7 @@
                     <li {{ strpos(url()->current(), 'customer') ? 'class=active':''}}>
                         <a href="{{route('customer.index', $restaurant->slug)}}">
                             <i class="material-icons">people</i>
-                            <span>CRM</span>
+                            <span>Quan hệ khách hàng</span>
                         </a>
                     </li>
                     <li {{ strpos(url()->current(), 'contact') ? 'class=active':''}}>

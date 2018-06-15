@@ -1,7 +1,7 @@
 @extends('index')
 
 @section('title')
-  Orders management for {{$restaurant->name}}
+  Quản lý đơn hàng order đồ ăn online - {{$restaurant->name}}
 @endsection
 
 @section('extra-css')
@@ -14,10 +14,10 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="block-header">
                 <ol class="breadcrumb restaurant-breadcrumb">
-                    <li><a href="{{route('homepage')}}">Home</a></li>
-                    <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>
+                    <li><a href="{{route('homepage')}}">Trang chủ</a></li>
+                    <li><a href="{{route('restaurant.index')}}">Nhà hàng của tôi</a></li>
                     <li><a href="{{route('restaurant.show', $restaurant->slug)}}">{{$restaurant->name}}</a></li>
-                    <li class="active">Online Orders Management</li>
+                    <li class="active">Quản lí đơn hàng order đồ ăn online</li>
                 </ol>
             </div>
         </div>
@@ -30,8 +30,8 @@
             <div class="card">
                 <div class="header">
                     <h2>
-                        Online Orders Management
-                        <small>Easily manage your restaurant's online orders</small>
+                        Đơn hàng order đồ ăn
+                        <small>Quản lý đơn hàng order đồ ăn cho nhà hàng của bạn</small>
                     </h2>
                 </div>
                 <div class="body table-responsive">
@@ -41,17 +41,17 @@
                             <tr >
                                 <th style="text-align: center;">#</th>
                                 @if($restaurant->contacts->count())
-                                <th style="text-align: center;">Branch</th>
+                                <th style="text-align: center;">Chi nhánh</th>
                                 @endif
-                                <th style="text-align: center;">Name</th>
-                                <th style="text-align: center;">Phone</th>
-                                <th style="text-align: center;">Address</th>
-                                <th style="text-align: center;">Total</th>
-                                <th style="text-align: center;">Status</th>
+                                <th style="text-align: center;">Tên KH</th>
+                                <th style="text-align: center;">SĐT</th>
+                                <th style="text-align: center;">Địa chỉ</th>
+                                <th style="text-align: center;">Tổng</th>
+                                <th style="text-align: center;">Trạng thái</th>
                                 <th style="text-align: center;">Note</th>
-                                <th style="text-align: center;">Created by</th>
-                                <th style="text-align: center;">Last Edit</th>
-                                <th style="text-align: center;">Actions</th>
+                                <th style="text-align: center;">Tạo bởi</th>
+                                <th style="text-align: center;">Lần cuối chỉnh sửa bởi</th>
+                                <th style="text-align: center;">Tuỳ chọn</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -71,7 +71,7 @@
                                     <a class="btn btn-default btn-circle waves-effect waves-circle waves-float" href="{{asset('note-md.png')}}" data-lightbox="image-{{$order->id}}" data-title="{{$order->customer_note}}"><i class="material-icons">event_note</i></a>
                                 </td>
                                 @else
-                                <td style="text-align: center; vertical-align: middle;" id="order-note-{{$order->id}}">N/A</td>
+                                <td style="text-align: center; vertical-align: middle;" id="order-note-{{$order->id}}">Không có</td>
                                 @endif
                                 <td style="text-align: center; vertical-align: middle;">
                                     @if($order->created_by_bot)
@@ -106,7 +106,7 @@
                         </tbody>
                     </table>
                     @else
-                    No orders found
+                    Không có
                     @endif
                 </div>
             </div>
@@ -128,11 +128,11 @@
                         <div class="input-group" style="margin-bottom: 0;">
                             <select name="status" class="form-line no-border-bottom" style="height: 35px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); border: 1px !important; border-radius: 15px; margin-bottom: 5px;">
                                 <option value="" disabled selected>Status</option>
-                                <option value="pending" {{Input::get('status') == 'pending' ? 'selected' : ''}}>Pending</option>
-                                <option value="confirmed" {{Input::get('status') == 'confirmed' ? 'selected' : ''}}>Confirmed</option>
-                                <option value="delivering" {{Input::get('status') == 'delivering' ? 'selected' : ''}}>Delivering</option>
-                                <option value="delivered" {{Input::get('status') == 'delivered' ? 'selected' : ''}}>Delivered</option>
-                                <option value="canceled" {{Input::get('status') == 'canceled' ? 'selected' : ''}}>Canceled</option>
+                                <option value="pending" {{Input::get('status') == 'pending' ? 'selected' : ''}}>Chờ duyệt</option>
+                                <option value="confirmed" {{Input::get('status') == 'confirmed' ? 'selected' : ''}}>Xác nhận</option>
+                                <option value="delivering" {{Input::get('status') == 'delivering' ? 'selected' : ''}}>Đang giao</option>
+                                <option value="delivered" {{Input::get('status') == 'delivered' ? 'selected' : ''}}>Đã giao</option>
+                                <option value="canceled" {{Input::get('status') == 'canceled' ? 'selected' : ''}}>Đã huỷ</option>
                             </select>
                         </div>
                     </div>
@@ -150,9 +150,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-1 col-md-1 col-sm-6 col-xs-6"><button type="submit" class="btn btn-default waves-effect" style="border-radius: 10px;">Filter</button>
+                    <div class="col-lg-1 col-md-1 col-sm-6 col-xs-6"><button type="submit" class="btn btn-default waves-effect" style="border-radius: 10px;">Lọc</button>
                     </div>
-                    <div class="col-lg-1 col-md-1 col-sm-6 col-xs-6"><a href="{{route('order.index', $restaurant->slug)}}" class="btn btn-default waves-effect" style="border-radius: 10px;">Clear</a>
+                    <div class="col-lg-1 col-md-1 col-sm-6 col-xs-6"><a href="{{route('order.index', $restaurant->slug)}}" class="btn btn-default waves-effect" style="border-radius: 10px;">Xoá lọc</a>
                     </div>
                 </div>                
             </form>

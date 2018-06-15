@@ -17,10 +17,10 @@
                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <div class="block-header">
                             <ol class="breadcrumb">
-                                <li><a href="{{route('homepage')}}">Home</a></li>
-                                <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>
-                                <li><a href="{{route('restaurant.select-page')}}">Select facebook page</a></li>
-                                <li class="active">Create</li>
+                                <li><a href="{{route('homepage')}}">Trang chủ</a></li>
+                                <li><a href="{{route('restaurant.index')}}">Nhà hàng của tôi</a></li>
+                                <li><a href="{{route('restaurant.select-page')}}">Chọn Facebook Page</a></li>
+                                <li class="active">Tạo mới</li>
                             </ol>
                         </div>
                     </div>
@@ -35,9 +35,9 @@
                     <div class="header">
                         <h2>
                             @if(isset($page))
-                            Create restaurant for <a href="{{$page['url']}}" target="_blank" style="text-decoration: none;"><img src="{{$page['page_profile_picture']}}" width="36" height="36" alt="{{$page['name']}}" style="border-radius: 50% !important;"> {{$page['name']}}</a>
+                            Tạo nhà hàng cho <a href="{{$page['url']}}" target="_blank" style="text-decoration: none;"><img src="{{$page['page_profile_picture']}}" width="36" height="36" alt="{{$page['name']}}" style="border-radius: 50% !important;"> {{$page['name']}}</a>
                             @else
-                            Create new restaurant
+                            Tạo mới nhà hàng
                             @endif
                         </h2>
                     </div>
@@ -46,7 +46,7 @@
                             @csrf
                             <div class="row clearfix">
                                 <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
-                                    <label for="name">Name</label>
+                                    <label for="name">Tên</label>
                                     <div class="form-group">
                                         <div class="form-line">
                                             <input type="text" name="name" class="form-control" required placeholder="Nhập tên nhà hàng của bạn" value="{{isset($page) ? $page['name'] : ''}}" autofocus>
@@ -54,7 +54,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
-                                    <label for="image_file">Background Image</label>
+                                    <label for="image_file">Ảnh nền dùng cho chatbot</label>
                                     <div class="form-group">
                                         <div class="form-line">
                                             <input type="file" name="image_file" required class="form-control">
@@ -74,7 +74,7 @@
                                 </div>
                                 @endif
                             </div>
-                            <button type="submit" class="btn btn-success m-t-15 waves-effect" style="margin-top: 0;" onClick="this.form.submit(); this.disabled=true;">Create</button>
+                            <button type="submit" class="btn btn-success m-t-15 waves-effect" style="margin-top: 0;" onClick="this.form.submit(); this.disabled=true;">Tạo</button>
                         </form>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 @extends('index')
 
 @section('title')
-  Contact Information for {{$restaurant->name}}
+  Thông tin liên hệ của nhà hàng - {{$restaurant->name}}
 @endsection
 
 @section('extra-css')
@@ -14,10 +14,10 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="block-header">
                 <ol class="breadcrumb">
-                    <li><a href="{{route('homepage')}}">Home</a></li>
-                    <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>
+                    <li><a href="{{route('homepage')}}">Trang chủ</a></li>
+                    <li><a href="{{route('restaurant.index')}}">Nhà hàng của tôi</a></li>
                     <li><a href="{{route('restaurant.show', $restaurant->slug)}}">{{$restaurant->name}}</a></li>
-                    <li class="active">Contact Information</li>
+                    <li class="active">Thông tin liên hệ</li>
                 </ol>
             </div>
         </div>
@@ -27,8 +27,8 @@
             <div class="card">
                 <div class="header">
                     <h2>
-                        Contact Information
-                        <small>You can add upto 5 records</small>
+                        Thông tin liên hệ
+                        <small>Quản lý thông tin liên hệ, chi nhánh của nhà hàng</small>
                     </h2>
                 </div>
                 <div class="body">
@@ -41,7 +41,7 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="row clearfix">
                                         <div class="col-sm-4">
-                                            <b>Name #{{$no + 1}}</b>
+                                            <b>Cơ sở #{{$no + 1}}</b>
                                             <div class="input-group">
                                                 <div class="form-line">
                                                     <input type="hidden" name="id" required value="{{$contact->id}}">
@@ -50,7 +50,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
-                                            <b>Address</b>
+                                            <b>Địa chỉ</b>
                                             <div class="input-group">
                                                 <div class="form-line">
                                                     <input type="text" name="address" class="form-control" required placeholder="Address" value="{{$contact->address}}">
@@ -71,7 +71,7 @@
                                     </div>
                                     <div class="row cleafix">
                                         <div class="col-sm-2">
-                                            <label for="phone">Phone</label>
+                                            <label for="phone">Số điện thoại</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                                     <i class="material-icons">phone</i>
@@ -82,7 +82,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
-                                            <label for="secondary_phone">#2 Phone</label>
+                                            <label for="secondary_phone">Số điện thoại (Khác)</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                                     <i class="material-icons">phone</i>
@@ -93,7 +93,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
-                                            <label for="opening_time">Opening Time</label>
+                                            <label for="opening_time">Giờ mở cửa</label>
                                             <div class="input-group">
                                                 <div class="form-line">
                                                     <input type="time" class="form-control" name="opening_time" placeholder="Optional" value="{{$contact->opening_time}}">
@@ -101,7 +101,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
-                                            <label for="closing_time">Closing Time</label>
+                                            <label for="closing_time">Giờ đóng cửa</label>
                                             <div class="input-group">
                                                 <div class="form-line">
                                                     <input type="time" class="form-control" name="closing_time" placeholder="Optional" value="{{$contact->closing_time}}">
@@ -109,10 +109,10 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-4" style="text-align: center;">
-                                            <label>Actions</label>
-                                            <div><a href="{{route('contact.delete', ['slug' => $restaurant->slug, 'contact_id' => $contact->id])}}" class="btn btn-default btn-circle waves-effect waves-circle waves-float" style="z-index: 1;" title="Delete">
+                                            <label>Thao tác</label>
+                                            <div><a href="{{route('contact.delete', ['slug' => $restaurant->slug, 'contact_id' => $contact->id])}}" class="btn btn-default btn-circle waves-effect waves-circle waves-float" style="z-index: 1;" title="Xoá">
                                                 <i class="material-icons">delete</i>
-                                            </a>&nbsp;<button type="submit" class="btn btn-default btn-circle waves-effect waves-circle waves-float" style="z-index: 1;" title="Save">
+                                            </a>&nbsp;<button type="submit" class="btn btn-default btn-circle waves-effect waves-circle waves-float" style="z-index: 1;" title="Lưu">
                                                 <i class="material-icons">save</i>
                                             </button></div>
                                         </div>
@@ -128,7 +128,7 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="row clearfix">
                                         <div class="col-sm-4">
-                                            <label for="name">Create new address</label>
+                                            <label for="name">Tạo thêm chi nhánh/cơ sở</label>
                                             <div class="input-group">
                                                 <div class="form-line">
                                                     <input type="text" class="form-control" name="name" required placeholder="Your branch name">
@@ -136,7 +136,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
-                                            <label for="address">Address</label>
+                                            <label for="address">Địa chỉ</label>
                                             <div class="input-group">
                                                 <div class="form-line">
                                                     <input type="text" class="form-control" name="address" required placeholder="Your branch address">
@@ -157,7 +157,7 @@
                                     </div>
                                     <div class="row clearfix">
                                         <div class="col-sm-2">
-                                            <label for="phone">Phone</label>
+                                            <label for="phone">Số điện thoại</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                                     <i class="material-icons">phone</i>
@@ -168,7 +168,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
-                                            <label for="secondary_phone">#2 Phone</label>
+                                            <label for="secondary_phone">Số điện thoại (Khác)</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                                     <i class="material-icons">phone</i>
@@ -179,7 +179,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
-                                            <label for="opening_time">Opening Time</label>
+                                            <label for="opening_time">Giờ mở cửa</label>
                                             <div class="input-group">
                                                 <div class="form-line">
                                                     <input type="time" class="form-control" name="opening_time" placeholder="Optional" class="timepicker">
@@ -187,7 +187,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
-                                            <label for="closing_time">Closing Time</label>
+                                            <label for="closing_time">Giờ đóng cửa</label>
                                             <div class="input-group">
                                                 <div class="form-line">
                                                     <input type="time" class="form-control" name="closing_time" placeholder="Optional" class="timepicker">
@@ -195,7 +195,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-4" style="text-align: center;">
-                                            <label>Actions</label>
+                                            <label>Thao tác</label>
                                             <div><button type="submit" class="btn btn-default btn-circle waves-effect waves-circle waves-float" style="z-index: 1;" title="Add new address and phone number">
                                                 <i class="material-icons">add</i>
                                             </button></div>

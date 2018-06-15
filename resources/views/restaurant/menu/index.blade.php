@@ -1,7 +1,7 @@
 @extends('index')
 
 @section('title')
-  Edit Menu for {{$restaurant->name}}
+  Sửa menu - {{$restaurant->name}}
 @endsection
 
 @section('extra-css')
@@ -14,11 +14,11 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="block-header">
                 <ol class="breadcrumb restaurant-breadcrumb">
-                    <li><a href="{{route('homepage')}}">Home</a></li>
-                    <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>
+                    <li><a href="{{route('homepage')}}">Trang chủ</a></li>
+                    <li><a href="{{route('restaurant.index')}}">Nhà hàng của tôi</a></li>
                     <li><a href="{{route('restaurant.show', $restaurant->slug)}}">{{$restaurant->name}}</a></li>
                     <li><a href="{{route('category.index', $restaurant->slug)}}">Menu</a></li>
-                    <li class="active">Edit Menu</li>
+                    <li class="active">Sửa menu</li>
                 </ol>
             </div>
         </div>
@@ -28,8 +28,8 @@
             <div class="card">
                 <div class="header">
                     <h2>
-                        Edit Categories In Menu
-                        <small>Easily create and manage your menu</small>
+                        Sửa các danh mục trong menu
+                        <small>Quản lý menu</small>
                     </h2>
                     <ul class="header-dropdown m-r--5">
                         <li class="dropdown">
@@ -37,7 +37,7 @@
                                 <i class="material-icons">arrow_back</i>
                             </a>
                             <ul class="dropdown-menu pull-right">
-                                <li><a href="{{route('category.index' , $restaurant->slug)}}" class=" waves-effect waves-block">Back to Menu</a></li>
+                                <li><a href="{{route('category.index' , $restaurant->slug)}}" class=" waves-effect waves-block">Trở lại menu chính</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -76,7 +76,7 @@
                                             </div>
                                         </div> --}}
                                         <div class="col-sm-4 margin-bottom-5">
-                                            <label for="description">Description</label>
+                                            <label for="description">Mô tả</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                                     <i class="material-icons">description</i>
@@ -87,7 +87,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-4 margin-bottom-5" style="text-align: center;">
-                                            <label>Actions</label>
+                                            <label>Thao tác</label>
                                             <div><a href="{{route('category.delete', ['slug' => $restaurant->slug, 'category_id' => $category->id])}}" class="btn btn-default btn-circle waves-effect waves-circle waves-float" style="z-index: 1;" title="Delete" onclick="return confirm('Are you sure you want to delete this item?');">
                                                 <i class="material-icons">delete</i>
                                             </a>&nbsp;<button type="submit" class="btn btn-default btn-circle waves-effect waves-circle waves-float" style="z-index: 1;" title="Save">
@@ -106,7 +106,7 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-bottom-5">
                                     <div class="row clearfix">
                                         <div class="col-sm-4 margin-bottom-5">
-                                            <label for="name">Create new category</label>
+                                            <label for="name">Tạo mới</label>
                                             <div class="input-group">
                                                 <div class="form-line">
                                                     <input type="text" class="form-control" name="name" required placeholder="Category name">
@@ -114,7 +114,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-4 margin-bottom-5">
-                                            <label for="description">Description</label>
+                                            <label for="description">Mô tả</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                                     <i class="material-icons">description</i>

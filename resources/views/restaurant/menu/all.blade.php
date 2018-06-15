@@ -1,7 +1,7 @@
 @extends('index')
 
 @section('title')
-  Menu management for {{$restaurant->name}}
+  Quản lý menu - {{$restaurant->name}}
 @endsection
 
 @section('extra-css')
@@ -14,8 +14,8 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="block-header">
                 <ol class="breadcrumb restaurant-breadcrumb">
-                    <li><a href="{{route('homepage')}}">Home</a></li>
-                    <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>
+                    <li><a href="{{route('homepage')}}">Trang chủ</a></li>
+                    <li><a href="{{route('restaurant.index')}}">Nhà hàng của tôi</a></li>
                     <li><a href="{{route('restaurant.show', $restaurant->slug)}}">{{$restaurant->name}}</a></li>
                     <li class="active">Menu</li>
                 </ol>
@@ -28,7 +28,7 @@
                 <div class="header">
                     <h2>
                         Menu Management
-                        <small>Easily create and manage your menu</small>
+                        <small>Quản lý menu cho nhà hàng</small>
                     </h2>
                     <ul class="header-dropdown m-r--5">
                         <li class="dropdown">
@@ -85,7 +85,7 @@
                                                 <p><small><a href="{{$item->item_url}}" target="_blank">{{$item->item_url}}</a></small></p>
                                                 @endif
                                                 <p>
-                                                    <a href="{{route('item.show-form-edit', ['restaurant_slug' => $restaurant->slug, 'category_slug' => $category->slug, 'item_id' => $item->id])}}" class="btn btn-default waves-effect" role="button">EDIT</a>
+                                                    <a href="{{route('item.show-form-edit', ['restaurant_slug' => $restaurant->slug, 'category_slug' => $category->slug, 'item_id' => $item->id])}}" class="btn btn-default waves-effect" role="button">Sửa</a>
                                                 </p>
                                             </div>
                                         </div>
@@ -95,7 +95,7 @@
                             @else
                             <div class="row">
                                 <div class="col-xs-12" style="text-align: center;">
-                                    No item found
+                                    Trống
                                 </div>
                             </div>
                             @endif
@@ -105,7 +105,7 @@
                     @else
                         <div class="row">
                             <div class="col-xs-12" style="text-align: center;">
-                                No category found
+                                Trống
                             </div>
                         </div>
                     @endif

@@ -1,7 +1,7 @@
 @extends('restaurant.master')
 
 @section('title')
-	Select your page
+	Chọn Facebook Page
 @endsection
 
 @section('extra-css')
@@ -17,9 +17,9 @@
                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <div class="block-header">
                             <ol class="breadcrumb">
-                                <li><a href="{{route('homepage')}}">Home</a></li>
-                                <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>
-                                <li class="active">Select facebook page</li>
+                                <li><a href="{{route('homepage')}}">Trang chủ</a></li>
+                                <li><a href="{{route('restaurant.index')}}">Nhà hàng của tôi</a></li>
+                                <li class="active">Tạo mới nhà hàng từ Facebook Page</li>
                             </ol>
                         </div>
                     </div>
@@ -55,7 +55,7 @@
                                                 <form action="{{route('restaurant.show-form-create-with-id')}}" method="POST">
                                                     @csrf
                                                     <input type="hidden" name="page_id" required value="{{$page['id']}}">
-                                                    <button type="submit" class="btn btn-success waves-effect" onClick="this.form.submit(); this.disabled=true;">SELECT</button>
+                                                    <button type="submit" class="btn btn-success waves-effect" onClick="this.form.submit(); this.disabled=true;">CHỌN</button>
                                                 </form>
                                             </div>
                                         </div>

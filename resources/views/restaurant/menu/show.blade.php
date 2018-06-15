@@ -14,8 +14,8 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="block-header">
                 <ol class="breadcrumb restaurant-breadcrumb">
-                    <li><a href="{{route('homepage')}}">Home</a></li>
-                    <li><a href="{{route('restaurant.index')}}">Restaurants</a></li>
+                    <li><a href="{{route('homepage')}}">Trang chủ</a></li>
+                    <li><a href="{{route('restaurant.index')}}">Nhà hàng của tôi</a></li>
                     <li><a href="{{route('restaurant.show', $restaurant->slug)}}">{{$restaurant->name}}</a></li>
                     <li><a href="{{route('category.index', $restaurant->slug)}}">Menu</a></li>
                     <li class="active">{{$category->name}}</li>
@@ -100,7 +100,7 @@
                         </tbody>
                     </table>
                     @else
-                    No item found
+                    Trống
                     @endif
                 </div>
             </div>
